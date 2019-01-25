@@ -1,0 +1,62 @@
+{
+    "home.title": "Início funciona.",
+    
+    "general.error": "Erro inesperado!",
+    "general.title.search": "Pesquisa",
+
+    "general.label.name": "Nome",
+    "general.label.status": "Status",
+    "general.label.select": "Selecione...",
+    "general.label.enabled": "Ativo",
+    "general.label.disabled": "Inativo",
+    "general.label.options": "Opções",
+    "general.label.data": "Dados",
+    "general.label.email": "E-mail",
+
+    "general.button.search": "Pesquisar",
+    "general.button.edit": "Editar",
+    "general.button.enable": "Ativar",
+    "general.button.disable": "Inativar",
+    "general.button.close": "Fechar",
+    "general.button.save": "Salvar",
+    "general.button.no": "Não",
+    "general.button.yes": "Sim",
+
+    "login.label.pass": "Senha",
+    "login.label.forgotpass": "Esqueceu a senha?",
+    "login.label.remember": "Lembrar-me",
+    "login.button.sign": "Entrar",
+
+    "start.title": "Início",
+    "footer.label.english": "Inglês",
+    "footer.label.portuguese": "Portugês",
+
+    "admin.title": "Administração",
+    
+    "groups.title": "Grupos de Acesso",
+    "groups.new": "Novo Grupo",
+    "groups.result": "Resultado",
+    "groups.insert.subtitle": "Inserir/atualizar dados do grupo.",
+    "groups.status.enable.confirm": "Confirmar ativação do grupo",
+    "groups.status.disable.confirm": "Confirmar inativação do grupo",
+    "groups.save.success": "Sucesso ao salvar dados do grupo",
+    "groups.save.error": "Erro ao salvar o grupo",
+
+    "users.title": "Usuários",
+    "users.new": "Novo Usuário",
+    "users.result": "Resultado",
+    "users.insert.subtitle": "Inserir/atualizar dados do usuário.",
+    "users.label.document": "CPF",
+    "users.label.registration": "Matrícula",
+    "users.label.gender": "Sexo",
+    "users.label.male": "Masculino",
+    "users.label.female": "Feminino",
+    "users.label.phone": "Telefone",
+    "users.label.cellphone": "Celular",
+    "users.label.commercialphone": "Telefone Comercial",
+    "users.status.enable.confirm": "Confirmar ativação do usuário",
+    "users.status.disable.confirm": "Confirmar inativação do usuário",
+    "users.save.success": "Sucesso ao salvar dados do usuário",
+    "users.save.error": "Erro ao salvar o usuário"
+
+}

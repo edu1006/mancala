@@ -1,0 +1,62 @@
+{
+    "home.title": "Home works.",
+    
+    "general.error": "Unexpected error!",
+    "general.title.search": "Search",
+
+    "general.label.name": "Name",
+    "general.label.status": "Status",
+    "general.label.select": "Select...",
+    "general.label.enabled": "Enabled",
+    "general.label.disabled": "Disabled",
+    "general.label.options": "Options",
+    "general.label.data": "Data",
+    "general.label.email": "E-mail",
+
+    "general.button.search": "Search",
+    "general.button.edit": "Edit",
+    "general.button.enable": "Enable",
+    "general.button.disable": "Disable",
+    "general.button.close": "Close",
+    "general.button.save": "Save",
+    "general.button.no": "No",
+    "general.button.yes": "Yes",
+
+    "login.label.pass": "Password",
+    "login.label.forgotpass": "Forgot password?",
+    "login.label.remember": "Remember me",
+    "login.button.sign": "Sign In",
+
+    "start.title": "Start",
+    "footer.label.english": "English",
+    "footer.label.portuguese": "Portuguese",
+
+    "admin.title": "Administration",
+    
+    "groups.title": "Access Groups",
+    "groups.new": "Add New Group",
+    "groups.result": "Groups Result",
+    "groups.insert.subtitle": "Insert/update group data.",
+    "groups.status.enable.confirm": "Confirm Enable group",
+    "groups.status.disable.confirm": "Confirm Disable group",
+    "groups.save.success": "Success to save the group",
+    "groups.save.error": "Error to save the group",
+
+    "users.title": "Users",
+    "users.new": "Add New User",
+    "users.result": "Users Result",
+    "users.insert.subtitle": "Insert/update user data.",
+    "users.label.document": "Document",
+    "users.label.registration": "Registration",
+    "users.label.gender": "Gender",
+    "users.label.male": "Male",
+    "users.label.female": "Female",
+    "users.label.phone": "Phone",
+    "users.label.cellphone": "Cell Phone",
+    "users.label.commercialphone": "Commercial Phone",
+    "users.status.enable.confirm": "Confirm Enable user",
+    "users.status.disable.confirm": "Confirm Disable user",
+    "users.save.success": "Success to save the user",
+    "users.save.error": "Error to save the user"
+
+}

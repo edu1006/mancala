@@ -1,0 +1,21 @@
+.ui-widget, .ui-widget * {
+    box-sizing: border-box;
+}
+
+.ui-table table {
+    /* border-collapse: unset; */
+    width: 100% !important;
+    table-layout: unset !important;
+}
+
+.ui-table .ui-table-thead > tr > th,
+.ui-table .ui-table-tbody > tr > td,
+.ui-table .ui-table-tfoot > tr > td {
+    padding: .625rem !important;
+}
+
+.ui-table .ui-table-thead > tr > th:first-child,
+.ui-table .ui-table-tbody > tr > td:first-child,
+.ui-table .ui-table-tfoot > tr > td:first-child {
+    padding-left: 1.5rem !important;
+}
