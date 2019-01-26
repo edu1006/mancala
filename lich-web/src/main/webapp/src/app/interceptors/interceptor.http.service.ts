@@ -28,13 +28,15 @@ export class InterceptorHttpService implements HttpInterceptor {
             obs = next.handle(request.clone({
                 setHeaders: {
                     Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-                    'Accept-Language': this.getLanguage()
+                    'Accept-Language': this.getLanguage(),
+                    'Content-Type': 'application/json'
                 }
             }));
         } else {
             obs = next.handle(request.clone({
                 setHeaders: {
-                    'Accept-Language': this.getLanguage()
+                    'Accept-Language': this.getLanguage(),
+                    'Content-Type': 'application/json'
                 }
             }));
         }
@@ -85,7 +87,8 @@ export class InterceptorHttpService implements HttpInterceptor {
                     return next.handle(req.clone({
                         setHeaders: {
                             Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-                            'Accept-Language': this.getLanguage()
+                            'Accept-Language': this.getLanguage(),
+                            'Content-Type': 'application/json'
                         }
                     }));
                 }

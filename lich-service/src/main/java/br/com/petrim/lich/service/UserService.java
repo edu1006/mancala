@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface UserService {
 
+    User findById(Long id);
+
     Optional<User> findByLogin(String login);
 
     User save(User user);
@@ -14,5 +16,7 @@ public interface UserService {
     Long countByFilter(User filter);
 
     List<User> findByFilter(User filter, Integer page, Integer max);
+
+    void definePassword(User user);
 
 }

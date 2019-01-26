@@ -18,6 +18,16 @@ public class UserServiceImpl extends AbstractService implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public User findById(Long id) {
+        Optional<User> optional = userRepository.loadById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        } else {
+            throw new BusinessException("user.not.exists");
+        }
+    }
+
+    @Override
     public Optional<User> findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
@@ -27,7 +37,15 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (user.getId() == null) {
             verifyUserExists(user.getLogin());
             user.setDateInsert(new Date());
+        } else {
+
+            Optional<User> optional = userRepository.findById(user.getId());
+
+            if (optional.isPresent()) {
+                user.setPassword(optional.get().getPassword());
+            }
         }
+
         return userRepository.save(user);
     }
 
@@ -45,5 +63,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Override
     public List<User> findByFilter(User filter, Integer page, Integer max) {
         return userRepository.findByFilter(filter, page, max);
+    }
+
+    @Override
+    public void definePassword(User user) {
+        userRepository.updatePassword(user.getId(), user.getPassword());
     }
 }

@@ -32,6 +32,11 @@ public class UserResource {
         throw new BusinessException("user.token.invalid");
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable("id") Long id) {
+        return userService.findById(id);
+    }
+
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     public Long countByFilter(@RequestBody User filter) {
         return userService.countByFilter(filter);
@@ -45,6 +50,11 @@ public class UserResource {
     @RequestMapping(method = RequestMethod.PUT)
     public User save(@RequestBody User user) {
         return userService.save(user);
+    }
+
+    @RequestMapping(value = "/definePassword", method = RequestMethod.POST)
+    public void definePassword(@RequestBody User user) {
+        userService.definePassword(user);
     }
 
 }

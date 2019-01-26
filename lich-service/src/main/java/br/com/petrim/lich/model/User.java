@@ -68,7 +68,7 @@ public class User extends AbstractEntity {
     }
 
     @Override
-    public Object getId() {
+    public Long getId() {
         return this.id;
     }
 

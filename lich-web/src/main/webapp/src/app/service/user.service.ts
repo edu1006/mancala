@@ -11,15 +11,19 @@ import { tap } from 'rxjs/operators';
 export class UserService {
 
   private loggedUserUrl: string;
+  private findByIdUrl: string;
   private saveUrl: string;
   private countUrl: string;
   private findUrl: string;
+  private definePasswordUrl: string;
 
   constructor(private http: HttpClient) {
     this.loggedUserUrl = Utils.getUrlBackend() + '/api/user/logged';
+    this.findByIdUrl = Utils.getUrlBackend() + '/api/user/';
     this.saveUrl = Utils.getUrlBackend() + '/api/user';
     this.countUrl = Utils.getUrlBackend() + '/api/user/count';
     this.findUrl = Utils.getUrlBackend() + '/api/user/find';
+    this.definePasswordUrl = Utils.getUrlBackend() + '/api/user/definePassword';
   }
 
   getLoggedUser() {
@@ -28,6 +32,12 @@ export class UserService {
     });
 
     return this.http.get(this.loggedUserUrl, {headers: headers}).pipe(
+      tap((res: User) => res)
+    );
+  }
+
+  findById(id: number): Observable<User> {
+    return this.http.get(this.findByIdUrl + id).pipe(
       tap((res: User) => res)
     );
   }
@@ -48,5 +58,9 @@ export class UserService {
     return this.http.post(this.findUrl + '/' + page + '/' + max, filter).pipe(
       tap((res: Array<User>) => res)
     );
+  }
+
+  defineNewPassword(user: User) {
+    return this.http.post(this.definePasswordUrl, user);
   }
 }

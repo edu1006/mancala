@@ -54,9 +54,14 @@
     "users.label.phone": "Phone",
     "users.label.cellphone": "Cell Phone",
     "users.label.commercialphone": "Commercial Phone",
+    "users.label.password": "Password",
+    "users.label.newpassword": "New password",
+    "users.label.definepassword": "Enter de new password for the user",
     "users.status.enable.confirm": "Confirm Enable user",
     "users.status.disable.confirm": "Confirm Disable user",
     "users.save.success": "Success to save the user",
-    "users.save.error": "Error to save the user"
+    "users.save.error": "Error to save the user",
+    "users.groups.empty": "At least one group must be selected.",
+    "users.groups.not.exists": "There is no active access group."
 
 }

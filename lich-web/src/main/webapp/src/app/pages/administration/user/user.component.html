@@ -80,6 +80,9 @@
             <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableUser(user)" [title]="'general.button.enable' | translate" *ngIf="user.status === 0">
               <span class="ion ion-md-checkmark"></span>
             </button>
+            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="changePassword(user)" [title]="'users.label.password' | translate">
+              <span class="ion ion-md-lock"></span>
+            </button>
           </td>
         </tr>
       </ng-template>
@@ -151,6 +154,14 @@
               </select>
             </div>
 
+            <div class="form-group col-md-12">
+              <label class="form-label w-100">Grupos*:</label>
+              <label class="custom-control custom-checkbox col-md-4 float-left" *ngFor="let selectGroup of selectGroups; index as i">
+                <input id="idGroup{{ i }}" name="idGroup{{ i }}" type="checkbox" class="custom-control-input" [(ngModel)]="selectGroup.selected" />
+                <span class="custom-control-label">{{ selectGroup.model.name }}</span>
+              </label>
+            </div>
+
           </div>
         </div>
         <div class="modal-footer">
@@ -187,3 +198,34 @@
       </form>
     </div>
   </div>
+
+    <!-- Modal Status User -->
+    <div class="modal fade" id="idModalChangePassword">
+      <div class="modal-dialog">
+        <form id="idFormDefinePassword" class="modal-content" #definePasswordForm="ngForm" (ngSubmit)="confirmeChangePassword(definePasswordForm)">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              {{ 'users.title' | translate }}
+              <span class="font-weight-light">{{ 'users.label.password' | translate }}</span>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-row" *ngIf="user">
+              <div class="form-group col-md-12">
+                <label style="white-space: pre-wrap;">
+                  {{ 'users.label.definepassword' | translate }} <span class="font-weight-bold">{{ user.name }}</span>:
+                </label>
+                <input type="text" id="idDefineNewPassword" name="idDefineNewPassword" [(ngModel)]="user.password" 
+                  class="form-control {{ (idDefineNewPassword.invalid && definePasswordForm.submitted) ? 'is-invalid' : '' }}" 
+                  placeholder="{{ 'users.label.password' | translate }}" #idDefineNewPassword="ngModel" required />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" *ngIf="user">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'general.button.close' | translate }}</button>
+            <button type="submit" class="btn btn-primary">{{ 'general.button.save' | translate }}</button>
+          </div>
+        </form>
+      </div>
+    </div>

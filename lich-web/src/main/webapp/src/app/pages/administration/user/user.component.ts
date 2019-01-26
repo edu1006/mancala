@@ -1,3 +1,4 @@
+import { GroupService } from './../../../service/group.service';
 import { TranslateService } from './../../../internationalization/translate.service';
 import { BaseComponent } from './../../base.component';
 import { PaginationLoadLazy } from './../../../common/pagination/pagination.load';
@@ -6,6 +7,7 @@ import { User } from './../../../model/user';
 import { Group } from './../../../model/group';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { SelectModel } from 'src/app/common/select/select.model';
 
 @Component({
   selector: 'app-user',
@@ -16,6 +18,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   idModalUserData = 'idModalUserData';
   idModalUserStatus = 'idModalUserStatus';
+  idModalChangePassword = 'idModalChangePassword';
 
   filter: User;
   users: Array<User>;
@@ -23,15 +26,29 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   user: User;
   groups: Array<Group>;
+  selectGroups: Array<SelectModel<Group>>;
 
   constructor(translateService: TranslateService,
-              private userService: UserService) {
+              private userService: UserService,
+              private groupService: GroupService) {
     super(translateService);
   }
 
   ngOnInit() {
     this.filter = new User();
     this.filter.status = undefined;
+
+    this.groupService.findEnabled().subscribe(
+      res => {
+        this.groups = res;
+        if (!this.groups || this.groups.length <= 0) {
+          this.addMessageError(this.getMessage('users.groups.not.exists'));
+        }
+      },
+      error => {
+        this.addMessageError('', error);
+      }
+    );
   }
 
   find() {
@@ -55,17 +72,52 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   newUser() {
     this.user = new User();
+    this.loadSelectGroups();
     this.openModal(this.idModalUserData);
   }
 
   editUser(item: User) {
-    this.user = Object.assign({}, item);
-    this.openModal(this.idModalUserData);
+    this.userService.findById(item.id).subscribe(
+      res => {
+        this.user = res;
+        this.loadSelectGroups(this.user.groups);
+        this.openModal(this.idModalUserData);
+      }
+    );
+  }
+
+  loadSelectGroups(groups?: Array<Group>) {
+    let idsGroups: Array<number>;
+
+    if (groups) {
+      idsGroups = groups.map(g => g.id);
+    }
+
+    this.selectGroups = new Array();
+    for (const group of this.groups) {
+      const selected = (idsGroups && idsGroups.includes(group.id));
+      this.selectGroups.push(new SelectModel<Group>(group, selected));
+    }
   }
 
   save(form: NgForm) {
     if (!form.invalid) {
-      this.saveUser(() => this.closeModal(this.idModalUserData));
+      const groupsSelected: Array<Group> = new Array<Group>();
+      for (const selected of this.selectGroups) {
+        if (selected.selected) {
+          groupsSelected.push(selected.model);
+        }
+      }
+
+      if (groupsSelected.length <= 0) {
+        this.addMessageError(this.getMessage('users.groups.empty'));
+      } else {
+        this.user.groups = groupsSelected;
+        this.saveUser(() => {
+          this.closeModal(this.idModalUserData);
+          form.resetForm();
+        });
+      }
     }
   }
 
@@ -73,11 +125,11 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.userService.save(this.user).subscribe(
       res => {
         this.find();
-        this.addMessageSuccess('Success to save user.');
+        this.addMessageSuccess(this.getMessage('users.save.success'));
 
         functionAfterSave();
       },
-      error => this.addMessageError('Error to save user.', error)
+      error => this.addMessageError(this.getMessage('users.save.error'), error)
     );
   }
 
@@ -89,5 +141,26 @@ export class UserComponent extends BaseComponent implements OnInit {
   confirmEnableDisableUser(status: number) {
     this.user.status = status;
     this.saveUser(() => this.closeModal(this.idModalUserStatus));
+  }
+
+  changePassword(item: User) {
+    this.user = Object.assign({}, item);
+    this.openModal(this.idModalChangePassword);
+  }
+
+  confirmeChangePassword(form: NgForm) {
+    if (form.valid) {
+      this.userService.defineNewPassword(this.user).subscribe(
+        res => {
+          this.addMessageSuccess(this.getMessage('users.save.success'));
+          this.closeModal(this.idModalChangePassword);
+          form.resetForm();
+        },
+        error => {
+          this.addMessageError(this.getMessage('users.save.error'));
+          this.closeModal(this.idModalChangePassword);
+        }
+      );
+    }
   }
 }

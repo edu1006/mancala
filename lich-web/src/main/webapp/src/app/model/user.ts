@@ -12,6 +12,7 @@ export class User {
     phoneCommercial: number;
     status: number;
     dateInsert: Date;
+    password: string;
     groups: Array<Group>;
 
     constructor() {
@@ -26,6 +27,7 @@ export class User {
         this.status = 1;
         this.dateInsert = undefined;
         this.groups = null;
+        this.password = '';
     }
 
 }

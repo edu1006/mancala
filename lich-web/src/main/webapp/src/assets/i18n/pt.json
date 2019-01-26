@@ -54,9 +54,14 @@
     "users.label.phone": "Telefone",
     "users.label.cellphone": "Celular",
     "users.label.commercialphone": "Telefone Comercial",
+    "users.label.password": "Senha",
+    "users.label.newpassword": "Nova senha",
+    "users.label.definepassword": "Digite a nova senha do usuário",
     "users.status.enable.confirm": "Confirmar ativação do usuário",
     "users.status.disable.confirm": "Confirmar inativação do usuário",
     "users.save.success": "Sucesso ao salvar dados do usuário",
-    "users.save.error": "Erro ao salvar o usuário"
+    "users.save.error": "Erro ao salvar o usuário",
+    "users.groups.empty": "Ao menos um grupo deve ser selecionado.",
+    "users.groups.not.exists": "Não existe grupo de acesso ativo."
 
 }
