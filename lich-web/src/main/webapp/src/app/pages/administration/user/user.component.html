@@ -127,15 +127,6 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label class="form-label">{{ 'users.label.gender' | translate }}:</label>
-              <select id="idGenderNew" name="idGenderNew" [(ngModel)]="user.gender" class="custom-select">
-                <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-                <option value="M">{{ 'users.label.male' | translate }}</option>
-                <option value="F">{{ 'users.label.female' | translate }}</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-4">
               <label class="form-label">{{ 'users.label.phone' | translate }}:</label>
               <input id="idPhoneNew" name="idPhoneNew" [(ngModel)]="user.phone" type="text" class="form-control" placeholder="{{ 'users.label.phone' | translate }}" />
             </div>

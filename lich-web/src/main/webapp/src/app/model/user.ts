@@ -7,7 +7,6 @@ export class User {
     login: string;
     document: string;
     registration: string;
-    gender: Gender;
     phone: number;
     phoneCel: number;
     phoneCommercial: number;
@@ -21,7 +20,6 @@ export class User {
         this.login = '';
         this.document = '';
         this.registration = '';
-        this.gender = null;
         this.phone = undefined;
         this.phoneCel = undefined;
         this.phoneCommercial = undefined;

@@ -32,9 +32,6 @@ public class User extends AbstractEntity {
     @Column(name = "registration")
     private String registration;
 
-    @Column(name = "gender")
-    private String gender;
-
     @Column(name = "phone")
     private Long phone;
 
@@ -117,14 +114,6 @@ public class User extends AbstractEntity {
 
     public void setRegistration(String registration) {
         this.registration = registration;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public Long getPhone() {
