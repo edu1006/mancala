@@ -62,6 +62,10 @@
     "users.save.success": "Success to save the user",
     "users.save.error": "Error to save the user",
     "users.groups.empty": "At least one group must be selected.",
-    "users.groups.not.exists": "There is no active access group."
+    "users.groups.not.exists": "There is no active access group.",
+
+    "processes.title": "Processes",
+
+    "agent.title": "Agent"
 
 }

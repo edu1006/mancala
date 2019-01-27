@@ -8,5 +8,10 @@ export const SECURE_ROUTES: Routes = [
         path: 'administration',
         loadChildren: './pages/administration/administration.module#AdministrationModule',
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'processes',
+        loadChildren: './pages/processes/processes.module#ProcessesModule',
+        canActivate: [AuthGuard]
     }
 ];

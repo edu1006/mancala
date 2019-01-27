@@ -74,7 +74,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .scopes("bar", "read", "write")
                 .refreshTokenValiditySeconds(6000)
-                .accessTokenValiditySeconds(10)
+                .accessTokenValiditySeconds(1800)
                 .secret("{noop}1234")
                 .resourceIds("front-web-services");
     }

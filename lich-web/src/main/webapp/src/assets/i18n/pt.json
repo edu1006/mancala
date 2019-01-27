@@ -62,6 +62,19 @@
     "users.save.success": "Sucesso ao salvar dados do usuário",
     "users.save.error": "Erro ao salvar o usuário",
     "users.groups.empty": "Ao menos um grupo deve ser selecionado.",
-    "users.groups.not.exists": "Não existe grupo de acesso ativo."
+    "users.groups.not.exists": "Não existe grupo de acesso ativo.",
+
+    "processes.title": "Processo",
+
+    "agent.title": "Agente",
+    "agent.new": "Novo Agente",
+    "agent.result": "Resultado",
+    "agent.insert.subtitle": "Inserir/atualizar dados do agente.",
+    "agent.label.address": "Endereço IP",
+    "agent.label.port": "Porta",
+    "agent.label.type": "Tipo do Agente",
+    "agent.label.typeconnection": "Tipo de Conexão",
+    "agent.save.success": "Sucesso ao salvar dados do agente",
+    "agent.save.error": "Erro ao salvar o agente"
 
 }
