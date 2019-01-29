@@ -21,6 +21,7 @@
     "general.button.save": "Save",
     "general.button.no": "No",
     "general.button.yes": "Yes",
+    "general.button.clear": "Clear",
 
     "login.label.pass": "Password",
     "login.label.forgotpass": "Forgot password?",

@@ -36,6 +36,11 @@ export class AgentComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
+  cleanFilter() {
+    this.filter = new Agent();
+    this.find();
+  }
+
   find() {
     this.agents = null;
     this.totalRecords = null;
