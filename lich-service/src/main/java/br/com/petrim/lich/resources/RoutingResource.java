@@ -8,7 +8,8 @@ public class RoutingResource {
 
     @RequestMapping(value = {
             "/home",
-            "/administration/**/{[path:[^\\\\.]*}"
+            "/administration/**/{[path:[^\\\\.]*}",
+            "/processes/**/{[path:[^\\\\.]*}"
     })
     public String redirect() {
         return "forward:/";

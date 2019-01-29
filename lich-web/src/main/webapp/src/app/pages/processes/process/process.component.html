@@ -1,6 +1,14 @@
 <h4 class="font-weight-bold py-3 mb-4">
-    <span class="text-muted font-weight-light">
-      {{ 'processes.title' | translate }} /
-    </span> 
-    {{ 'process.title' | translate }}
-  </h4>
+  <span class="text-muted font-weight-light">
+    {{ 'processes.title' | translate }} /
+  </span> 
+  {{ 'process.title' | translate }}
+</h4>
+
+<app-process-query #query
+                   [operation]="operation"
+                   (loadNewProcess)="newProcess()"></app-process-query>
+
+<app-process-detail #detail
+                    [operation]="operation"
+                    (loadQuery)="backToQuery()"></app-process-detail>

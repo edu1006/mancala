@@ -6,6 +6,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgentComponent } from './agent/agent.component';
 import { ProcessComponent } from './process/process.component';
+import { QueryComponent } from './process/query/query.component';
+import { DetailComponent } from './process/detail/detail.component';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { ProcessComponent } from './process/process.component';
   ],
   declarations: [
     AgentComponent,
-    ProcessComponent
+    ProcessComponent,
+    QueryComponent,
+    DetailComponent
   ]
 })
 export class ProcessesModule { }

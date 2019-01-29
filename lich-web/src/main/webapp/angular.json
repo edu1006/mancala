@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "springbootangular": {
+    "lich": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/springbootangular",
+            "outputPath": "dist/lich",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -75,18 +75,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "springbootangular:build"
+            "browserTarget": "lich:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "springbootangular:build:production"
+              "browserTarget": "lich:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "springbootangular:build"
+            "browserTarget": "lich:build"
           }
         },
         "test": {
@@ -120,7 +120,7 @@
         }
       }
     },
-    "springbootangular-e2e": {
+    "lich-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -128,11 +128,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "springbootangular:serve"
+            "devServerTarget": "lich:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "springbootangular:serve:production"
+              "devServerTarget": "lich:serve:production"
             }
           }
         },
@@ -148,5 +148,5 @@
       }
     }
   },
-  "defaultProject": "springbootangular"
+  "defaultProject": "lich"
 }

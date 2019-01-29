@@ -22,6 +22,7 @@
     "general.button.no": "Não",
     "general.button.yes": "Sim",
     "general.button.clear": "Limpar",
+    "general.button.back": "Voltar",    
 
     "login.label.pass": "Senha",
     "login.label.forgotpass": "Esqueceu a senha?",
@@ -80,6 +81,7 @@
     "agent.status.enable.confirm": "Confirmar ativação do agent",
     "agent.status.disable.confirm": "Confirmar inativação do agente",
 
-    "process.title": "Processo"
+    "process.title": "Processo",
+    "process.new": "Novo Processo"
 
 }

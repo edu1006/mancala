@@ -22,6 +22,7 @@
     "general.button.no": "No",
     "general.button.yes": "Yes",
     "general.button.clear": "Clear",
+    "general.button.back": "Back",
 
     "login.label.pass": "Password",
     "login.label.forgotpass": "Forgot password?",
@@ -80,6 +81,7 @@
     "agent.status.enable.confirm": "Confirm enable agent",
     "agent.status.disable.confirm": "Confirm disable agent",
 
-    "process.title": "Process"
+    "process.title": "Process",
+    "process.new": "New Process"
 
 }

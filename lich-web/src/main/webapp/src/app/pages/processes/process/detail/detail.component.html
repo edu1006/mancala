@@ -1,0 +1,34 @@
+
+<form id="formProcessData" *ngIf="operation === operationEnum.INSERT">
+
+  <div class="card md-4">
+    <!--<h6 class="card-header">Search</h6>-->
+    <div class="card-header with-elements">
+      <span class="card-header-title mr-2">{{ 'general.label.data' | translate }}</span>
+    </div>
+
+    <div class="card-body">
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label class="form-label">{{ 'general.label.name' | translate }}</label>
+          <input id="idName" name="idName" type="text" 
+              class="form-control" placeholder="{{ 'general.label.name' | translate }}"/>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
+          <select id="idStatus" name="idStatus" class="custom-select">
+            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button id="idBtnBack" type="button" class="btn btn-default mr-2" (click)="backToQuery()">{{ 'general.button.back' | translate }}</button>
+        <button id="idBtnClear" type="button" class="btn btn-default mr-2">{{ 'general.button.clear' | translate }}</button>
+        <button id="idBtnSearch" type="button" class="btn btn-default">{{ 'general.button.save' | translate }}</button>      
+      </div>
+    </div>
+  </div>
+</form>
