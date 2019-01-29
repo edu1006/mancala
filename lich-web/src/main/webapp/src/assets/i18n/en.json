@@ -37,8 +37,8 @@
     "groups.new": "Add New Group",
     "groups.result": "Groups Result",
     "groups.insert.subtitle": "Insert/update group data.",
-    "groups.status.enable.confirm": "Confirm Enable group",
-    "groups.status.disable.confirm": "Confirm Disable group",
+    "groups.status.enable.confirm": "Confirm enable group",
+    "groups.status.disable.confirm": "Confirm disable group",
     "groups.save.success": "Success to save the group",
     "groups.save.error": "Error to save the group",
 
@@ -57,8 +57,8 @@
     "users.label.password": "Password",
     "users.label.newpassword": "New password",
     "users.label.definepassword": "Enter de new password for the user",
-    "users.status.enable.confirm": "Confirm Enable user",
-    "users.status.disable.confirm": "Confirm Disable user",
+    "users.status.enable.confirm": "Confirm enable user",
+    "users.status.disable.confirm": "Confirm disable user",
     "users.save.success": "Success to save the user",
     "users.save.error": "Error to save the user",
     "users.groups.empty": "At least one group must be selected.",
@@ -66,6 +66,17 @@
 
     "processes.title": "Processes",
 
-    "agent.title": "Agent"
+    "agent.title": "Agent",
+    "agent.new": "New Agent",
+    "agent.result": "Agents Result",
+    "agent.insert.subtitle": "Insert/update agent data.",
+    "agent.label.address": "IP Address",
+    "agent.label.port": "Port",
+    "agent.label.type": "Agent Type",
+    "agent.label.typeconnection": "Connection Type",
+    "agent.save.success": "Success to save the agent",
+    "agent.save.error": "Error to save the agent",
+    "agent.status.enable.confirm": "Confirm enable agent",
+    "agent.status.disable.confirm": "Confirm disable agent"
 
 }

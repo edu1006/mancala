@@ -75,6 +75,8 @@
     "agent.label.type": "Tipo do Agente",
     "agent.label.typeconnection": "Tipo de Conexão",
     "agent.save.success": "Sucesso ao salvar dados do agente",
-    "agent.save.error": "Erro ao salvar o agente"
+    "agent.save.error": "Erro ao salvar o agente",
+    "agent.status.enable.confirm": "Confirmar ativação do agent",
+    "agent.status.disable.confirm": "Confirmar inativação do agente"
 
 }
