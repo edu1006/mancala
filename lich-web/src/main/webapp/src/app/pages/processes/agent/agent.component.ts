@@ -16,6 +16,7 @@ import { StatusEnum } from '../../../enums/status.enum';
 export class AgentComponent extends BaseComponent implements OnInit {
 
   idModalAgentSave = 'idModalAgentSave';
+  idModalAgentStatus = 'idModalAgentStatus';
 
   agentTypeEnum = AgentTypeEnum;
   statusEnum = StatusEnum;
@@ -82,6 +83,16 @@ export class AgentComponent extends BaseComponent implements OnInit {
         this.addMessageError(this.getMessage('agent.save.error'), error);
       }
     );
+  }
+
+  enableDisableAgent(item: Agent) {
+    this.agent = Object.assign({}, item);
+    this.openModal(this.idModalAgentStatus);
+  }
+
+  confirmEnableDisableAgent(status: StatusEnum) {
+    this.agent.status = status;
+    this.saveAgent(() => this.closeModal(this.idModalAgentStatus));
   }
 
 }

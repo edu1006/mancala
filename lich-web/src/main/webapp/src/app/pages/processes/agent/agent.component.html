@@ -85,10 +85,10 @@
             <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editAgent(agent)" [title]="'general.button.edit' | translate">
               <span class="ion ion-md-create"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" [title]="'general.button.disable' | translate" *ngIf="agent.status === statusEnum.ENABLED">
+            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableAgent(agent)" [title]="'general.button.disable' | translate" *ngIf="agent.status === statusEnum.ENABLED">
               <span class="ion ion-md-close"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" [title]="'general.button.enable' | translate" *ngIf="agent.status === statusEnum.DISABLED">
+            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableAgent(agent)" [title]="'general.button.enable' | translate" *ngIf="agent.status === statusEnum.DISABLED">
               <span class="ion ion-md-checkmark"></span>
             </button>
           </td>
@@ -158,6 +158,33 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="agentForm.resetForm()">{{ 'general.button.close' | translate }}</button>
         <button class="btn btn-primary">{{ 'general.button.save' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Status Agent -->
+<div class="modal fade" id="idModalAgentStatus">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ 'agent.title' | translate }}
+          <span class="font-weight-light">{{ 'general.label.status' | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row" *ngIf="agent">
+          <span *ngIf="agent.status === 1">{{ 'agent.status.disable.confirm' | translate }}</span>
+          <span *ngIf="agent.status === 0">{{ 'agent.status.enable.confirm' | translate }}</span>
+          <span class="font-weight-bold" style="white-space: pre-wrap;"> {{ agent.name }}</span> ?
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="agent">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'general.button.no' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="confirmEnableDisableAgent(statusEnum.ENABLED)" *ngIf="agent.status === 0">{{ 'general.button.yes' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="confirmEnableDisableAgent(statusEnum.DISABLED)" *ngIf="agent.status === 1">{{ 'general.button.yes' | translate }}</button>
       </div>
     </form>
   </div>
