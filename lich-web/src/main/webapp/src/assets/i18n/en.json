@@ -78,6 +78,8 @@
     "agent.save.success": "Success to save the agent",
     "agent.save.error": "Error to save the agent",
     "agent.status.enable.confirm": "Confirm enable agent",
-    "agent.status.disable.confirm": "Confirm disable agent"
+    "agent.status.disable.confirm": "Confirm disable agent",
+
+    "process.title": "Process"
 
 }

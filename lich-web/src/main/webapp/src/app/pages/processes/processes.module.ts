@@ -5,6 +5,7 @@ import { ProcessesRoutingModule } from './processes-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgentComponent } from './agent/agent.component';
+import { ProcessComponent } from './process/process.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { AgentComponent } from './agent/agent.component';
     PipeModule.forRoot()
   ],
   declarations: [
-    AgentComponent
+    AgentComponent,
+    ProcessComponent
   ]
 })
 export class ProcessesModule { }
