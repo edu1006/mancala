@@ -10,15 +10,35 @@
     <div class="card-body">
 
       <div class="form-row">
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.name' | translate }}</label>
-          <input id="idName" name="idName" type="text" 
-              class="form-control" placeholder="{{ 'general.label.name' | translate }}"/>
+        <div class="form-group col-md-9">
+          <label class="form-label">{{ 'process.label.id' | translate }}*:</label>
+          <input id="idIdNew" name="idIdNew" type="text" 
+              class="form-control" placeholder="{{ 'process.label.id' | translate }}"/>
+        </div>
+
+        <div class="form-group col-md-3 mt-2">
+          <label class="custom-control custom-checkbox mt-4 ml-2">
+            <input id="idInnerJobNew" name="idInnerJobNew" type="checkbox" class="custom-control-input" />
+            <span class="custom-control-label">{{ 'process.label.inner' | translate }}</span>
+          </label>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="form-label">{{ 'process.label.description' | translate }}</label>
+          <textarea id="idDescriptionNew" name="idDescriptionNew" type="textarea" 
+            class="form-control" placeholder="{{ 'process.label.description' | translate }}"></textarea>
         </div>
 
         <div class="form-group col-md-4">
           <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatus" name="idStatus" class="custom-select">
+          <select id="idStatusNew" name="idStatusNew" class="custom-select">
+            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label class="form-label">{{ 'process.label.typeexecution' | translate }}:</label>
+          <select id="idTypeExecutionNew" name="idTypeExecutionNew" class="custom-select">
             <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
           </select>
         </div>

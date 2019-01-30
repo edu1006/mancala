@@ -82,6 +82,11 @@
     "agent.status.disable.confirm": "Confirmar inativação do agente",
 
     "process.title": "Processo",
-    "process.new": "Novo Processo"
+    "process.new": "Novo Processo",
+    "process.label.id": "ID",
+    "process.label.inner": "É um processo interno",
+    "process.label.description": "Descrição",
+    "process.label.typeexecution": "Tipo de Execução",
+    "process.label.tags": "Tags"
 
 }

@@ -82,6 +82,11 @@
     "agent.status.disable.confirm": "Confirm disable agent",
 
     "process.title": "Process",
-    "process.new": "New Process"
+    "process.new": "New Process",
+    "process.label.id": "ID",
+    "process.label.inner": "Inner process",
+    "process.label.description": "Description",
+    "process.label.typeexecution": "Type of execution",
+    "process.label.tags": "Tags"
 
 }
