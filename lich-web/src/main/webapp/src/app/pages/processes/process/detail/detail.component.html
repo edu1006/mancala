@@ -1,5 +1,5 @@
 
-<form id="formProcessData" *ngIf="operation === operationEnum.INSERT">
+<form id="formProcessData" *ngIf="operation === operationEnum.INSERT" #processForm="ngForm" (submit)="save(processForm);" novalidate>
 
   <div class="card md-4">
     <!--<h6 class="card-header">Search</h6>-->
@@ -12,42 +12,86 @@
       <div class="form-row">
         <div class="form-group col-md-9">
           <label class="form-label">{{ 'process.label.id' | translate }}*:</label>
-          <input id="idIdNew" name="idIdNew" type="text" 
-              class="form-control" placeholder="{{ 'process.label.id' | translate }}"/>
+          <input id="idIdNew" name="idIdNew" type="text" [(ngModel)]="jobProcess.idProcess"
+              class="form-control" placeholder="{{ 'process.label.id' | translate }}" required/>
         </div>
 
         <div class="form-group col-md-3 mt-2">
           <label class="custom-control custom-checkbox mt-4 ml-2">
-            <input id="idInnerJobNew" name="idInnerJobNew" type="checkbox" class="custom-control-input" />
+            <input id="idInnerJobNew" name="idInnerJobNew" type="checkbox" class="custom-control-input" [(ngModel)]="jobProcess.innerJob" />
             <span class="custom-control-label">{{ 'process.label.inner' | translate }}</span>
           </label>
         </div>
 
         <div class="form-group col-md-12">
-          <label class="form-label">{{ 'process.label.description' | translate }}</label>
-          <textarea id="idDescriptionNew" name="idDescriptionNew" type="textarea" 
-            class="form-control" placeholder="{{ 'process.label.description' | translate }}"></textarea>
+          <label class="form-label">{{ 'process.label.description' | translate }}*:</label>
+          <textarea id="idDescriptionNew" name="idDescriptionNew" type="textarea" [(ngModel)]="jobProcess.description"
+            class="form-control" placeholder="{{ 'process.label.description' | translate }}" required></textarea>
         </div>
 
         <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatusNew" name="idStatusNew" class="custom-select">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <label class="form-label">{{ 'general.label.status' | translate }}*:</label>
+          <select id="idStatusNew" name="idStatusNew" class="custom-select" [(ngModel)]="jobProcess.status" required>
+            <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
+            <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
           </select>
         </div>
 
         <div class="form-group col-md-4">
-          <label class="form-label">{{ 'process.label.typeexecution' | translate }}:</label>
-          <select id="idTypeExecutionNew" name="idTypeExecutionNew" class="custom-select">
+          <label class="form-label">{{ 'process.label.typeexecution' | translate }}*:</label>
+          <select id="idTypeExecutionNew" name="idTypeExecutionNew" class="custom-select" 
+            [(ngModel)]="jobProcess.typeExecution" (change)="onChangeTypeExection($event)" required>
             <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+            <option [ngValue]="typeExecutionEnum.AUTO">{{ 'process.label.auto' | translate }}</option>
+            <option [ngValue]="typeExecutionEnum.MANUAL">{{ 'process.label.manual' | translate }}</option>
           </select>
+        </div>
+
+        <div class="form-group col-md-4" *ngIf="typeExecutionEnum.AUTO === jobProcess.typeExecution">
+          <label class="form-label">{{ 'process.label.periodicity' | translate }}*:</label>
+          <select id="idPeriodicityNew" name="idPeriodicityNew" class="custom-select" [(ngModel)]="jobProcess.periodicity" required>
+            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+            <option *ngFor="let p of jobProcessData.periodicities" [ngValue]="p.id">{{ p.description }}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="form-label">{{ 'process.label.tags' | translate }}:</label>
+          <input id="idTagsNew" name="idTagsNew" type="text" 
+              class="form-control" placeholder="{{ 'process.label.tags' | translate }}"/>
         </div>
       </div>
+
+      <h5 class="mt-3">Step's</h5><hr/>
+
+      <p-table [value]="jobProcess.stepsProcesses"
+              tableStyleClass="table table-striped table-bordered">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 8%;">{{ 'step.label.order' | translate }}</th>
+            <th>{{ 'general.label.name' | translate }}</th>
+            <th>{{ 'step.label.type' | translate }}</th>
+            <th style="width: 20%;">{{ 'general.label.status' | translate }}</th>
+            <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-step>
+          <tr>
+            <td>{{ step.order }}</td>
+            <td>{{ step.idStep }}</td>
+            <td>{{ typeStepProcessEnum[step.type] }}</td>
+            <td>{{ (step.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
+            <td class="text-center">
+              
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
 
       <div class="text-right">
         <button id="idBtnBack" type="button" class="btn btn-default mr-2" (click)="backToQuery()">{{ 'general.button.back' | translate }}</button>
         <button id="idBtnClear" type="button" class="btn btn-default mr-2">{{ 'general.button.clear' | translate }}</button>
-        <button id="idBtnSearch" type="button" class="btn btn-default">{{ 'general.button.save' | translate }}</button>      
+        <button id="idBtnSearch" type="submit" class="btn btn-primary" [disabled]="!processForm.valid">{{ 'general.button.save' | translate }}</button>      
       </div>
     </div>
   </div>

@@ -12,7 +12,8 @@ public enum AgentTypeEnum {
 
     LINUX (1),
     UNIX (2),
-    WINDOWS (3);
+    WINDOWS (3),
+    LOCALHOST(9);
 
     private Integer id;
 

@@ -87,6 +87,11 @@
     "process.label.inner": "É um processo interno",
     "process.label.description": "Descrição",
     "process.label.typeexecution": "Tipo de Execução",
-    "process.label.tags": "Tags"
+    "process.label.tags": "Tags",
+    "process.label.auto": "Automático",
+    "process.label.manual": "Manual",
+    "process.label.periodicity": "Periodicidade",
+    "step.label.order": "Ordem",
+    "step.label.type": "Tipo"
 
 }
