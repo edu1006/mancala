@@ -15,19 +15,19 @@ import java.util.Locale;
 @Configuration
 public class LocaleConfig extends AcceptHeaderLocaleResolver implements WebMvcConfigurer {
 
-    private List<Locale> LOCALES;
+    private static List<Locale> locales;
 
-    {
-        LOCALES = new ArrayList<>();
-        LOCALES.add(new Locale("pt"));
-        LOCALES.add(new Locale("en"));
+    static {
+        locales = new ArrayList<>();
+        locales.add(new Locale("pt"));
+        locales.add(new Locale("en"));
     }
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
         String headerLang = request.getHeader("Accept-Language");
         return (StringUtils.isBlank(headerLang)) ? Locale.getDefault()
-                : Locale.lookup(Locale.LanguageRange.parse(headerLang), LOCALES);
+                : Locale.lookup(Locale.LanguageRange.parse(headerLang), locales);
     }
 
     @Bean

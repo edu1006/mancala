@@ -11,7 +11,7 @@ import java.util.List;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "user")
-public class User extends AbstractEntity {
+public class User implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

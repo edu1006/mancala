@@ -7,7 +7,7 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class AbstractUserHistEntity extends AbstractEntity {
+public abstract class AbstractUserHistEntity implements AbstractEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_insert")

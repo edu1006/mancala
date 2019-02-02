@@ -13,7 +13,7 @@ import java.util.Date;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "agent")
-public class Agent extends AbstractEntity {
+public class Agent implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

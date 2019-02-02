@@ -30,8 +30,8 @@ public class AbstractRepositoryImpl<T> {
     }
 
     protected void setParamsOnQuery(Query query, Map<String, Object> params) {
-        for (String key : params.keySet()) {
-            query.setParameter(key, params.get(key));
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
         }
     }
 

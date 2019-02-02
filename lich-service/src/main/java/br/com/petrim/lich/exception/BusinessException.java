@@ -4,8 +4,8 @@ import br.com.petrim.lich.util.MessageUtil;
 
 public class BusinessException extends RuntimeException {
 
-    private String message;
-    private Object[] params;
+    private final String message;
+    private final transient Object[] params;
 
     public BusinessException(String msg, Throwable e, Object...params) {
         super(e);

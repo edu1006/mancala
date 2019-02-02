@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @DynamicUpdate
 @Table(name = "access_group")
-public class Group extends AbstractEntity {
+public class Group implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -22,10 +22,6 @@ public enum TypeStepProcessEnum {
                     AgentTypeEnum.LOCALHOST, AgentTypeEnum.LINUX, AgentTypeEnum.UNIX
             }),
 
-    /** exec java class. */
-    /*
-    EXEC_JAVA_CLASS (3, "ExecuteClassTasklet", "Java Class", null),*/
-
     /** script java. */
     SCRIPT_JAVA (4, "ScriptJarTasklet", "Execute Jar",
             new AgentTypeEnum[]{
@@ -56,40 +52,29 @@ public enum TypeStepProcessEnum {
                     AgentTypeEnum.LOCALHOST, AgentTypeEnum.WINDOWS
             }),
 
+    /** exec rest ws */
     EXEC_REST_WS (9, "RestWSTasklet", "Rest WS",
             new AgentTypeEnum[]{
                     AgentTypeEnum.LOCALHOST
             }),
 
+    /** exec sleep */
     EXEC_SLEEP (10, "SleepTasklet", "Sleep Task",
             new AgentTypeEnum[]{
                     AgentTypeEnum.LOCALHOST
             }),
 
+    /** exec move files linux */
     EXEC_MOVE_FILES_LINUX (11, "MoveFileLinuxTasklet", "Move Files (Linux)",
             new AgentTypeEnum[]{
                     AgentTypeEnum.LOCALHOST, AgentTypeEnum.LINUX, AgentTypeEnum.UNIX
-            }),/*
+            }),
 
-	EXEC_MOVE_FILES_WINDOWS (12, "MoveFileWindowsTasklet", "Move Files (Windows)",
-			new AgentTypeEnum[]{
-				AgentTypeEnum.LOCALHOST, AgentTypeEnum.WINDOWS
-			}),*/
-
+    /** exec copy files linux */
     COPY_MOVE_FILES_LINUX (13, "CopyFileLinuxTasklet", "Copy Files (Linux)",
             new AgentTypeEnum[]{
                     AgentTypeEnum.LOCALHOST, AgentTypeEnum.LINUX, AgentTypeEnum.UNIX
-            })/*,
-
-	COPY_MOVE_FILES_WINDOWS (14, "CopyFileWindowsTasklet", "Copy Files (Windows)",
-			new AgentTypeEnum[]{
-				AgentTypeEnum.LOCALHOST, AgentTypeEnum.WINDOWS
-			})*//*,
-
-	QR_CODE (15, "QrCodeTasklet", "QR Code Generator",
-			new AgentTypeEnum[]{
-				AgentTypeEnum.LOCALHOST
-			})*/;
+            });
 
     /** id. */
     private Integer id;

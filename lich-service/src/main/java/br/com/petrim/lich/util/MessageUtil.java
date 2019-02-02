@@ -10,16 +10,14 @@ import java.util.Locale;
 @Component
 public class MessageUtil {
 
-    private static ResourceBundleMessageSource messageSource;
-
     @Autowired
-    public MessageUtil(ResourceBundleMessageSource messageSource) {
-        MessageUtil.messageSource = messageSource;
+    private MessageUtil(ResourceBundleMessageSource messageSource) {
+        MessageResourceUtil.messageSource = messageSource;
     }
 
     public static String getMessage(String msg, Object...params) {
         Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(msg, params, locale);
+        return MessageResourceUtil.messageSource.getMessage(msg, params, locale);
     }
 
 }
