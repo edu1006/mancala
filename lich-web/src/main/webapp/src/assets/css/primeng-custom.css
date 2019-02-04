@@ -19,3 +19,16 @@
 .ui-table .ui-table-tfoot > tr > td:first-child {
     padding-left: 1.5rem !important;
 }
+
+.ui-calendar .ui-datepicker {
+    background-color: white !important;
+}
+
+.ui-datepicker td>a {
+    cursor: pointer !important;
+}
+
+.ui-datepicker td>span {
+    opacity: 0.5 !important;
+    cursor: default !important;
+}

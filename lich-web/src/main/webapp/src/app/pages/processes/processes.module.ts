@@ -8,6 +8,8 @@ import { AgentComponent } from './agent/agent.component';
 import { ProcessComponent } from './process/process.component';
 import { QueryComponent } from './process/query/query.component';
 import { DetailComponent } from './process/detail/detail.component';
+import { CalendarModule } from 'primeng/calendar';
+import { NumberDirective } from '../../common/number-directive/number.only.directive';
 
 @NgModule({
   imports: [
@@ -15,13 +17,15 @@ import { DetailComponent } from './process/detail/detail.component';
     ProcessesRoutingModule,
     FormsModule,
     TableModule,
+    CalendarModule,
     PipeModule.forRoot()
   ],
   declarations: [
     AgentComponent,
     ProcessComponent,
     QueryComponent,
-    DetailComponent
+    DetailComponent,
+    NumberDirective
   ]
 })
 export class ProcessesModule { }

@@ -40,7 +40,7 @@
         <div class="form-group col-md-4">
           <label class="form-label">{{ 'process.label.typeexecution' | translate }}*:</label>
           <select id="idTypeExecutionNew" name="idTypeExecutionNew" class="custom-select" 
-            [(ngModel)]="jobProcess.typeExecution" (change)="onChangeTypeExection($event)" required>
+            [(ngModel)]="jobProcess.typeExecution" (change)="onChangeTypeExection()" required>
             <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
             <option [ngValue]="typeExecutionEnum.AUTO">{{ 'process.label.auto' | translate }}</option>
             <option [ngValue]="typeExecutionEnum.MANUAL">{{ 'process.label.manual' | translate }}</option>
@@ -49,10 +49,82 @@
 
         <div class="form-group col-md-4" *ngIf="typeExecutionEnum.AUTO === jobProcess.typeExecution">
           <label class="form-label">{{ 'process.label.periodicity' | translate }}*:</label>
-          <select id="idPeriodicityNew" name="idPeriodicityNew" class="custom-select" [(ngModel)]="jobProcess.periodicity" required>
+          <select id="idPeriodicityNew" name="idPeriodicityNew" class="custom-select" 
+            [(ngModel)]="jobProcess.periodicity" (change)="onChangePeriodicity()" required>
             <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
             <option *ngFor="let p of jobProcessData.periodicities" [ngValue]="p.id">{{ p.description }}</option>
           </select>
+        </div>
+
+        <div class="form-group col-4" *ngIf="periodicityEnum.DE_MINUTOS_EM_MINUTOS === jobProcess.periodicity 
+              || periodicityEnum.DE_HORAS_EM_HORAS === jobProcess.periodicity">
+          <label class="form-label">{{ 'process.label.periodicity.valuex' | translate }}*:</label>
+          <input id="idValueXNew" name="idValueXNew" class="form-control"
+            [(ngModel)]="jobProcess.xValue" placeholder="{{ 'process.label.periodicity.valuex' | translate }}"
+            maxlength="2" appNumbersOnly required/>
+        </div>
+
+        <div class="form-group col-4" *ngIf="periodicityEnum.DIARIAMENTE === jobProcess.periodicity
+              || periodicityEnum.SEMANALMENTE === jobProcess.periodicity 
+              || periodicityEnum.MENSALMENTE === jobProcess.periodicity
+              || periodicityEnum.BIMESTRALMENTE === jobProcess.periodicity
+              || periodicityEnum.TRIMESTRALMENTE === jobProcess.periodicity
+              || periodicityEnum.SEMESTRALMENTE === jobProcess.periodicity
+              || periodicityEnum.ANUALMENTE === jobProcess.periodicity
+              || periodicityEnum.DURANTE_FDS === jobProcess.periodicity
+              || periodicityEnum.TODA_SEMANA_EXCETO_FDS === jobProcess.periodicity
+              || periodicityEnum.APENAS_DIAS_UTEIS === jobProcess.periodicity
+              || periodicityEnum.PRIMEIRO_DIA_ANO === jobProcess.periodicity
+              || periodicityEnum.ULTIMO_DIA_ANO === jobProcess.periodicity">
+          <label class="form-label">{{ 'process.label.periodicity.timeexecution' | translate }}*:</label>
+          <p-calendar id="idTimeExecutionNew" name="idTimeExecutionNew" styleClass="w-100"
+            inputStyleClass="form-control" timeOnly="true" timeSeparator=":"
+            [(ngModel)]="jobProcess.timeExecution" [stepMinute]="5"
+            [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat" required></p-calendar>
+        </div>
+
+        <div class="form-group col-4" *ngIf="periodicityEnum.SEMANALMENTE === jobProcess.periodicity">
+          <label class="form-label">{{ 'process.label.periodicity.weekday' | translate }}*:</label>
+          <select id="idWeekDayNew" name="idWeekDayNew" class="custom-select" 
+            [(ngModel)]="jobProcess.weekDay" required>
+            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+            <option *ngFor="let wd of jobProcessData.weekDays" [ngValue]="wd.id">{{ wd.description }}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-4" *ngIf="periodicityEnum.MENSALMENTE === jobProcess.periodicity
+              || periodicityEnum.BIMESTRALMENTE === jobProcess.periodicity
+              || periodicityEnum.TRIMESTRALMENTE === jobProcess.periodicity
+              || periodicityEnum.SEMESTRALMENTE === jobProcess.periodicity
+              || periodicityEnum.ANUALMENTE === jobProcess.periodicity">
+          <label class="form-label">Dia do mês*:</label>
+          <select id="idMonthDayNew" name="idMonthDayNew" class="custom-select"
+            [(ngModel)]="jobProcess.monthDay" required>
+            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+            <option *ngFor="let md of jobProcessData.monthDays" [ngValue]="md">
+              {{ (md === 99) ? ('process.label.periodicity.lastday' | translate) : (('process.label.periodicity.day' | translate) + md) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-4" *ngIf="typeExecutionEnum.AUTO === jobProcess.typeExecution">
+          <label class="form-label">{{ 'process.label.periodicity.start' | translate }}:</label>
+          <p-calendar id="idPeriodicityStartNew" name="idPeriodicityStartNew" styleClass="w-100"
+            [(ngModel)]="jobProcess.periodicityStartDate" inputStyleClass="form-control"
+            monthNavigator="true" yearNavigator="true" yearRange="2019:2100"
+            [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat"
+            placeholder="{{ 'process.label.periodicity.start' | translate }}"
+            (onSelect)="onChangePeriodicityStart()"></p-calendar>
+        </div>
+
+        <div class="form-group col-md-4" *ngIf="typeExecutionEnum.AUTO === jobProcess.typeExecution">
+          <label class="form-label">{{ 'process.label.periodicity.end' | translate }}:</label>
+          <p-calendar id="idPeriodicityEndNew" name="idPeriodicityEndNew" styleClass="w-100"
+            [(ngModel)]="jobProcess.periodicityEndDate" inputStyleClass="form-control"
+            monthNavigator="true" yearNavigator="true" yearRange="2019:2100"
+            [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat"
+            placeholder="{{ 'process.label.periodicity.end' | translate }}"
+            [minDate]="jobProcess.periodicityStartDate"></p-calendar>
         </div>
 
         <div class="form-group col-md-12">

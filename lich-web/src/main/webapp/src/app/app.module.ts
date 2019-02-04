@@ -1,3 +1,4 @@
+import { CalendarLocale } from './common/calendar/calendar.locale';
 import { GlobalData } from './util/global.data';
 import { Utils } from './util/utils';
 import { TranslateService } from './internationalization/translate.service';
@@ -78,7 +79,8 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
       deps: [ TranslateService, CookieService ],
       multi: true
     },
-    CookieService
+    CookieService,
+    CalendarLocale
   ],
   bootstrap: [AppComponent]
 })

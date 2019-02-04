@@ -1,13 +1,11 @@
 package br.com.petrim.lich.model;
 
-import br.com.petrim.lich.enums.PeriodicityEnum;
-import br.com.petrim.lich.enums.StatusEnum;
-import br.com.petrim.lich.enums.TypeExecutionEnum;
-import br.com.petrim.lich.enums.YesNoEnum;
+import br.com.petrim.lich.enums.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,8 +37,17 @@ public class JobProcess extends AbstractUserHistEntity {
     @Column(name = "periodicity", length = 1)
     private PeriodicityEnum periodicity;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "periodicity_start_date")
+    private Date periodicityStartDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "periodicity_end_date")
+    private Date periodicityEndDate;
+
+    @Convert(converter = WeekDayEnum.Mapper.class)
     @Column(name = "week_day")
-    private Integer weekDay;
+    private WeekDayEnum weekDay;
 
     @Column(name = "month_day")
     private Integer monthDay;
@@ -111,11 +118,27 @@ public class JobProcess extends AbstractUserHistEntity {
         this.periodicity = periodicity;
     }
 
-    public Integer getWeekDay() {
+    public Date getPeriodicityStartDate() {
+        return periodicityStartDate;
+    }
+
+    public void setPeriodicityStartDate(Date periodicityStartDate) {
+        this.periodicityStartDate = periodicityStartDate;
+    }
+
+    public Date getPeriodicityEndDate() {
+        return periodicityEndDate;
+    }
+
+    public void setPeriodicityEndDate(Date periodicityEndDate) {
+        this.periodicityEndDate = periodicityEndDate;
+    }
+
+    public WeekDayEnum getWeekDay() {
         return weekDay;
     }
 
-    public void setWeekDay(Integer weekDay) {
+    public void setWeekDay(WeekDayEnum weekDay) {
         this.weekDay = weekDay;
     }
 

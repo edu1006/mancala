@@ -12,6 +12,9 @@ export class JobProcess {
     status: StatusEnum;
     typeExecution: TypeExecutionEnum;
     periodicity: PeriodicityEnum;
+    periodicityStartDate: Date;
+    periodicityEndDate: Date;
+    timeExecution: string; // colocar no backend
     weekDay: number;
     monthDay: number;
     xValue: number;
@@ -27,8 +30,11 @@ export class JobProcess {
         this.status = StatusEnum.ENABLED;
         this.typeExecution = null;
         this.periodicity = null;
-        this.weekDay = undefined;
-        this.monthDay = undefined;
+        this.periodicityStartDate = null;
+        this.periodicityEndDate = null;
+        this.timeExecution = '00:00';
+        this.weekDay = null;
+        this.monthDay = null;
         this.xValue = undefined;
         this.innerJob = YesNoEnum.NO;
         this.innerParallel = YesNoEnum.NO;

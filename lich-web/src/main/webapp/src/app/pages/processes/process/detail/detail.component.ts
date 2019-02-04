@@ -1,4 +1,4 @@
-import { EnumValue } from './../../../../model/enum.value';
+import { FormatadorUtil } from './../../../../util/formatador.util';
 import { JobProcessData } from './../../../../model/job.process.data';
 import { ProcessService } from './../../../../service/process.service';
 import { TranslateService } from './../../../../internationalization/translate.service';
@@ -9,6 +9,8 @@ import { JobProcess } from '../../../../model/job.process';
 import { StatusEnum } from '../../../../enums/status.enum';
 import { TypeExecutionEnum } from '../../../../enums/type.execution.enum';
 import { TypeStepProcessEnum } from '../../../../enums/type.step.process';
+import { CalendarLocale } from '../../../../common/calendar/calendar.locale';
+import { PeriodicityEnum } from '../../../../enums/periodicity.enum';
 
 @Component({
   selector: 'app-process-detail',
@@ -23,19 +25,32 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   statusEnum = StatusEnum;
   typeExecutionEnum = TypeExecutionEnum;
   typeStepProcessEnum = TypeStepProcessEnum;
+  periodicityEnum = PeriodicityEnum;
+  calendarLocale: CalendarLocale;
 
   jobProcessData: JobProcessData;
   jobProcess: JobProcess;
 
   constructor(translateService: TranslateService,
+              calendarLocale: CalendarLocale,
               private processService: ProcessService) {
     super(translateService);
+    this.calendarLocale = calendarLocale;
   }
 
   ngOnInit() {
     console.log(this.operation);
     this.processService.getJobProcessData().subscribe(
-      res => this.jobProcessData = res
+      res => {
+        this.jobProcessData = res;
+
+        this.jobProcessData.monthDays = new Array();
+        for (let i = 1; i < 29; i++) {
+            this.jobProcessData.monthDays.push(i);
+        }
+        this.jobProcessData.monthDays.push(99); // Last day of month.
+
+      }
     );
   }
 
@@ -43,8 +58,24 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     this.jobProcess = new JobProcess();
   }
 
-  onChangeTypeExection(e: Event) {
-    console.log(this.jobProcessData);
+  onChangeTypeExection() {
+    this.jobProcess.periodicity = null;
+    this.jobProcess.periodicityStartDate = null;
+    this.jobProcess.periodicityEndDate = null;
+  }
+
+  onChangePeriodicity() {
+    this.jobProcess.xValue = null;
+    this.jobProcess.timeExecution = '00:00';
+    this.jobProcess.weekDay = null;
+    this.jobProcess.monthDay = null;
+  }
+
+  onChangePeriodicityStart() {
+    if (this.jobProcess.periodicityEndDate &&
+        this.jobProcess.periodicityEndDate < this.jobProcess.periodicityStartDate) {
+      this.jobProcess.periodicityEndDate = this.jobProcess.periodicityStartDate;
+    }
   }
 
   save(form: NgForm) {

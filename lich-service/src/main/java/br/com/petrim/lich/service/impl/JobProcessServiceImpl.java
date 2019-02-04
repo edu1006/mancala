@@ -2,6 +2,7 @@ package br.com.petrim.lich.service.impl;
 
 import br.com.petrim.lich.enums.PeriodicityEnum;
 import br.com.petrim.lich.enums.TypeExecutionEnum;
+import br.com.petrim.lich.enums.WeekDayEnum;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.repository.JobProcessRepository;
 import br.com.petrim.lich.service.JobProcessService;
@@ -36,6 +37,13 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
 
         jobProcessDataVo.setPeriodicities(periodicities);
 
+        // get week day
+        List<EnumValueVo<Integer>> weekDays = Stream.of(WeekDayEnum.values())
+                .map(weekDayEnum -> new EnumValueVo<Integer>(weekDayEnum.getId(), MessageUtil.getMessage(weekDayEnum.getLabel())))
+                .collect(Collectors.toList());
+
+        jobProcessDataVo.setWeekDays(weekDays);
+
         return jobProcessDataVo;
     }
 
@@ -47,7 +55,8 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
         if (jobProcess.getTypeExecution() != null &&
                 jobProcess.getTypeExecution().equals(TypeExecutionEnum.MANUAL)) {
 
-            //FIXME: inserir dois atributes para data inicial e final de execução automatica. Nesse caso devem ser iguais a null.
+            jobProcess.setPeriodicityStartDate(null);
+            jobProcess.setPeriodicityEndDate(null);
         }
 
         jobProcess = jobProcessRepository.save(jobProcess);

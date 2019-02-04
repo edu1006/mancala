@@ -91,6 +91,13 @@
     "process.label.auto": "Auto",
     "process.label.manual": "Manual",
     "process.label.periodicity": "Periodicidade",
+    "process.label.periodicity.start": "Period for execution (Start Date)",
+    "process.label.periodicity.end": "Period for execution (End Date)",
+    "process.label.periodicity.valuex": "Value of X",
+    "process.label.periodicity.timeexecution": "Execution time",
+    "process.label.periodicity.weekday": "Week day",
+    "process.label.periodicity.day": "Day ",
+    "process.label.periodicity.lastday": "Last day of month",
     "step.label.order": "Order",
     "step.label.type": "Type"
 
