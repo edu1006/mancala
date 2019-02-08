@@ -13,6 +13,8 @@ export class StepProcess {
     commandBash: string;
     jarPath: string;
     restUrl: string;
+    restPostParameter: string; // não existe no banco
+    restType: string; // não existe no banco
     restLinkAttribute: string;
     restStatusAttribute: string;
     restLogAttribute: string;
@@ -23,10 +25,12 @@ export class StepProcess {
     continueIfError: YesNoEnum;
     askToContinue: YesNoEnum;
     askToContinueMessage: string;
-    timeSleep: number;
+    timeSleep: string;
     pathOrigin: string;
     pathDestiny: string;
+    filePattern: string; // não existe no banco
     idJobProcess: number;
+    typeAgent: number;
     idAgent: number;
     idInnerJobProcess: number;
     status: StatusEnum;
@@ -42,6 +46,8 @@ export class StepProcess {
         this.commandBash = null;
         this.jarPath = null;
         this.restUrl = null;
+        this.restPostParameter = null;
+        this.restType = null;
         this.restLinkAttribute = null;
         this.restStatusAttribute = null;
         this.restLogAttribute = null;
@@ -52,12 +58,14 @@ export class StepProcess {
         this.continueIfError = YesNoEnum.NO;
         this.askToContinue = YesNoEnum.NO;
         this.askToContinueMessage = null;
-        this.timeSleep = undefined;
+        this.timeSleep = '00:00';
         this.pathOrigin = undefined;
         this.pathDestiny = undefined;
+        this.filePattern = null;
         this.idJobProcess = undefined;
-        this.idAgent = undefined;
-        this.idInnerJobProcess = undefined;
+        this.typeAgent = null;
+        this.idAgent = null;
+        this.idInnerJobProcess = null;
         this.status = StatusEnum.ENABLED;
     }
 

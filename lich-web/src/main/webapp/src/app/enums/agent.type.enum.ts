@@ -1,5 +1,6 @@
 export enum AgentTypeEnum {
     Linux = 1,
     Unix = 2,
-    Windows = 3
+    Windows = 3,
+    Localhost = 9,
 }

@@ -1,6 +1,8 @@
 package br.com.petrim.lich.service.impl;
 
 import br.com.petrim.lich.enums.AgentTypeConnEnum;
+import br.com.petrim.lich.enums.AgentTypeEnum;
+import br.com.petrim.lich.enums.StatusEnum;
 import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.Agent;
 import br.com.petrim.lich.repository.AgentRepository;
@@ -52,5 +54,20 @@ public class AgentServiceImpl extends AbstractService implements AgentService {
     @Override
     public List<Agent> findByFilter(Agent filter, Integer page, Integer max) {
         return agentRepository.findByFilter(filter, page, max);
+    }
+
+    @Override
+    public List<Agent> findEnablesByType(AgentTypeEnum type) {
+        if (type == null) {
+            throw new BusinessException("agent.type.invalid");
+        }
+
+        List<Agent> agents = agentRepository.findByStatusAndType(StatusEnum.ENABLED, type);
+
+        if (agents == null || agents.isEmpty()) {
+            throw new BusinessException("agent.not.exists.by.type");
+        }
+
+        return agents;
     }
 }

@@ -1,3 +1,4 @@
+import { IpFormatDirective } from './../../common/ip-directive/ip.format.directive';
 import { PipeModule } from './../../pipe/pipe.module';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +26,8 @@ import { NumberDirective } from '../../common/number-directive/number.only.direc
     ProcessComponent,
     QueryComponent,
     DetailComponent,
-    NumberDirective
+    NumberDirective,
+    IpFormatDirective
   ]
 })
 export class ProcessesModule { }

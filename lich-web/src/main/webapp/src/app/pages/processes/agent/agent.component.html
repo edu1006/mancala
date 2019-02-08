@@ -66,6 +66,7 @@
              [lazy]="true"
              [totalRecords]="totalRecords"
              (onLazyLoad)="loadAgents($event)"
+             styleClass="table-responsive"
              tableStyleClass="table table-striped table-bordered">
       <ng-template pTemplate="header">
         <tr>
@@ -136,14 +137,14 @@
             <label class="form-label">{{ 'agent.label.address' | translate }}*:</label>
             <input id="idAddressNew" name="idAddressNew" [(ngModel)]="agent.address" type="text" 
               class="form-control {{ (idAddressNew.invalid && agentForm.submitted) ? 'is-invalid' : '' }}" 
-              placeholder="{{ 'agent.label.address' | translate }}" #idAddressNew="ngModel" required/>
+              placeholder="{{ 'agent.label.address' | translate }}" #idAddressNew="ngModel" appIpFormat required/>
           </div>
 
           <div class="form-group col-md-4">
             <label class="form-label">{{ 'agent.label.port' | translate }}*:</label>
             <input id="idPortNew" name="idPortNew" [(ngModel)]="agent.port" type="text" 
               class="form-control {{ (idPortNew.invalid && agentForm.submitted) ? 'is-invalid' : '' }}" 
-              placeholder="{{ 'agent.label.port' | translate }}" #idPortNew="ngModel" required/>
+              placeholder="{{ 'agent.label.port' | translate }}" #idPortNew="ngModel" appNumbersOnly required/>
           </div>
 
           <div class="form-group col-md-4">

@@ -1,5 +1,7 @@
 package br.com.petrim.lich.repository;
 
+import br.com.petrim.lich.enums.AgentTypeEnum;
+import br.com.petrim.lich.enums.StatusEnum;
 import br.com.petrim.lich.model.Agent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +17,7 @@ public interface AgentRepository extends JpaRepository<Agent, Long>, AgentReposi
     List<Long> getIdByNameOrAddress(@Param("name") String name,
                               @Param("address") String address,
                               @Param("port") Long port);
+
+    List<Agent> findByStatusAndType(StatusEnum status, AgentTypeEnum type);
 
 }

@@ -76,7 +76,7 @@ public class StepProcess extends AbstractUserHistEntity {
     private String askToContinueMessage;
 
     @Column(name = "time_sleep")
-    private Long timeSleep;
+    private String timeSleep;
 
     @Column(name = "path_origin")
     private String pathOrigin;
@@ -258,11 +258,11 @@ public class StepProcess extends AbstractUserHistEntity {
         this.askToContinueMessage = askToContinueMessage;
     }
 
-    public Long getTimeSleep() {
+    public String getTimeSleep() {
         return timeSleep;
     }
 
-    public void setTimeSleep(Long timeSleep) {
+    public void setTimeSleep(String timeSleep) {
         this.timeSleep = timeSleep;
     }
 

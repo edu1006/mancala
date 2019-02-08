@@ -134,33 +134,65 @@
         </div>
       </div>
 
-      <h5 class="mt-3">Step's</h5><hr/>
+      <div class="card">
+        <div class="card-header with-elements">
+          <span class="card-header-title mr-2">Step's</span>
+          <div class="card-header-elements ml-md-auto">
+            <button type="button" class="btn btn-xs btn-outline-primary" (click)="newStep()">
+              <span class="ion ion-md-add"></span>
+              {{ 'step.new' | translate }}
+            </button>
+          </div>
+        </div>
 
-      <p-table [value]="jobProcess.stepsProcesses"
-              tableStyleClass="table table-striped table-bordered">
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 8%;">{{ 'step.label.order' | translate }}</th>
-            <th>{{ 'general.label.name' | translate }}</th>
-            <th>{{ 'step.label.type' | translate }}</th>
-            <th style="width: 20%;">{{ 'general.label.status' | translate }}</th>
-            <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-step>
-          <tr>
-            <td>{{ step.order }}</td>
-            <td>{{ step.idStep }}</td>
-            <td>{{ typeStepProcessEnum[step.type] }}</td>
-            <td>{{ (step.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
-            <td class="text-center">
-              
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+        <div class="card-body">
+            <p-table [value]="jobProcess.stepsProcesses"
+                    styleClass="table-responsive"
+                    tableStyleClass="table table-striped table-bordered">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 90px;">{{ 'step.label.order' | translate }}</th>
+                  <th>{{ 'general.label.name' | translate }}</th>
+                  <th style="width: 200px">{{ 'step.label.type' | translate }}</th>
+                  <th style="width: 100px;">{{ 'general.label.status' | translate }}</th>
+                  <th class="text-center" style="width: 190px;">{{ 'general.label.options' | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-step>
+                <tr>
+                  <td>{{ step.order }}</td>
+                  <td>{{ step.idStep }}</td>
+                  <td>{{ typeStepProcessEnum[step.type] }}</td>
+                  <td>{{ (step.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editStep(step)" [title]="'general.button.edit' | translate">
+                      <span class="ion ion-md-create"></span>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStep(step)" [title]="'general.button.disable' | translate" *ngIf="step.status === statusEnum.ENABLED">
+                      <span class="ion ion-md-close"></span>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStep(step)" [title]="'general.button.enable' | translate" *ngIf="step.status === statusEnum.DISABLED">
+                      <span class="ion ion-md-checkmark"></span>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="deleteStep(step)" [title]="'general.button.delete' | translate">
+                      <span class="ion ion-md-trash"></span>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="setToDown(step)" [title]="'step.button.down' | translate"
+                      *ngIf="jobProcess.stepsProcesses.length > 1 && step.order < jobProcess.stepsProcesses.length">
+                      <span class="ion ion-md-arrow-down"></span>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="stepToUp(step)" [title]="'step.button.up' | translate"
+                      *ngIf="jobProcess.stepsProcesses.length > 1 && step.order > 1">
+                      <span class="ion ion-md-arrow-up"></span>
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+        </div>
+      </div>
 
-      <div class="text-right">
+      <div class="text-right pt-4">
         <button id="idBtnBack" type="button" class="btn btn-default mr-2" (click)="backToQuery()">{{ 'general.button.back' | translate }}</button>
         <button id="idBtnClear" type="button" class="btn btn-default mr-2">{{ 'general.button.clear' | translate }}</button>
         <button id="idBtnSearch" type="submit" class="btn btn-primary" [disabled]="!processForm.valid">{{ 'general.button.save' | translate }}</button>      
@@ -168,3 +200,300 @@
     </div>
   </div>
 </form>
+
+<!-- Modal Save Step -->
+<div class="modal fade" id="idModalStepSave">
+  <div class="modal-dialog modal-lg">
+    <form id="formStepSave" class="modal-content" #stepForm="ngForm" (ngSubmit)="saveStep(stepForm);">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Step
+          <span class="font-weight-light">{{ 'general.label.data' | translate }}</span>
+          <br>
+          <small class="text-muted">{{ 'step.insert.subtitle' | translate }}</small>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="stepForm.resetForm();">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row" *ngIf="stepProcess">
+          <div class="form-group col-12">
+            <label class="form-label">{{ 'process.label.id' | translate }}*:</label>
+            <input id="idStepIdNew" name="idStepIdNew" type="text" [(ngModel)]="stepProcess.idStep"
+              class="form-control" placeholder="{{ 'process.label.id' | translate }}" required/>
+          </div>
+          
+          <div class="form-group col-md-4">
+            <label class="form-label">Tipo de agente*:</label>
+            <select id="idTypeAgentNew" name="idTypeAgentNew" class="custom-select"
+              [(ngModel)]="stepProcess.typeAgent" (change)="onChangeAgentType()" required>
+              <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+              <option [ngValue]="agentTypeEnum.Localhost">Localhost</option>
+              <option [ngValue]="agentTypeEnum.Linux">Linux</option>
+              <option [ngValue]="agentTypeEnum.Unix">Unix</option>
+              <option [ngValue]="agentTypeEnum.Windows">Windows</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="form-label">Agente*:</label>
+            <select id="idAgentNew" name="idAgentNew" class="custom-select"
+              [(ngModel)]="stepProcess.idAgent" [disabled]="agentTypeEnum.Localhost === stepProcess.typeAgent" required>
+              <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+              <option *ngFor="let a of agents" [ngValue]="a.id">{{ a.address + ':' + a.port }}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="form-label">{{ 'step.label.type' | translate }}*:</label>
+            <select id="idTypeStepNew" name="idTypeStepNew" class="custom-select"
+              [(ngModel)]="stepProcess.type" required>
+              <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+              <option [ngValue]="typeStepProcessEnum.SCRIPT_BASH">Script Bash</option>
+              <option [ngValue]="typeStepProcessEnum.COMMAND_BASH">Command Bash</option>
+              <option [ngValue]="typeStepProcessEnum.SCRIPT_JAVA">Execute Jar</option>
+              <option [ngValue]="typeStepProcessEnum.JOB_PROCESS">Execute Inner Job</option>
+              <option [ngValue]="typeStepProcessEnum.STEP_PARALLEL">Execute Parallel Step</option>
+              <option [ngValue]="typeStepProcessEnum.REST_WS">Rest WS</option>
+              <option [ngValue]="typeStepProcessEnum.SLEEP">Sleep Task</option>
+              <option [ngValue]="typeStepProcessEnum.MOVE_FILES_LINUX">Move Files (Linux)</option>
+              <option [ngValue]="typeStepProcessEnum.COPY_FILES_LINUX">Copy Files (Linux)</option>
+              <option [ngValue]="typeStepProcessEnum.SCRIPT_BATCH">Script batch (DOS)</option>
+              <option [ngValue]="typeStepProcessEnum.COMMAND_BATCH">Command batch (DOS)</option>
+            </select>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.SCRIPT_BASH === stepProcess.type">
+            <label class="form-label">Script Bash (caminho completo)*:</label>
+            <textarea id="idScriptBashNew" name="idScriptBashNew" [(ngModel)]="stepProcess.scriptBash"
+              class="form-control" placeholder="Script Bash (caminho completo)" required></textarea>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.COMMAND_BASH === stepProcess.type">
+            <label class="form-label">Linha de comando bash*:</label>
+            <textarea id="idCommandBashNew" name="idCommandBashNew" [(ngModel)]="stepProcess.commandBash"
+              class="form-control" placeholder="Linha de comando bash" required></textarea>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.SCRIPT_BATCH === stepProcess.type">
+            <label class="form-label">Script Batch (caminho completo)*:</label>
+            <textarea id="idScriptBatchNew" name="idScriptBatchNew" [(ngModel)]="stepProcess.scriptBatch"
+              class="form-control" placeholder="Script Batch (caminho completo)" required></textarea>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.COMMAND_BATCH === stepProcess.type">
+            <label class="form-label">Linha de comando batch (DOS)*:</label>
+            <textarea id="idCommandBatchNew" name="idCommandBatchNew" [(ngModel)]="stepProcess.commandBatch"
+              class="form-control" placeholder="Linha de comando batch (DOS)" required></textarea>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.SCRIPT_JAVA === stepProcess.type">
+            <label class="form-label">Arquivo Jar (caminho completo)*:</label>
+            <textarea id="idScriptJarNew" name="idScriptJarNew" [(ngModel)]="stepProcess.jarPath"
+              class="form-control" placeholder="Arquivo Jar (caminho completo)" required></textarea>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.JOB_PROCESS === stepProcess.type">
+            <label class="form-label">Processo interno*:</label>
+            <select id="idInnerJobStepNew" name="idInnerJobStepNew" class="custom-select"
+              [(ngModel)]="stepProcess.idInnerJobProcess" required>
+              <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.SCRIPT_BASH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_BATCH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_JAVA === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BASH === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BATCH === stepProcess.type">
+            <label class="form-label">Caminho do arquivo de log:</label>
+            <input id="idPathLogNew" name="idPathLogNew" [(ngModel)]="stepProcess.logPath"
+              class="form-control" placeholder="Caminho do arquivo de log"/>
+          </div>
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.SCRIPT_BASH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_BATCH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_JAVA === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BASH === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BATCH === stepProcess.type">
+            <label class="form-label">Nome do arquivo de log:</label>
+            <input id="idNameLogNew" name="idNameLogNew" [(ngModel)]="stepProcess.logName"
+              class="form-control" placeholder="Nome do arquivo de log"/>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">URL Rest*:</label>
+            <input id="idUrlRestNew" name="idUrlRestNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restUrl" placeholder="URL Rest" required />
+          </div>
+          
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Parâmetros post:</label>
+            <input id="idPostParameterNew" name="idPostParameterNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restPostParameter" placeholder="Parâmetros post" />
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Tipo*:</label>
+            <select id="idRestTypeNew" name="idRestTypeNew" class="custom-select"
+              [(ngModel)]="stepProcess.restType" required>
+              <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+              <option value="application/json">application/json</option>
+              <option value="application/xml">application/xml</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Atributo com URL de resposta (JSON ou XML)*:</label>
+            <input id="idLinkAttributeNew" name="idLinkAttributeNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restLinkAttribute" placeholder="Atributo com URL de resposta (JSON ou XML)" required/>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Atribute de status (JSON ou XML)*:</label>
+            <input id="idStatusAttributeNew" name="idStatusAttributeNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restStatusAttribute" placeholder="Atributo de status (JSON ou XML)" required/>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Atribute de log (JSON ou XML):</label>
+            <input id="idLogAttributeNew" name="idLogAttributeNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restLogAttribute" placeholder="Atributo de log (JSON ou XML)"/>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Valor do status de sucesso (separados por vírgula)*:</label>
+            <input id="idValueStatusOkNew" name="idValueStatusOkNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restStatusValueOk" placeholder="Valor do status de sucesso (separados por vírgula)" required/>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.REST_WS === stepProcess.type">
+            <label class="form-label">Valor do status de erro (separados por vírgula)*:</label>
+            <input id="idValueStatusErrorNew" name="idValueStatusErrorNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.restStatusValueError" placeholder="Valor do status de erro (separados por vírgula)" required/>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.SLEEP === stepProcess.type">
+            <label class="form-label">Horário de finalização do sleep*:</label>
+            <p-calendar id="idTimeExecutionNew" name="idTimeExecutionNew" styleClass="w-100"
+              inputStyleClass="form-control" timeOnly="true" timeSeparator=":"
+              [(ngModel)]="stepProcess.timeSleep"
+              [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat" required></p-calendar>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.MOVE_FILES_LINUX === stepProcess.type
+              || typeStepProcessEnum.COPY_FILES_LINUX === stepProcess.type">
+            <label class="form-label">Pasta de origem*:</label>
+            <input id="idOriginFolderNew" name="idOriginFolderNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.pathOrigin" placeholder="Pasta de origem" required/>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.MOVE_FILES_LINUX === stepProcess.type
+              || typeStepProcessEnum.COPY_FILES_LINUX === stepProcess.type">
+            <label class="form-label">Pasta de destino*:</label>
+            <input id="idDestinyFolderNew" name="idDestinyFolderNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.pathDestiny" placeholder="Pasta de destino" required/>
+          </div>
+
+          <div class="form-group col-12" *ngIf="typeStepProcessEnum.MOVE_FILES_LINUX === stepProcess.type
+              || typeStepProcessEnum.COPY_FILES_LINUX === stepProcess.type">
+            <label class="form-label">Padrão de nome*:</label>
+            <input id="idNamePatternNew" name="idNamePatternNew" class="form-control" type="text"
+              [(ngModel)]="stepProcess.filePattern" placeholder="Padrão de nome" required/>
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.SCRIPT_BASH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_BATCH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_JAVA === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BASH === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BATCH === stepProcess.type
+              || typeStepProcessEnum.REST_WS === stepProcess.type
+              || typeStepProcessEnum.MOVE_FILES_LINUX === stepProcess.type
+              || typeStepProcessEnum.COPY_FILES_LINUX === stepProcess.type">
+            <label class="custom-control custom-checkbox mt-4 ml-2">
+              <input id="idContinueIfErrorNew" name="idContinueIfErrorNew" type="checkbox" 
+                class="custom-control-input" [(ngModel)]="stepProcess.continueIfError" />
+              <span class="custom-control-label">Continuar execução mesmo com erro</span>
+            </label>
+          </div>
+          <div class="form-group col-md-6" *ngIf="typeStepProcessEnum.SCRIPT_BASH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_BATCH === stepProcess.type
+              || typeStepProcessEnum.SCRIPT_JAVA === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BASH === stepProcess.type
+              || typeStepProcessEnum.COMMAND_BATCH === stepProcess.type
+              || typeStepProcessEnum.REST_WS === stepProcess.type
+              || typeStepProcessEnum.SLEEP === stepProcess.type
+              || typeStepProcessEnum.MOVE_FILES_LINUX === stepProcess.type
+              || typeStepProcessEnum.COPY_FILES_LINUX === stepProcess.type">
+            <label class="custom-control custom-checkbox mt-4 ml-2">
+              <input id="idAskToContinueNew" name="idAskToContinueNew" type="checkbox" 
+                class="custom-control-input" [(ngModel)]="stepProcess.askToContinue" (change)="onChangeAskToContinue()" />
+              <span class="custom-control-label">Solicitar confirmação para continuar?</span>
+            </label>
+          </div>
+
+          <div class="form-group col-12" *ngIf="stepProcess.askToContinue">
+            <label class="form-label">Pergunta de confirmação a ser exibida:</label>
+            <input id="idAskContinueMessageNew" name="idAskContinueMessageNew" [(ngModel)]="stepProcess.askToContinueMessage"
+              class="form-control" placeholder="Pergunta de confirmação a ser exibida"/>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="stepForm.resetForm()">{{ 'general.button.close' | translate }}</button>
+        <button class="btn btn-primary" [disabled]="!stepForm.valid">{{ 'general.button.save' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Status Step -->
+<div class="modal fade" id="idModalStepStatus">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Step
+          <span class="font-weight-light">{{ 'general.label.status' | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row" *ngIf="stepProcess">
+          <span *ngIf="stepProcess.status === 1">{{ 'step.status.disable.confirm' | translate }}</span>
+          <span *ngIf="stepProcess.status === 0">{{ 'step.status.enable.confirm' | translate }}</span>
+          <span class="font-weight-bold" style="white-space: pre-wrap;"> {{ stepProcess.idStep }}</span> ?
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="stepProcess">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'general.button.no' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="confirmEnableDisableStep(statusEnum.ENABLED)" *ngIf="stepProcess.status === 0">{{ 'general.button.yes' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="confirmEnableDisableStep(statusEnum.DISABLED)" *ngIf="stepProcess.status === 1">{{ 'general.button.yes' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Delete Step -->
+<div class="modal fade" id="idModalStepDelete">
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Step
+            <span class="font-weight-light">{{ 'general.label.delete' | translate }}</span>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row" *ngIf="stepProcess">
+            <span >{{ 'step.status.delete.confirm' | translate }}</span>
+            <span class="font-weight-bold" style="white-space: pre-wrap;"> {{ stepProcess.idStep }}</span> ?
+          </div>
+        </div>
+        <div class="modal-footer" *ngIf="stepProcess">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'general.button.no' | translate }}</button>
+          <button type="button" class="btn btn-primary" (click)="confirmDeleteStep()">{{ 'general.button.yes' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -6,6 +6,7 @@
 
     "general.label.name": "Name",
     "general.label.status": "Status",
+    "general.label.delete": "Delete",
     "general.label.select": "Select...",
     "general.label.enabled": "Enabled",
     "general.label.disabled": "Disabled",
@@ -17,6 +18,7 @@
     "general.button.edit": "Edit",
     "general.button.enable": "Enable",
     "general.button.disable": "Disable",
+    "general.button.delete": "Delete",
     "general.button.close": "Close",
     "general.button.save": "Save",
     "general.button.no": "No",
@@ -98,7 +100,14 @@
     "process.label.periodicity.weekday": "Week day",
     "process.label.periodicity.day": "Day ",
     "process.label.periodicity.lastday": "Last day of month",
+    "step.new": "New Step",
+    "step.insert.subtitle": "Insert/update step data.",
     "step.label.order": "Order",
-    "step.label.type": "Type"
+    "step.label.type": "Type",
+    "step.status.enable.confirm": "Confirm step enable",
+    "step.status.disable.confirm": "Confirm step disable",
+    "step.status.delete.confirm": "Confirm step exclusion",
+    "step.button.up": "Para cima",
+    "step.button.dowm": "Para baixo"
 
 }
