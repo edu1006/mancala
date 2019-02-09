@@ -3,11 +3,15 @@ package br.com.petrim.lich.model;
 import br.com.petrim.lich.enums.StatusEnum;
 import br.com.petrim.lich.enums.TypeStepProcessEnum;
 import br.com.petrim.lich.enums.YesNoEnum;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Table(name = "step_process")
 public class StepProcess extends AbstractUserHistEntity {
 
@@ -22,10 +26,10 @@ public class StepProcess extends AbstractUserHistEntity {
     @Column(name = "id_step")
     private String idStep;
 
-    @Column(name = "order")
+    @Column(name = "order_step")
     private Integer order;
 
-    @Column(name = "type")
+    @Column(name = "type_step")
     @Convert(converter = TypeStepProcessEnum.Mapper.class)
     private TypeStepProcessEnum type;
 

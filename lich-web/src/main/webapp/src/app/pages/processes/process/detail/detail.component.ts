@@ -15,6 +15,7 @@ import { StepProcess } from 'src/app/model/step.process';
 import { AgentTypeEnum } from '../../../../enums/agent.type.enum';
 import { AgentService } from '../../../../service/agent.service';
 import { Agent } from '../../../../model/agent';
+import { YesNoEnum } from 'src/app/enums/yes.no.enum';
 
 @Component({
   selector: 'app-process-detail',
@@ -95,8 +96,14 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
       if (this.jobProcess.stepsProcesses.length <= 0) {
         this.addMessageError(this.getMessage('process.step.empty'));
       } else {
-        this.addMessageSuccess(this.getMessage('process.save.success'));
-        this.loadQuery.emit();
+        this.processService.save(this.jobProcess).subscribe(
+          res => {
+            this.jobProcess = null;
+            this.addMessageSuccess(this.getMessage('process.save.success'));
+            this.loadQuery.emit();
+          },
+          error => this.addMessageError(this.getMessage('process.save.error'))
+        );
       }
     }
   }
@@ -123,6 +130,53 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     }
   }
 
+  onChangeTypeStep() {
+    this.stepProcess.scriptBash = null;
+    this.stepProcess.commandBash = null;
+    this.stepProcess.scriptBatch = null;
+    this.stepProcess.commandBatch = null;
+    this.stepProcess.jarPath = null;
+    this.stepProcess.idInnerJobProcess = null;
+
+    // limpar logpath
+    if (this.stepProcess.type !== this.typeStepProcessEnum.SCRIPT_BASH
+        && this.stepProcess.type !== this.typeStepProcessEnum.SCRIPT_BATCH
+        && this.stepProcess.type !== this.typeStepProcessEnum.SCRIPT_JAVA
+        && this.stepProcess.type !== this.typeStepProcessEnum.COMMAND_BASH
+        && this.stepProcess.type !== this.typeStepProcessEnum.COMMAND_BATCH) {
+
+      this.stepProcess.logPath = null;
+      this.stepProcess.logName = null;
+    }
+
+    this.stepProcess.restUrl = null;
+    this.stepProcess.restPostParameter = null;
+    this.stepProcess.restType = null;
+    this.stepProcess.restLinkAttribute = null;
+    this.stepProcess.restStatusAttribute = null;
+    this.stepProcess.restLogAttribute = null;
+    this.stepProcess.restStatusValueOk = null;
+    this.stepProcess.restStatusValueError = null;
+
+    if (this.stepProcess.type === this.typeStepProcessEnum.SLEEP) {
+      this.stepProcess.timeSleep = '00:00';
+    } else {
+      this.stepProcess.timeSleep = null;
+    }
+
+    // limpar diretorios e pastas para copy e move
+    if (this.stepProcess.type !== this.typeStepProcessEnum.COPY_FILES_LINUX
+        && this.stepProcess.type !== this.typeStepProcessEnum.MOVE_FILES_LINUX) {
+      this.stepProcess.pathOrigin = null;
+      this.stepProcess.pathDestiny = null;
+      this.stepProcess.filePattern = null;
+    }
+
+    if (this.stepProcess.type === this.typeStepProcessEnum.SLEEP) {
+      this.stepProcess.continueIfError = YesNoEnum.NO;
+    }
+  }
+
   onChangeAskToContinue() {
     this.stepProcess.askToContinueMessage = null;
   }
@@ -132,7 +186,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
       // set order to step process
       if (!this.stepProcess.order) {
         this.stepProcess.order = this.jobProcess.stepsProcesses.length + 1;
-        this.jobProcess.stepsProcesses.push(Object.assign('', this.stepProcess));
+        this.jobProcess.stepsProcesses.push(this.stepProcess);
       } else {
         this.updateStepOnListSteps();
       }
@@ -148,7 +202,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   updateStepOnListSteps(): void {
     const index = this.jobProcess.stepsProcesses.findIndex((sp) => sp.order === this.stepProcess.order);
     this.jobProcess.stepsProcesses.splice(index, 1);
-    this.jobProcess.stepsProcesses.push(Object.assign('', this.stepProcess));
+    this.jobProcess.stepsProcesses.push(this.stepProcess);
   }
 
   orderSteps(): void {
@@ -157,7 +211,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   }
 
   editStep(item: StepProcess) {
-    this.stepProcess = Object.assign('', item);
+    this.stepProcess = Object.assign(new StepProcess(), item);
     this.openModal(this.idModalStepSave);
   }
 

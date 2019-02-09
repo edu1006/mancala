@@ -60,7 +60,7 @@ export class StepProcess {
         this.continueIfError = YesNoEnum.NO;
         this.askToContinue = YesNoEnum.NO;
         this.askToContinueMessage = null;
-        this.timeSleep = '00:00';
+        this.timeSleep = null;
         this.pathOrigin = undefined;
         this.pathDestiny = undefined;
         this.filePattern = null;

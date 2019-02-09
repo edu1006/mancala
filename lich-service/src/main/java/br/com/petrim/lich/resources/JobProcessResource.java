@@ -23,8 +23,8 @@ public class JobProcessResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void save(@RequestBody JobProcess jobProcess) {
-        jobProcessService.save(jobProcess);
+    public JobProcess save(@RequestBody JobProcess jobProcess) {
+        return jobProcessService.save(jobProcess);
     }
 
 }

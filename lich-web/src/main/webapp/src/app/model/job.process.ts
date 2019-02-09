@@ -41,7 +41,7 @@ export class JobProcess {
         this.innerJob = YesNoEnum.NO;
         this.innerParallel = YesNoEnum.NO;
         this.tags = null;
-        this.stepsProcesses = new Array();
+        this.stepsProcesses = new Array<StepProcess>();
     }
 
 }

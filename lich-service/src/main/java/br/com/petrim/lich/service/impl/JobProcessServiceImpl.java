@@ -12,6 +12,7 @@ import br.com.petrim.lich.vo.EnumValueVo;
 import br.com.petrim.lich.vo.JobProcessDataVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +49,7 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
     }
 
     @Override
+    @Transactional
     public JobProcess save(JobProcess jobProcess) {
 
         loadUserInsertUpdate(jobProcess);
