@@ -91,7 +91,14 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   }
 
   save(form: NgForm) {
-    console.log(form.valid);
+    if (form.valid) {
+      if (this.jobProcess.stepsProcesses.length <= 0) {
+        this.addMessageError(this.getMessage('process.step.empty'));
+      } else {
+        this.addMessageSuccess(this.getMessage('process.save.success'));
+        this.loadQuery.emit();
+      }
+    }
   }
 
   backToQuery() {
