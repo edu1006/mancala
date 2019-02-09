@@ -7,6 +7,7 @@ import { StepProcess } from './step.process';
 export class JobProcess {
 
     id: number;
+    version: number;
     idProcess: string;
     description: string;
     status: StatusEnum;
@@ -25,6 +26,7 @@ export class JobProcess {
 
     constructor() {
         this.id = undefined;
+        this.version = undefined;
         this.idProcess = null;
         this.description = null;
         this.status = StatusEnum.ENABLED;

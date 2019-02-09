@@ -15,6 +15,10 @@ public class StepProcess extends AbstractUserHistEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    @Column(name = "version")
+    private Long version;
+
     @Column(name = "id_step")
     private String idStep;
 
@@ -104,6 +108,14 @@ public class StepProcess extends AbstractUserHistEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public String getIdStep() {

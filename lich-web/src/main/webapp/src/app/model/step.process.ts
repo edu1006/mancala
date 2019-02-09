@@ -4,6 +4,7 @@ import { StatusEnum } from '../enums/status.enum';
 export class StepProcess {
 
     id: number;
+    version: number;
     idStep: string;
     order: number;
     type: TypeStepProcessEnum;
@@ -37,6 +38,7 @@ export class StepProcess {
 
     constructor() {
         this.id = undefined;
+        this.version = undefined;
         this.idStep = null;
         this.order = undefined;
         this.type = null;

@@ -4,6 +4,7 @@ import { StatusEnum } from './../enums/status.enum';
 export class Agent {
 
     id: number;
+    version: number;
     name: string;
     address: string;
     port: number;
@@ -12,6 +13,7 @@ export class Agent {
 
     constructor() {
         this.id = undefined;
+        this.version = undefined;
         this.name = '';
         this.address = '';
         this.port = undefined;
