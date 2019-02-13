@@ -30,6 +30,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   idModalStepSave = 'idModalStepSave';
   idModalStepStatus = 'idModalStepStatus';
   idModalStepDelete = 'idModalStepDelete';
+  idModalParallelStep = 'idModalParallelStep';
 
   statusEnum = StatusEnum;
   typeExecutionEnum = TypeExecutionEnum;
@@ -41,7 +42,13 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   jobProcessData: JobProcessData;
   jobProcess: JobProcess;
   stepProcess: StepProcess;
+  parallelStep: StepProcess;
   agents: Array<Agent>;
+
+  functionSaveStep: Function;
+  functionEditStep: Function;
+  functionStatusStep: Function;
+  functionDeleteStep: Function;
 
   constructor(translateService: TranslateService,
               calendarLocale: CalendarLocale,
@@ -69,6 +76,11 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
 
   newProcess() {
     this.jobProcess = new JobProcess();
+  }
+
+  editProcess(item: JobProcess) {
+    this.jobProcess = Object.assign(new JobProcess(), item);
+    this.orderSteps();
   }
 
   onChangeTypeExection() {
@@ -115,6 +127,16 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   newStep() {
     this.stepProcess = new StepProcess();
     this.openModal(this.idModalStepSave);
+
+    this.functionSaveStep = () => {
+      this.saveStepProcessOnJobProcess(this.stepProcess);
+    };
+  }
+
+  saveStepProcessOnJobProcess(item: StepProcess) {
+    item.order = this.jobProcess.stepsProcesses.length + 1;
+    this.jobProcess.stepsProcesses.push(item);
+    this.orderSteps();
   }
 
   onChangeAgentType() {
@@ -185,24 +207,17 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     if (form.valid) {
       // set order to step process
       if (!this.stepProcess.order) {
-        this.stepProcess.order = this.jobProcess.stepsProcesses.length + 1;
-        this.jobProcess.stepsProcesses.push(this.stepProcess);
+        this.functionSaveStep();
       } else {
-        this.updateStepOnListSteps();
+        this.functionEditStep();
       }
 
-      this.orderSteps();
-
       this.stepProcess = null;
-
       this.closeModal(this.idModalStepSave);
-    }
-  }
 
-  updateStepOnListSteps(): void {
-    const index = this.jobProcess.stepsProcesses.findIndex((sp) => sp.order === this.stepProcess.order);
-    this.jobProcess.stepsProcesses.splice(index, 1);
-    this.jobProcess.stepsProcesses.push(this.stepProcess);
+      this.functionSaveStep = null;
+      this.functionEditStep = null;
+    }
   }
 
   orderSteps(): void {
@@ -213,6 +228,30 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   editStep(item: StepProcess) {
     this.stepProcess = Object.assign(new StepProcess(), item);
     this.openModal(this.idModalStepSave);
+
+    this.functionEditStep = () => {
+      this.editStepProcessOnJobProcess(this.stepProcess);
+    };
+
+    this.loadAgentToEditStep();
+  }
+
+  loadAgentToEditStep() {
+    if (this.stepProcess.idAgent) {
+      this.agentService.findForStep(this.stepProcess.idAgent).subscribe(
+        res => {
+          this.stepProcess.typeAgent = res.agent.type;
+          this.agents = res.agentsForType;
+        }
+      );
+    }
+  }
+
+  editStepProcessOnJobProcess(item: StepProcess) {
+    const index = this.jobProcess.stepsProcesses.findIndex((sp) => sp.order === item.order);
+    this.jobProcess.stepsProcesses.splice(index, 1);
+    this.jobProcess.stepsProcesses.push(item);
+    this.orderSteps();
   }
 
   enableDisableStep(item: StepProcess) {
@@ -225,25 +264,35 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     this.closeModal(this.idModalStepStatus);
 
     this.stepProcess = null;
+
+    if (this.functionStatusStep) {
+      this.functionStatusStep();
+      this.functionStatusStep = null;
+    }
   }
 
   deleteStep(item: StepProcess) {
     this.stepProcess = item;
     this.openModal(this.idModalStepDelete);
+
+    this.functionDeleteStep = () => {
+      const index = this.jobProcess.stepsProcesses.findIndex((sp) => sp.order === this.stepProcess.order);
+      this.jobProcess.stepsProcesses.splice(index, 1);
+      this.closeModal(this.idModalStepDelete);
+
+      for (const step of this.jobProcess.stepsProcesses) {
+        if (step.order > this.stepProcess.order) {
+          step.order = step.order - 1;
+        }
+      }
+    };
   }
 
   confirmDeleteStep() {
-    const index = this.jobProcess.stepsProcesses.findIndex((sp) => sp.order === this.stepProcess.order);
-    this.jobProcess.stepsProcesses.splice(index, 1);
-    this.closeModal(this.idModalStepDelete);
-
-    for (const step of this.jobProcess.stepsProcesses) {
-      if (step.order > this.stepProcess.order) {
-        step.order = step.order - 1;
-      }
-    }
+    this.functionDeleteStep();
 
     this.stepProcess = null;
+    this.functionDeleteStep = null;
   }
 
   stepToUp(item: StepProcess) {
@@ -264,6 +313,97 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     item.order = item.order + 1;
 
     this.orderSteps();
+  }
+
+  // Step Parallel
+
+  newParallelStep() {
+    this.parallelStep = new StepProcess();
+    this.parallelStep.type = TypeStepProcessEnum.STEP_PARALLEL;
+    this.parallelStep.stepsParallels = new Array<StepProcess>();
+
+    this.openModal(this.idModalParallelStep);
+  }
+
+  editParallelStep(item: StepProcess) {
+    this.parallelStep = Object.assign(new StepProcess(), item);
+    this.openModal(this.idModalParallelStep);
+  }
+
+  saveParallelStep(form: NgForm) {
+    if (form.valid) {
+      // set order to step process
+      if (!this.parallelStep.order) {
+        this.saveStepProcessOnJobProcess(this.parallelStep);
+      } else {
+        this.editStepProcessOnJobProcess(this.parallelStep);
+      }
+
+      this.parallelStep = null;
+      this.closeModal(this.idModalParallelStep);
+    }
+  }
+
+  newStepForParallel() {
+    this.stepProcess = new StepProcess();
+
+    this.openModal(this.idModalStepSave);
+    this.closeModal(this.idModalParallelStep);
+
+    this.functionSaveStep = function() {
+      this.stepProcess.order = this.parallelStep.stepsParallels.length + 1;
+      this.parallelStep.stepsParallels.push(this.stepProcess);
+
+      this.openModal(this.idModalParallelStep);
+    };
+  }
+
+  editStepForParallel(item: StepProcess) {
+    this.stepProcess = Object.assign(new StepProcess(), item);
+
+    this.openModal(this.idModalStepSave);
+    this.closeModal(this.idModalParallelStep);
+
+    this.functionEditStep = () => {
+      const index = this.parallelStep.stepsParallels.findIndex((sp) => sp.order === this.stepProcess.order);
+      this.parallelStep.stepsParallels.splice(index, 1);
+      this.parallelStep.stepsParallels.push(this.stepProcess);
+
+      this.openModal(this.idModalParallelStep);
+    };
+
+    this.loadAgentToEditStep();
+  }
+
+  enableDisableStepForParallel(item: StepProcess) {
+    this.stepProcess = item;
+
+    this.openModal(this.idModalStepStatus);
+    this.closeModal(this.idModalParallelStep);
+
+    this.functionStatusStep = () => {
+      this.openModal(this.idModalParallelStep);
+    };
+  }
+
+  deleteStepForParallel(item: StepProcess) {
+    this.stepProcess = item;
+    this.openModal(this.idModalStepDelete);
+    this.closeModal(this.idModalParallelStep);
+
+    this.functionDeleteStep = () => {
+      const index = this.parallelStep.stepsParallels.findIndex((sp) => sp.order === this.stepProcess.order);
+      this.parallelStep.stepsParallels.splice(index, 1);
+      this.closeModal(this.idModalStepDelete);
+
+      for (const step of this.parallelStep.stepsParallels) {
+        if (step.order > this.stepProcess.order) {
+          step.order = step.order - 1;
+        }
+      }
+
+      this.openModal(this.idModalParallelStep);
+    };
   }
 
 }

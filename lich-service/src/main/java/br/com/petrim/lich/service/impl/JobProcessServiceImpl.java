@@ -3,6 +3,7 @@ package br.com.petrim.lich.service.impl;
 import br.com.petrim.lich.enums.PeriodicityEnum;
 import br.com.petrim.lich.enums.TypeExecutionEnum;
 import br.com.petrim.lich.enums.WeekDayEnum;
+import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.repository.JobProcessRepository;
 import br.com.petrim.lich.service.JobProcessService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -61,9 +63,30 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
             jobProcess.setPeriodicityEndDate(null);
         }
 
-        jobProcess = jobProcessRepository.save(jobProcess);
+        jobProcessRepository.save(jobProcess);
         stepProcessService.saveStepsProcesses(jobProcess);
 
         return jobProcess;
+    }
+
+    @Override
+    public Long countByFilter(JobProcess filter) {
+        return jobProcessRepository.countByFilter(filter);
+    }
+
+    @Override
+    public List<JobProcess> findByFilter(JobProcess filter, Integer page, Integer max) {
+        return jobProcessRepository.findByFilter(filter, page, max);
+    }
+
+    @Override
+    public JobProcess getJobProcessById(Long id) {
+        Optional<JobProcess> optional = jobProcessRepository.loadById(id);
+
+        if (!optional.isPresent()) {
+            throw new BusinessException("");
+        }
+
+        return optional.get();
     }
 }

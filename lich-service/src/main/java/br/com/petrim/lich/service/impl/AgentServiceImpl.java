@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service("agentService")
 public class AgentServiceImpl extends AbstractService implements AgentService {
@@ -69,5 +70,16 @@ public class AgentServiceImpl extends AbstractService implements AgentService {
         }
 
         return agents;
+    }
+
+    @Override
+    public Agent findById(Long id) {
+        Optional<Agent> optional = agentRepository.findById(id);
+
+        if (!optional.isPresent()) {
+            throw new BusinessException("");
+        }
+
+        return optional.get();
     }
 }

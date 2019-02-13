@@ -3,6 +3,7 @@ package br.com.petrim.lich.resources;
 import br.com.petrim.lich.enums.AgentTypeEnum;
 import br.com.petrim.lich.model.Agent;
 import br.com.petrim.lich.service.AgentService;
+import br.com.petrim.lich.vo.StepAgentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,16 @@ public class AgentResource {
     @RequestMapping(value = "/find/enable/{type}")
     public List<Agent> findEnableByType(@PathVariable("type") Integer type) {
         return agentService.findEnablesByType(AgentTypeEnum.valueOfId(type));
+    }
+
+    @RequestMapping(value = "/find-for-step/{idAgent}", method = RequestMethod.GET)
+    public StepAgentVo findAgentForStep(@PathVariable("idAgent") Long id) {
+        StepAgentVo stepAgentVo = new StepAgentVo();
+
+        stepAgentVo.setAgent(agentService.findById(id));
+        stepAgentVo.setAgentsForType(agentService.findEnablesByType(stepAgentVo.getAgent().getType()));
+
+        return stepAgentVo;
     }
 
 }

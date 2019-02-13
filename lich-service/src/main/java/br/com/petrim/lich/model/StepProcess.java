@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @DynamicUpdate
@@ -51,6 +52,12 @@ public class StepProcess extends AbstractUserHistEntity {
     @Column(name = "rest_url")
     private String restUrl;
 
+    @Column(name = "rest_post_parameter")
+    private String restPostParameter;
+
+    @Column(name = "rest_type")
+    private String restType;
+
     @Column(name = "rest_link_attribute")
     private String restLinkAttribute;
 
@@ -92,6 +99,9 @@ public class StepProcess extends AbstractUserHistEntity {
     @Column(name = "path_destiny")
     private String pathDestiny;
 
+    @Column(name = "file_pattern")
+    private String filePattern;
+
     @Column(name = "id_job_process")
     private Long idJobProcess;
 
@@ -105,9 +115,15 @@ public class StepProcess extends AbstractUserHistEntity {
     @Column(name = "status")
     private StatusEnum status;
 
+    @Column(name = "id_step_parallel")
+    private Long idStepParallel;
+
+    @OneToMany(mappedBy = "idStepParallel", fetch = FetchType.LAZY)
+    private Set<StepProcess> stepsParallels;
+
     @Override
     public Long getId() {
-        return null;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -192,6 +208,22 @@ public class StepProcess extends AbstractUserHistEntity {
 
     public void setRestUrl(String restUrl) {
         this.restUrl = restUrl;
+    }
+
+    public String getRestPostParameter() {
+        return restPostParameter;
+    }
+
+    public void setRestPostParameter(String restPostParameter) {
+        this.restPostParameter = restPostParameter;
+    }
+
+    public String getRestType() {
+        return restType;
+    }
+
+    public void setRestType(String restType) {
+        this.restType = restType;
     }
 
     public String getRestLinkAttribute() {
@@ -298,6 +330,14 @@ public class StepProcess extends AbstractUserHistEntity {
         this.pathDestiny = pathDestiny;
     }
 
+    public String getFilePattern() {
+        return filePattern;
+    }
+
+    public void setFilePattern(String filePattern) {
+        this.filePattern = filePattern;
+    }
+
     public Long getIdJobProcess() {
         return idJobProcess;
     }
@@ -328,6 +368,22 @@ public class StepProcess extends AbstractUserHistEntity {
 
     public void setStatus(StatusEnum status) {
         this.status = status;
+    }
+
+    public Long getIdStepParallel() {
+        return idStepParallel;
+    }
+
+    public void setIdStepParallel(Long idStepParallel) {
+        this.idStepParallel = idStepParallel;
+    }
+
+    public Set<StepProcess> getStepsParallels() {
+        return stepsParallels;
+    }
+
+    public void setStepsParallels(Set<StepProcess> stepsParallels) {
+        this.stepsParallels = stepsParallels;
     }
 
     @Override

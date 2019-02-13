@@ -15,4 +15,6 @@ public interface AgentService {
 
     List<Agent> findEnablesByType(AgentTypeEnum type);
 
+    Agent findById(Long id);
+
 }

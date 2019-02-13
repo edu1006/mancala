@@ -1,3 +1,4 @@
+import { StepAgentVo } from './../model/step.agent';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Agent } from './../model/agent';
@@ -15,12 +16,14 @@ export class AgentService {
   private countUrl: string;
   private findUrl: string;
   private findEnableByTypeUrl: string;
+  private findForStepUrl: string;
 
   constructor(private http: HttpClient) {
     this.saveUrl = Utils.getUrlBackend() + '/api/agent';
     this.countUrl = Utils.getUrlBackend() + '/api/agent/count';
     this.findUrl = Utils.getUrlBackend() + '/api/agent/find/';
     this.findEnableByTypeUrl = Utils.getUrlBackend() + '/api/agent/find/enable/';
+    this.findForStepUrl = Utils.getUrlBackend() + '/api/agent/find-for-step/';
   }
 
   save(agent: Agent): Observable<Agent> {
@@ -44,6 +47,12 @@ export class AgentService {
   findEnableByType(type: AgentTypeEnum): Observable<Array<Agent>> {
     return this.http.get(this.findEnableByTypeUrl + type).pipe(
       tap((res: Array<Agent>) => res)
+    );
+  }
+
+  findForStep(id: number): Observable<StepAgentVo> {
+    return this.http.get(this.findForStepUrl + id).pipe(
+      tap((res: StepAgentVo) => res)
     );
   }
 }

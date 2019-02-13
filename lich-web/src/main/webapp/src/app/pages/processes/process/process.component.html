@@ -7,7 +7,8 @@
 
 <app-process-query #query
                    [operation]="operation"
-                   (loadNewProcess)="newProcess()"></app-process-query>
+                   (loadNewProcess)="newProcess()"
+                   (loadEditProcess)="editProcess($event)"></app-process-query>
 
 <app-process-detail #detail
                     [operation]="operation"

@@ -4,6 +4,7 @@ import { BaseComponent } from './../../base.component';
 import { TranslateService } from './../../../internationalization/translate.service';
 import { OperationEnum } from './../../../enums/operation.enum';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { JobProcess } from '../../../model/job.process';
 
 @Component({
   selector: 'app-process',
@@ -32,6 +33,11 @@ export class ProcessComponent extends BaseComponent implements OnInit {
   newProcess() {
     this.operation = OperationEnum.INSERT;
     this.detail.newProcess();
+  }
+
+  editProcess(item: JobProcess) {
+    this.operation = OperationEnum.UPDATE;
+    this.detail.editProcess(item);
   }
 
   backToQuery() {

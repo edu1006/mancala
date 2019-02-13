@@ -14,8 +14,8 @@ export class StepProcess {
     commandBash: string;
     jarPath: string;
     restUrl: string;
-    restPostParameter: string; // não existe no banco
-    restType: string; // não existe no banco
+    restPostParameter: string;
+    restType: string;
     restLinkAttribute: string;
     restStatusAttribute: string;
     restLogAttribute: string;
@@ -29,12 +29,14 @@ export class StepProcess {
     timeSleep: string;
     pathOrigin: string;
     pathDestiny: string;
-    filePattern: string; // não existe no banco
+    filePattern: string;
     idJobProcess: number;
     typeAgent: number;
     idAgent: number;
     idInnerJobProcess: number;
     status: StatusEnum;
+
+    stepsParallels: Array<StepProcess>;
 
     constructor() {
         this.id = undefined;
@@ -69,6 +71,7 @@ export class StepProcess {
         this.idAgent = null;
         this.idInnerJobProcess = null;
         this.status = StatusEnum.ENABLED;
+        this.stepsParallels = null;
     }
 
 }

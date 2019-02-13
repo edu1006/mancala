@@ -43,7 +43,7 @@ public enum TypeExecutionEnum {
 
         @Override
         public TypeExecutionEnum convertToEntityAttribute(String s) {
-            return TypeExecutionEnum.valueOf(s);
+            return TypeExecutionEnum.valueOfId(s);
         }
     }
 }

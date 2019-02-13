@@ -1,6 +1,8 @@
 package br.com.petrim.lich.model;
 
 import br.com.petrim.lich.enums.*;
+import br.com.petrim.lich.serializer.DateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -43,10 +45,12 @@ public class JobProcess extends AbstractUserHistEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "periodicity_start_date")
+    @JsonSerialize(using = DateSerializer.class)
     private Date periodicityStartDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "periodicity_end_date")
+    @JsonSerialize(using = DateSerializer.class)
     private Date periodicityEndDate;
 
     @Convert(converter = WeekDayEnum.Mapper.class)
@@ -73,9 +77,20 @@ public class JobProcess extends AbstractUserHistEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "idJobProcess")
     private Set<StepProcess> stepsProcesses;
 
+    public JobProcess() {
+        // Default constructor
+    }
+
+    public JobProcess(Long id, String idProcess, TypeExecutionEnum typeExecution, StatusEnum status) {
+        this.id = id;
+        this.idProcess = idProcess;
+        this.typeExecution = typeExecution;
+        this.status = status;
+    }
+
     @Override
     public Long getId() {
-        return null;
+        return this.id;
     }
 
     public void setId(Long id) {

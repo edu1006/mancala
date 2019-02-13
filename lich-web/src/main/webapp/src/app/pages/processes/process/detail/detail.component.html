@@ -1,5 +1,5 @@
 
-<form id="formProcessData" *ngIf="operation === operationEnum.INSERT" #processForm="ngForm" (submit)="save(processForm);" novalidate>
+<form id="formProcessData" *ngIf="operation === operationEnum.INSERT || operation === operationEnum.UPDATE" #processForm="ngForm" (submit)="save(processForm);" novalidate>
 
   <div class="card md-4">
     <!--<h6 class="card-header">Search</h6>-->
@@ -138,6 +138,10 @@
         <div class="card-header with-elements">
           <span class="card-header-title mr-2">Step's</span>
           <div class="card-header-elements ml-md-auto">
+            <button type="button" class="btn btn-xs btn-outline-secondary" (click)="newParallelStep()">
+              <span class="ion ion-md-add"></span>
+              {{ 'step.new.parallel' | translate }}
+            </button>
             <button type="button" class="btn btn-xs btn-outline-primary" (click)="newStep()">
               <span class="ion ion-md-add"></span>
               {{ 'step.new' | translate }}
@@ -165,7 +169,12 @@
                   <td>{{ typeStepProcessEnum[step.type] }}</td>
                   <td>{{ (step.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
                   <td class="text-center">
-                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editStep(step)" [title]="'general.button.edit' | translate">
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editStep(step)" [title]="'general.button.edit' | translate"
+                      *ngIf="typeStepProcessEnum.STEP_PARALLEL !== step.type">
+                      <span class="ion ion-md-create"></span>
+                    </button>
+                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editParallelStep(step)" [title]="'general.button.edit' | translate"
+                      *ngIf="typeStepProcessEnum.STEP_PARALLEL === step.type">
                       <span class="ion ion-md-create"></span>
                     </button>
                     <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStep(step)" [title]="'general.button.disable' | translate" *ngIf="step.status === statusEnum.ENABLED">
@@ -202,7 +211,7 @@
 </form>
 
 <!-- Modal Save Step -->
-<div class="modal fade" id="idModalStepSave">
+<div class="modal fade" id="idModalStepSave" data-backdrop="static">
   <div class="modal-dialog modal-lg">
     <form id="formStepSave" class="modal-content" #stepForm="ngForm" (ngSubmit)="saveStep(stepForm);">
       <div class="modal-header">
@@ -431,9 +440,9 @@
           </div>
 
           <div class="form-group col-12" *ngIf="stepProcess.askToContinue">
-            <label class="form-label">{{ 'step.label.asttocontinuemessage' | translate }}:</label>
+            <label class="form-label">{{ 'step.label.asktocontinuemessage' | translate }}:</label>
             <input id="idAskContinueMessageNew" name="idAskContinueMessageNew" [(ngModel)]="stepProcess.askToContinueMessage"
-              class="form-control" placeholder="{{ 'step.label.asttocontinuemessage' | translate }}"/>
+              class="form-control" placeholder="{{ 'step.label.asktocontinuemessage' | translate }}"/>
           </div>
 
         </div>
@@ -475,25 +484,95 @@
 
 <!-- Modal Delete Step -->
 <div class="modal fade" id="idModalStepDelete">
-    <div class="modal-dialog">
-      <form class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Step
-            <span class="font-weight-light">{{ 'general.label.delete' | translate }}</span>
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Step
+          <span class="font-weight-light">{{ 'general.label.delete' | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row" *ngIf="stepProcess">
+          <span >{{ 'step.status.delete.confirm' | translate }}</span>
+          <span class="font-weight-bold" style="white-space: pre-wrap;"> {{ stepProcess.idStep }}</span> ?
         </div>
-        <div class="modal-body">
-          <div class="form-row" *ngIf="stepProcess">
-            <span >{{ 'step.status.delete.confirm' | translate }}</span>
-            <span class="font-weight-bold" style="white-space: pre-wrap;"> {{ stepProcess.idStep }}</span> ?
+      </div>
+      <div class="modal-footer" *ngIf="stepProcess">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'general.button.no' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="confirmDeleteStep()">{{ 'general.button.yes' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Parallel Step -->
+<div class="modal fade" id="idModalParallelStep" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+    <form id="formParallelStepSave" class="modal-content" #parallelStepForm="ngForm" (ngSubmit)="saveParallelStep(parallelStepForm)" >
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Step
+          <span class="font-weight-light">Paralelo</span>
+          <br>
+          <small class="text-muted">Dados para step paralelo</small>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row" *ngIf="parallelStep">
+          <div class="form-group col-12">
+            <label class="form-label">{{ 'process.label.id' | translate }}*:</label>
+            <input id="idStepParallelIdNew" name="idStepParallelIdNew" type="text" [(ngModel)]="parallelStep.idStep"
+              class="form-control" placeholder="{{ 'process.label.id' | translate }}" required/>
           </div>
         </div>
-        <div class="modal-footer" *ngIf="stepProcess">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'general.button.no' | translate }}</button>
-          <button type="button" class="btn btn-primary" (click)="confirmDeleteStep()">{{ 'general.button.yes' | translate }}</button>
+        <div class="text-right pt-2 pb-2" *ngIf="parallelStep">
+          <button type="button" class="btn btn-xs btn-outline-primary" (click)="newStepForParallel()">
+            <span class="ion ion-md-add"></span>
+            {{ 'step.new' | translate }}
+          </button>
         </div>
-      </form>
-    </div>
+        <p-table [value]="parallelStep.stepsParallels"
+                *ngIf="parallelStep"
+                styleClass="table-responsive"
+                tableStyleClass="table table-striped table-bordered">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ 'process.label.id' | translate }}</th>
+              <th style="width: 200px">{{ 'step.label.type' | translate }}</th>
+              <th style="width: 100px;">{{ 'general.label.status' | translate }}</th>
+              <th class="text-center" style="width: 150px;">{{ 'general.label.options' | translate }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-step>
+            <tr>
+              <td>{{ step.idStep }}</td>
+              <td>{{ typeStepProcessEnum[step.type] }}</td>
+              <td>{{ (step.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editStepForParallel(step)" [title]="'general.button.edit' | translate">
+                  <span class="ion ion-md-create"></span>
+                </button>
+                <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStepForParallel(step)" [title]="'general.button.disable' | translate" *ngIf="step.status === statusEnum.ENABLED">
+                  <span class="ion ion-md-close"></span>
+                </button>
+                <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStepForParallel(step)" [title]="'general.button.enable' | translate" *ngIf="step.status === statusEnum.DISABLED">
+                  <span class="ion ion-md-checkmark"></span>
+                </button>
+                <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="deleteStepForParallel(step)" [title]="'general.button.delete' | translate">
+                  <span class="ion ion-md-trash"></span>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div class="modal-footer" *ngIf="parallelStep">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="parallelStepForm.resetForm()">{{ 'general.button.close' | translate }}</button>
+        <button class="btn btn-primary" [disabled]="!parallelStepForm.valid">{{ 'general.button.save' | translate }}</button>
+      </div>
+    </form>
   </div>
+</div>

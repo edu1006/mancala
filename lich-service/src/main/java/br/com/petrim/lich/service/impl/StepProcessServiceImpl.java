@@ -1,11 +1,16 @@
 package br.com.petrim.lich.service.impl;
 
+import br.com.petrim.lich.enums.TypeStepProcessEnum;
 import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.JobProcess;
+import br.com.petrim.lich.model.StepProcess;
 import br.com.petrim.lich.repository.StepProcessRepository;
 import br.com.petrim.lich.service.StepProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("stepProcessService")
 public class StepProcessServiceImpl extends AbstractService implements StepProcessService {
@@ -28,5 +33,23 @@ public class StepProcessServiceImpl extends AbstractService implements StepProce
         });
 
         stepProcessRepository.saveAll(jobProcess.getStepsProcesses());
+        saveStepProcessParallels(jobProcess.getStepsProcesses());
+    }
+
+    private void saveStepProcessParallels(Set<StepProcess> stepsProcesses) {
+        Set<StepProcess> parallels = stepsProcesses.stream()
+                .filter(stepProcess -> TypeStepProcessEnum.STEP_PARALLEL.equals(stepProcess.getType()))
+                .collect(Collectors.toSet());
+
+        if (parallels != null && !parallels.isEmpty()) {
+            for (StepProcess parallel : parallels) {
+                parallel.getStepsParallels().forEach(stepProcess -> {
+                    loadUserInsertUpdate(stepProcess);
+                    stepProcess.setIdStepParallel(parallel.getId());
+                });
+
+                stepProcessRepository.saveAll(parallel.getStepsParallels());
+            }
+        }
     }
 }
