@@ -9,6 +9,7 @@ import { StatusEnum } from 'src/app/enums/status.enum';
 import { TypeExecutionEnum } from '../../../../enums/type.execution.enum';
 import { TypeStepProcessEnum } from '../../../../enums/type.step.process';
 import { StepProcess } from '../../../../model/step.process';
+import 'reflect-metadata';
 
 @Component({
   selector: 'app-process-query',
@@ -66,15 +67,6 @@ export class QueryComponent extends BaseOperationComponent implements OnInit {
     this.processService.loadById(item.id).subscribe(
       res => {
 
-        // load dates
-        if (res.periodicityStartDate) {
-          res.periodicityStartDate = new Date(res.periodicityStartDate);
-        }
-
-        if (res.periodicityEndDate) {
-          res.periodicityEndDate = new Date(res.periodicityEndDate);
-        }
-
         // load agents
         for (const step of res.stepsProcesses) {
           if (step.type === TypeStepProcessEnum.STEP_PARALLEL) {
@@ -99,5 +91,4 @@ export class QueryComponent extends BaseOperationComponent implements OnInit {
       step.typeAgent = AgentTypeEnum.Localhost;
     }
   }
-
 }

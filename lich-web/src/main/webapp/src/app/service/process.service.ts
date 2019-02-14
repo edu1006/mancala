@@ -51,7 +51,17 @@ export class ProcessService {
 
   loadById(id: number): Observable<JobProcess> {
     return this.http.get(this.loadByIdUrl + id).pipe(
-      tap((res: JobProcess) => res)
+      tap((res: JobProcess) => {
+        // load dates
+        if (res.periodicityStartDate) {
+          res.periodicityStartDate = new Date(res.periodicityStartDate);
+        }
+
+        if (res.periodicityEndDate) {
+          res.periodicityEndDate = new Date(res.periodicityEndDate);
+        }
+        return res;
+      })
     );
   }
 }

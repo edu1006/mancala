@@ -3,6 +3,7 @@ import { TypeExecutionEnum } from '../enums/type.execution.enum';
 import { PeriodicityEnum } from '../enums/periodicity.enum';
 import { YesNoEnum } from '../enums/yes.no.enum';
 import { StepProcess } from './step.process';
+import { DateType } from '../util/decorator';
 
 export class JobProcess {
 
