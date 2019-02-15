@@ -49,6 +49,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   functionEditStep: Function;
   functionStatusStep: Function;
   functionDeleteStep: Function;
+  functionCloseStep: Function;
 
   constructor(translateService: TranslateService,
               calendarLocale: CalendarLocale,
@@ -220,6 +221,16 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     }
   }
 
+  closeStep(form: NgForm) {
+    form.resetForm();
+    this.closeModal(this.idModalStepSave);
+
+    if (this.functionCloseStep) {
+      this.functionCloseStep();
+      this.functionCloseStep = null;
+    }
+  }
+
   orderSteps(): void {
     // sort steps
     this.jobProcess.stepsProcesses = this.jobProcess.stepsProcesses.sort((sp1, sp2) => sp1.order - sp2.order);
@@ -356,6 +367,10 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
 
       this.openModal(this.idModalParallelStep);
     };
+
+    this.functionCloseStep = function() {
+      this.openModal(this.idModalParallelStep);
+    };
   }
 
   editStepForParallel(item: StepProcess) {
@@ -369,6 +384,10 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
       this.parallelStep.stepsParallels.splice(index, 1);
       this.parallelStep.stepsParallels.push(this.stepProcess);
 
+      this.openModal(this.idModalParallelStep);
+    };
+
+    this.functionCloseStep = function() {
       this.openModal(this.idModalParallelStep);
     };
 

@@ -3,6 +3,7 @@ package br.com.petrim.lich.resources;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.service.JobProcessService;
 import br.com.petrim.lich.vo.JobProcessDataVo;
+import br.com.petrim.lich.vo.JobProcessStatusVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,11 @@ public class JobProcessResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public JobProcess getJobProcessById(@PathVariable("id") Long id) {
         return jobProcessService.getJobProcessById(id);
+    }
+
+    @RequestMapping(value = "/update-status", method = RequestMethod.POST)
+    public void updateStatus(@RequestBody JobProcessStatusVo jobProcessStatusVo) {
+        jobProcessService.updateStatus(jobProcessStatusVo.getIdJob(), jobProcessStatusVo.getStatus());
     }
 
 }

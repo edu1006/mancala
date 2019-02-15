@@ -1,7 +1,9 @@
 package br.com.petrim.lich.repository;
 
+import br.com.petrim.lich.enums.StatusEnum;
 import br.com.petrim.lich.model.JobProcess;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,5 +16,10 @@ public interface JobProcessRepository extends JpaRepository<JobProcess, Long>, J
             "left join fetch sp.stepsParallels spl " +
             "where j.id = :id ")
     Optional<JobProcess> loadById(@Param("id") Long id);
+
+    @Modifying
+    @Query("update JobProcess j set j.status = :status where j.id = :id")
+    void updateStatus(@Param("id") Long id,
+                      @Param("status") StatusEnum status);
 
 }

@@ -221,7 +221,7 @@
           <br>
           <small class="text-muted">{{ 'step.insert.subtitle' | translate }}</small>
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="stepForm.resetForm();">×</button>
+        <button type="button" class="close" aria-label="Close" (click)="closeStep(stepForm)">×</button>
       </div>
       <div class="modal-body">
         <div class="form-row" *ngIf="stepProcess">
@@ -448,7 +448,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="stepForm.resetForm()">{{ 'general.button.close' | translate }}</button>
+        <button type="button" class="btn btn-default" (click)="closeStep(stepForm)">{{ 'general.button.close' | translate }}</button>
         <button class="btn btn-primary" [disabled]="!stepForm.valid">{{ 'general.button.save' | translate }}</button>
       </div>
     </form>

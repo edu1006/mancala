@@ -1,3 +1,4 @@
+import { JobProcessStatusVo } from './../../../../model/job.process.status';
 import { AgentTypeEnum } from './../../../../enums/agent.type.enum';
 import { PaginationLoadLazy } from './../../../../common/pagination/pagination.load';
 import { ProcessService } from './../../../../service/process.service';
@@ -18,6 +19,8 @@ import 'reflect-metadata';
 })
 export class QueryComponent extends BaseOperationComponent implements OnInit {
 
+  idModalJobStatus = 'idModalJobStatus';
+
   @Output()
   loadNewProcess = new EventEmitter();
   @Output()
@@ -30,10 +33,13 @@ export class QueryComponent extends BaseOperationComponent implements OnInit {
   jobs: Array<JobProcess>;
   totalRecords: number;
 
+  job: JobProcess;
+
   constructor(translateService: TranslateService,
               private processService: ProcessService) {
     super(translateService);
     this.filter = new JobProcess();
+    this.filter.status = null;
   }
 
   ngOnInit() {
@@ -41,6 +47,7 @@ export class QueryComponent extends BaseOperationComponent implements OnInit {
 
   cleanFilter() {
     this.filter = new JobProcess();
+    this.filter.status = null;
     this.find();
   }
 
@@ -90,5 +97,26 @@ export class QueryComponent extends BaseOperationComponent implements OnInit {
     if (!step.idAgent) {
       step.typeAgent = AgentTypeEnum.Localhost;
     }
+  }
+
+  enableDisableJob(item: JobProcess) {
+    this.job = item;
+    this.openModal(this.idModalJobStatus);
+  }
+
+  confirmEnableDisableJob(status: StatusEnum) {
+    const jobProcessStatusVo = new JobProcessStatusVo();
+
+    jobProcessStatusVo.idJob = this.job.id;
+    jobProcessStatusVo.status = status;
+
+    this.processService.updateStatus(jobProcessStatusVo).subscribe(
+      res => {
+        this.job.status = status;
+        this.addMessageSuccess(this.getMessage('process.save.success'));
+        this.closeModal(this.idModalJobStatus);
+      },
+      error => this.addMessageError(this.getMessage('process.save.error'), error)
+    );
   }
 }

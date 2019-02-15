@@ -1,5 +1,6 @@
 package br.com.petrim.lich.service;
 
+import br.com.petrim.lich.enums.StatusEnum;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.vo.JobProcessDataVo;
 
@@ -16,5 +17,7 @@ public interface JobProcessService {
     List<JobProcess> findByFilter(JobProcess filter, Integer page, Integer max);
 
     JobProcess getJobProcessById(Long id);
+
+    void updateStatus(Long id, StatusEnum status);
 
 }

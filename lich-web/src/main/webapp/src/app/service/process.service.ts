@@ -1,3 +1,4 @@
+import { JobProcessStatusVo } from './../model/job.process.status';
 import { JobProcess } from './../model/job.process';
 import { tap } from 'rxjs/operators';
 import { Utils } from './../util/utils';
@@ -16,6 +17,7 @@ export class ProcessService {
   private countUrl: string;
   private findUrl: string;
   private loadByIdUrl: string;
+  private updateStatusUrl: string;
 
   constructor(private http: HttpClient) {
     this.jobProcessDataUrl = Utils.getUrlBackend() + '/api/job_process/data';
@@ -23,6 +25,7 @@ export class ProcessService {
     this.countUrl = Utils.getUrlBackend() + '/api/job_process/count';
     this.findUrl = Utils.getUrlBackend() + '/api/job_process/find/';
     this.loadByIdUrl = Utils.getUrlBackend() + '/api/job_process/';
+    this.updateStatusUrl = Utils.getUrlBackend() + '/api/job_process/update-status';
   }
 
   getJobProcessData(): Observable<JobProcessData> {
@@ -63,5 +66,9 @@ export class ProcessService {
         return res;
       })
     );
+  }
+
+  updateStatus(jobProcessStatusVo: JobProcessStatusVo) {
+    return this.http.post(this.updateStatusUrl, jobProcessStatusVo);
   }
 }

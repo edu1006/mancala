@@ -2,6 +2,7 @@ package br.com.petrim.lich.repository.impl;
 
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.repository.JobProcessRepositoryCustom;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,5 +35,25 @@ public class JobProcessRepositoryImpl extends AbstractRepositoryImpl<JobProcess>
 
     private void filterQuery(StringBuilder hql, Map<String, Object> params, JobProcess filter) {
         hql.append("where j.status is not null ");
+
+        if (StringUtils.isNotBlank(filter.getIdProcess())) {
+            hql.append("and j.idProcess like :idProcess ");
+            params.put("idProcess", "%" + filter.getIdProcess() + "%");
+        }
+
+        if (filter.getTypeExecution() != null) {
+            hql.append("and j.typeExecution = :typeExecution ");
+            params.put("typeExecution", filter.getTypeExecution());
+        }
+
+        if (filter.getStatus() != null) {
+            hql.append("and j.status = :status ");
+            params.put("status", filter.getStatus());
+        }
+
+        if (StringUtils.isNotBlank(filter.getTags())) {
+            hql.append("and j.tags like :tags ");
+            params.put("tags", "%" + filter.getTags() + "%");
+        }
     }
 }

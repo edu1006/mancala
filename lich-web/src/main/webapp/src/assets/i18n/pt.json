@@ -103,6 +103,8 @@
     "process.save.success": "Sucesso ao salvar dados do processo",
     "process.save.error": "Erro ao salvar o processo",
     "process.step.empty": "Ao menos um step deve ser inserido",
+    "process.status.enable.confirm": "Confirmar ativação do processo",
+    "process.status.disable.confirm": "Confirmar inativação do processo",
     "step.new": "Novo step",
     "step.new.parallel": "Novo step paralelo",
     "step.insert.subtitle": "Inserir/atualizar dados do step.",
