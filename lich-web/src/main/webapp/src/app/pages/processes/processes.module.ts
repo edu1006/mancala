@@ -11,6 +11,7 @@ import { QueryComponent } from './process/query/query.component';
 import { DetailComponent } from './process/detail/detail.component';
 import { CalendarModule } from 'primeng/calendar';
 import { NumberDirective } from '../../common/number-directive/number.only.directive';
+import { ParameterComponent } from './parameter/parameter.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { NumberDirective } from '../../common/number-directive/number.only.direc
     QueryComponent,
     DetailComponent,
     NumberDirective,
-    IpFormatDirective
+    IpFormatDirective,
+    ParameterComponent
   ]
 })
 export class ProcessesModule { }
