@@ -135,6 +135,17 @@
     "step.status.disable.confirm": "Confirm disable step",
     "step.status.delete.confirm": "Confirm step exclusion",
     "step.button.up": "Para cima",
-    "step.button.dowm": "Para baixo"
+    "step.button.dowm": "Para baixo",
+
+    "parameter.title": "Parameter",
+    "parameter.new": "New Parameter",
+    "parameter.result": "Result",
+    "parameter.insert.subtitle": "Insert/update parameter data.",
+    "parameter.label.value": "Value",
+    "parameter.label.ispassword": "It's a password?",
+    "parameter.save.success": "Success to save the parameter",
+    "parameter.save.error": "Error to save the parameter",
+    "parameter.status.enable.confirm": "Confirm enable the parameter",
+    "parameter.status.disable.confirm": "Confirm disable the parameter"
 
 }
