@@ -33,3 +33,18 @@
     opacity: 0.5 !important;
     cursor: default !important;
 }
+
+.ui-chips ul {
+    width: 100% !important;
+    height: 100% !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.ui-chips ul > li {
+    padding-top: 0px;
+}
+
+.ui-chips-token {
+    background-color: rgba(24,28,33,0.1) !important;
+}

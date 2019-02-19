@@ -129,8 +129,9 @@
 
         <div class="form-group col-md-12">
           <label class="form-label">{{ 'process.label.tags' | translate }}:</label>
-          <input id="idTagsNew" name="idTagsNew" type="text" 
-              class="form-control" placeholder="{{ 'process.label.tags' | translate }}"/>
+          <p-chips id="idTagsNew" name="idTagsNew"
+            styleClass="form-control" placeholder="{{ 'process.label.tags' | translate }}" 
+            [(ngModel)]="jobProcess.tags"></p-chips>
         </div>
       </div>
 

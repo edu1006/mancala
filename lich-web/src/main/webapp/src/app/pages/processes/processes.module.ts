@@ -1,3 +1,4 @@
+import { ChipsModule } from 'primeng/chips';
 import { IpFormatDirective } from './../../common/ip-directive/ip.format.directive';
 import { PipeModule } from './../../pipe/pipe.module';
 import { TableModule } from 'primeng/table';
@@ -20,6 +21,7 @@ import { ParameterComponent } from './parameter/parameter.component';
     FormsModule,
     TableModule,
     CalendarModule,
+    ChipsModule,
     PipeModule.forRoot()
   ],
   declarations: [
