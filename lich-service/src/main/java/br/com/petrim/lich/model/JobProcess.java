@@ -88,6 +88,11 @@ public class JobProcess extends AbstractUserHistEntity {
         this.status = status;
     }
 
+    public JobProcess(Long id, String idProcess) {
+        this.id = id;
+        this.idProcess = idProcess;
+    }
+
     @Override
     public Long getId() {
         return this.id;

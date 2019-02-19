@@ -10,16 +10,17 @@ import java.util.stream.Stream;
 
 public enum YesNoEnum {
 
-    YES(1),
-    NO(0);
+    YES(1, Boolean.TRUE),
+    NO(0, Boolean.FALSE);
 
     private Integer id;
+    private Boolean jsonValue;
 
-    YesNoEnum(Integer id) {
+    YesNoEnum(Integer id, Boolean jsonValue) {
         this.id = id;
+        this.jsonValue = jsonValue;
     }
 
-    @JsonCreator
     public static YesNoEnum valueOfId(Integer id) {
         Optional<YesNoEnum> optional = Stream.of(values())
                 .filter(e -> e.getId().equals(id))
@@ -28,9 +29,22 @@ public enum YesNoEnum {
         return (optional.isPresent()) ? optional.get() : null;
     }
 
-    @JsonValue
+    @JsonCreator
+    public static YesNoEnum valueOfJsonValue(Boolean jsonValue) {
+        Optional<YesNoEnum> optional = Stream.of(values())
+                .filter(e -> e.getJsonValue().equals(jsonValue))
+                .findFirst();
+
+        return (optional.isPresent()) ? optional.get() : null;
+    }
+
     public Integer getId() {
         return id;
+    }
+
+    @JsonValue
+    public Boolean getJsonValue() {
+        return jsonValue;
     }
 
     @Converter

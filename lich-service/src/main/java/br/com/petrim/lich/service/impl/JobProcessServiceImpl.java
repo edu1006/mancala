@@ -1,9 +1,6 @@
 package br.com.petrim.lich.service.impl;
 
-import br.com.petrim.lich.enums.PeriodicityEnum;
-import br.com.petrim.lich.enums.StatusEnum;
-import br.com.petrim.lich.enums.TypeExecutionEnum;
-import br.com.petrim.lich.enums.WeekDayEnum;
+import br.com.petrim.lich.enums.*;
 import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.repository.JobProcessRepository;
@@ -95,5 +92,10 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
     @Transactional
     public void updateStatus(Long id, StatusEnum status) {
         jobProcessRepository.updateStatus(id, status);
+    }
+
+    @Override
+    public List<JobProcess> findInnerJobsEnable() {
+        return jobProcessRepository.findInnerJobsEnable(YesNoEnum.YES, StatusEnum.ENABLED);
     }
 }

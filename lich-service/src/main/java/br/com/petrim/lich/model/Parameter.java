@@ -2,16 +2,24 @@ package br.com.petrim.lich.model;
 
 import br.com.petrim.lich.enums.StatusEnum;
 import br.com.petrim.lich.enums.YesNoEnum;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "parameter")
 public class Parameter extends AbstractUserHistEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 
     @Column(name = "name")
     private String name;
@@ -34,6 +42,14 @@ public class Parameter extends AbstractUserHistEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public String getName() {

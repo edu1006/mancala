@@ -261,7 +261,6 @@
               <option [ngValue]="typeStepProcessEnum.COMMAND_BASH">Command Bash</option>
               <option [ngValue]="typeStepProcessEnum.SCRIPT_JAVA">Execute Jar</option>
               <option [ngValue]="typeStepProcessEnum.JOB_PROCESS">Execute Inner Job</option>
-              <option [ngValue]="typeStepProcessEnum.STEP_PARALLEL">Execute Parallel Step</option>
               <option [ngValue]="typeStepProcessEnum.REST_WS">Rest WS</option>
               <option [ngValue]="typeStepProcessEnum.SLEEP">Sleep Task</option>
               <option [ngValue]="typeStepProcessEnum.MOVE_FILES_LINUX">Move Files (Linux)</option>
@@ -306,6 +305,7 @@
             <select id="idInnerJobStepNew" name="idInnerJobStepNew" class="custom-select"
               [(ngModel)]="stepProcess.idInnerJobProcess" required>
               <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+              <option *ngFor="let ij of innerJobs" [ngValue]="ij.id">{{ ij.idProcess }}</option>
             </select>
           </div>
 

@@ -44,6 +44,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
   stepProcess: StepProcess;
   parallelStep: StepProcess;
   agents: Array<Agent>;
+  innerJobs: Array<JobProcess>;
 
   functionSaveStep: Function;
   functionEditStep: Function;
@@ -197,6 +198,15 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
 
     if (this.stepProcess.type === this.typeStepProcessEnum.SLEEP) {
       this.stepProcess.continueIfError = YesNoEnum.NO;
+    }
+
+    // inner jobs
+    this.innerJobs = null;
+    if (this.stepProcess.type === this.typeStepProcessEnum.JOB_PROCESS) {
+      this.processService.findInnerJobs().subscribe(
+        res => this.innerJobs = res,
+        error => this.addMessageError('', error)
+      );
     }
   }
 

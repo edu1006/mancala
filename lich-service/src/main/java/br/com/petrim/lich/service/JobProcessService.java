@@ -20,4 +20,6 @@ public interface JobProcessService {
 
     void updateStatus(Long id, StatusEnum status);
 
+    List<JobProcess> findInnerJobsEnable();
+
 }

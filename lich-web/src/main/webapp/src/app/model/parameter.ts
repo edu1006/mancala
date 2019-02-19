@@ -4,6 +4,7 @@ import { StatusEnum } from '../enums/status.enum';
 export class Parameter {
 
     id: number;
+    version: number;
     name: string;
     value: string;
     password: YesNoEnum;
@@ -11,6 +12,7 @@ export class Parameter {
 
     constructor() {
         this.id = undefined;
+        this.version = undefined;
         this.name = null;
         this.value = null;
         this.password = YesNoEnum.NO;

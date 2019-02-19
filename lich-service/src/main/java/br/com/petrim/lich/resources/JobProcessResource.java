@@ -48,4 +48,9 @@ public class JobProcessResource {
         jobProcessService.updateStatus(jobProcessStatusVo.getIdJob(), jobProcessStatusVo.getStatus());
     }
 
+    @RequestMapping(value = "/find-inner-jobs", method = RequestMethod.GET)
+    public List<JobProcess> findInnerJobsEnable() {
+        return jobProcessService.findInnerJobsEnable();
+    }
+
 }
