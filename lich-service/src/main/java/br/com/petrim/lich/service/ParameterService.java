@@ -12,4 +12,5 @@ public interface ParameterService {
 
     List<Parameter> findByFilter(Parameter filter, Integer page, Integer max);
 
+    List<Parameter> findEnabled();
 }

@@ -1,4 +1,4 @@
-import { FormatadorUtil } from './../../../../util/formatador.util';
+import { Parameter } from './../../../../model/parameter';
 import { JobProcessData } from './../../../../model/job.process.data';
 import { ProcessService } from './../../../../service/process.service';
 import { TranslateService } from './../../../../internationalization/translate.service';
@@ -71,7 +71,6 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
             this.jobProcessData.monthDays.push(i);
         }
         this.jobProcessData.monthDays.push(99); // Last day of month.
-
       }
     );
   }
@@ -435,4 +434,7 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     };
   }
 
+  selectParameter(data: Parameter): string {
+    return '#' + data.name + '#';
+  }
 }

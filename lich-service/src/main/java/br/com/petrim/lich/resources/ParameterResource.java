@@ -31,4 +31,9 @@ public class ParameterResource {
         return parameterService.findByFilter(filter, page, max);
     }
 
+    @RequestMapping(value = "/find-enabled", method = RequestMethod.GET)
+    public List<Parameter> findEnabled() {
+        return parameterService.findEnabled();
+    }
+
 }

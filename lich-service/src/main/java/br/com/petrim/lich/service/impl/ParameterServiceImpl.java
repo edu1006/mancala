@@ -54,4 +54,9 @@ public class ParameterServiceImpl extends AbstractService implements ParameterSe
     public List<Parameter> findByFilter(Parameter filter, Integer page, Integer max) {
         return parameterRepository.findByFilter(filter, page, max);
     }
+
+    @Override
+    public List<Parameter> findEnabled() {
+        return parameterRepository.findByStatus(StatusEnum.ENABLED);
+    }
 }

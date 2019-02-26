@@ -13,11 +13,13 @@ export class ParameterService {
   private countUrl: string;
   private findUrl: string;
   private saveUrl: string;
+  private findEnabledUrl: string;
 
   constructor(private http: HttpClient) {
     this.countUrl = Utils.getUrlBackend() + '/api/parameter/count';
     this.findUrl = Utils.getUrlBackend() + '/api/parameter/find/';
     this.saveUrl = Utils.getUrlBackend() + '/api/parameter';
+    this.findEnabledUrl = Utils.getUrlBackend() + '/api/parameter/find-enabled';
   }
 
   countByFilter(filter: Parameter): Observable<number> {
@@ -35,6 +37,12 @@ export class ParameterService {
   save(parameter: Parameter): Observable<Parameter> {
     return this.http.put(this.saveUrl, parameter).pipe(
       tap((res: Parameter) => res)
+    );
+  }
+
+  findEnabled(): Observable<Array<Parameter>> {
+    return this.http.get(this.findEnabledUrl).pipe(
+      tap((res: Array<Parameter>) => res)
     );
   }
 }

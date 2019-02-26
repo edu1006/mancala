@@ -35,6 +35,15 @@ public class Parameter extends AbstractUserHistEntity {
     @Convert(converter = StatusEnum.Mapper.class)
     private StatusEnum status;
 
+    public Parameter() {
+        // Default constructor
+    }
+
+    public Parameter(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public Long getId() {
         return this.id;

@@ -5,6 +5,7 @@ import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.repository.JobProcessRepository;
 import br.com.petrim.lich.service.JobProcessService;
+import br.com.petrim.lich.service.ParameterService;
 import br.com.petrim.lich.service.StepProcessService;
 import br.com.petrim.lich.util.MessageUtil;
 import br.com.petrim.lich.vo.EnumValueVo;
@@ -23,6 +24,9 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
 
     @Autowired
     private StepProcessService stepProcessService;
+
+    @Autowired
+    private ParameterService parameterService;
 
     @Autowired
     private JobProcessRepository jobProcessRepository;
@@ -44,6 +48,8 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
                 .collect(Collectors.toList());
 
         jobProcessDataVo.setWeekDays(weekDays);
+
+        jobProcessDataVo.setParameters(parameterService.findEnabled());
 
         return jobProcessDataVo;
     }

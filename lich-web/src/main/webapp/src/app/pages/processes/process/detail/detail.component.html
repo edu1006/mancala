@@ -274,7 +274,8 @@
           <div class="form-group col-12" *ngIf="typeStepProcessEnum.SCRIPT_BASH === stepProcess.type">
             <label class="form-label">{{ 'step.label.scriptbash' | translate }}*:</label>
             <textarea id="idScriptBashNew" name="idScriptBashNew" [(ngModel)]="stepProcess.scriptBash"
-              class="form-control" placeholder="{{ 'step.label.scriptbash' | translate }}" required></textarea>
+              class="form-control" placeholder="{{ 'step.label.scriptbash' | translate }}"
+              [mention]="jobProcessData.parameters" [mentionConfig]="{triggerChar:'#',labelKey:'name',mentionSelect: selectParameter}" required></textarea>
           </div>
 
           <div class="form-group col-12" *ngIf="typeStepProcessEnum.COMMAND_BASH === stepProcess.type">

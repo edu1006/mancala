@@ -13,6 +13,7 @@ import { DetailComponent } from './process/detail/detail.component';
 import { CalendarModule } from 'primeng/calendar';
 import { NumberDirective } from '../../common/number-directive/number.only.directive';
 import { ParameterComponent } from './parameter/parameter.component';
+import { MentionModule } from 'angular-mentions/mention';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ParameterComponent } from './parameter/parameter.component';
     TableModule,
     CalendarModule,
     ChipsModule,
+    MentionModule,
     PipeModule.forRoot()
   ],
   declarations: [
