@@ -53,6 +53,9 @@ public class JobProcess extends AbstractUserHistEntity {
     @JsonSerialize(using = DateSerializer.class)
     private Date periodicityEndDate;
 
+    @Column(name = "time_execution")
+    private String timeExecution;
+
     @Convert(converter = WeekDayEnum.Mapper.class)
     @Column(name = "week_day")
     private WeekDayEnum weekDay;
@@ -164,6 +167,14 @@ public class JobProcess extends AbstractUserHistEntity {
 
     public void setPeriodicityEndDate(Date periodicityEndDate) {
         this.periodicityEndDate = periodicityEndDate;
+    }
+
+    public String getTimeExecution() {
+        return timeExecution;
+    }
+
+    public void setTimeExecution(String timeExecution) {
+        this.timeExecution = timeExecution;
     }
 
     public WeekDayEnum getWeekDay() {

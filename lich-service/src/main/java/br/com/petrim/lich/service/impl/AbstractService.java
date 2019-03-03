@@ -4,7 +4,6 @@ import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.AbstractUserHistEntity;
 import br.com.petrim.lich.model.User;
 import br.com.petrim.lich.repository.UserRepository;
-import br.com.petrim.lich.security.AuthUserDetails;
 import br.com.petrim.lich.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
