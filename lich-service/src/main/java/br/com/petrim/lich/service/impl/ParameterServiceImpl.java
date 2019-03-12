@@ -20,8 +20,6 @@ public class ParameterServiceImpl extends AbstractService implements ParameterSe
     @Override
     public Parameter save(Parameter parameter) {
 
-        loadUserInsertUpdate(parameter);
-
         if (parameter.getId() == null) {
             validateParameterExists(parameter);
         } else {

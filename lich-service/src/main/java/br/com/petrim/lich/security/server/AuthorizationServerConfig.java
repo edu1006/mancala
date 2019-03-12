@@ -1,6 +1,8 @@
 package br.com.petrim.lich.security.server;
 
 import br.com.petrim.lich.security.AuthUserDetailsService;
+import br.com.petrim.lich.security.CustomTokenConverter;
+import br.com.petrim.lich.security.CustomTokenEnhancer;
 import br.com.petrim.lich.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,9 +16,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
@@ -36,7 +42,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+        CustomTokenConverter accessTokenConverter = new CustomTokenConverter();
         accessTokenConverter.setSigningKey("123");
         return accessTokenConverter;
     }
@@ -48,6 +54,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         tokenServices.setSupportRefreshToken(Boolean.TRUE);
         tokenServices.setTokenStore(SpringContextUtil.getBean(TokenStore.class));
+        tokenServices.setTokenEnhancer(tokenEnhancer());
 
         return tokenServices;
     }
@@ -55,9 +62,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(),
+                SpringContextUtil.getBean(JwtAccessTokenConverter.class)));
+
         endpoints
                 .tokenStore(SpringContextUtil.getBean(TokenStore.class))
-                .tokenEnhancer(SpringContextUtil.getBean(JwtAccessTokenConverter.class))
+                .tokenEnhancer(tokenEnhancerChain)
                 .authenticationManager(this.authenticationManager)
                 .userDetailsService(this.authUserDetailsService)
                 .allowedTokenEndpointRequestMethods(HttpMethod.OPTIONS);
@@ -76,6 +87,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenValiditySeconds(1800)
                 .secret("{noop}1234")
                 .resourceIds("front-web-services");
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
     }
 
 }

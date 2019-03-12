@@ -58,8 +58,6 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
     @Transactional
     public JobProcess save(JobProcess jobProcess) {
 
-        loadUserInsertUpdate(jobProcess);
-
         if (jobProcess.getTypeExecution() != null &&
                 jobProcess.getTypeExecution().equals(TypeExecutionEnum.MANUAL)) {
 

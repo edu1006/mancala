@@ -21,12 +21,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         try {
             UserDetails userDetails = authUserDetailsService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
+            AuthUserDetails authUserDetails = (AuthUserDetails) userDetails;
 
             if (!userDetails.getPassword().equals(String.valueOf(authentication.getCredentials()))) {
                 throw new BadCredentialsException("Bad credentials");
-            } else {
-                return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), userDetails.getAuthorities());
             }
+
+            return new CustomAuthenticationToken(authUserDetails.getUser().getId(), authUserDetails.getUsername(),
+                    authUserDetails.getPassword(), authUserDetails.getAuthorities());
+
         } catch (UsernameNotFoundException e) {
             throw new BadCredentialsException("Bad credentials");
         }

@@ -26,9 +26,6 @@ public class StepProcessServiceImpl extends AbstractService implements StepProce
         }
 
         jobProcess.getStepsProcesses().forEach(stepProcess -> {
-
-            loadUserInsertUpdate(stepProcess);
-
             stepProcess.setIdJobProcess(jobProcess.getId());
         });
 
@@ -44,7 +41,6 @@ public class StepProcessServiceImpl extends AbstractService implements StepProce
         if (parallels != null && !parallels.isEmpty()) {
             for (StepProcess parallel : parallels) {
                 parallel.getStepsParallels().forEach(stepProcess -> {
-                    loadUserInsertUpdate(stepProcess);
                     stepProcess.setIdStepParallel(parallel.getId());
                 });
 
