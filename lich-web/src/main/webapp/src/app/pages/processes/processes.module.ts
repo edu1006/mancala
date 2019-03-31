@@ -1,3 +1,4 @@
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChipsModule } from 'primeng/chips';
 import { IpFormatDirective } from './../../common/ip-directive/ip.format.directive';
 import { PipeModule } from './../../pipe/pipe.module';
@@ -24,6 +25,7 @@ import { ExecutorComponent } from './executor/executor.component';
     TableModule,
     CalendarModule,
     ChipsModule,
+    AutoCompleteModule,
     MentionModule,
     PipeModule.forRoot()
   ],

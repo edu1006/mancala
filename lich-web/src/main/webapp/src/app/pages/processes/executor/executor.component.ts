@@ -12,6 +12,9 @@ import { Component, OnInit } from '@angular/core';
 export class ExecutorComponent extends BaseComponent implements OnInit {
 
   jobsProcess: Array<JobProcess>;
+  filteredJobs: Array<JobProcess>;
+
+  jobSelected: JobProcess;
 
   constructor(translateService: TranslateService,
               private processService: ProcessService) {
@@ -24,6 +27,16 @@ export class ExecutorComponent extends BaseComponent implements OnInit {
         this.jobsProcess = res;
       }
     );
+  }
+
+  filterJobs(event: any) {
+    this.filteredJobs = new Array();
+    for (let i = 0; i < this.jobsProcess.length; i++) {
+      const job = this.jobsProcess[i];
+      if (job.idProcess.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+        this.filteredJobs.push(job);
+      }
+    }
   }
 
 }

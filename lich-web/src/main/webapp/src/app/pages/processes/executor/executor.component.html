@@ -16,13 +16,16 @@
     <div class="card-body">
 
       <div class="form-row">
-        
+
         <div class="form-group col-md-12">
           <label class="form-label">{{ 'process.title' | translate }}:</label>
-          <select id="idType" name="idType" class="custom-select">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option *ngFor="let item of jobsProcess" [ngValue]="item.id">{{ item.idProcess }}</option>
-          </select>
+          <p-autoComplete id="idJobProcess" name="idJobProcess" [(ngModel)]="jobSelected" [suggestions]="filteredJobs" 
+            (completeMethod)="filterJobs($event)" field="idProcess"
+            class="form-control m-0 p-0 border-0" inputStyleClass="form-control float-left" placeholder="Hint: type 'v' or 'f'" [dropdown]="true">
+            <ng-template let-jobSelected pTemplate="item">
+              {{jobSelected.idProcess}}
+            </ng-template>
+          </p-autoComplete>
         </div>
       </div>
 

@@ -48,3 +48,21 @@
 .ui-chips-token {
     background-color: rgba(24,28,33,0.1) !important;
 }
+
+.ui-autocomplete-dd {
+    width: 100% !important;
+}
+
+.ui-autocomplete-dd .ui-autocomplete-input {
+    width: 97% !important;
+}
+
+.ui-autocomplete-dd .ui-autocomplete-dropdown {
+    width: 3% !important;
+    vertical-align: middle !important;
+    padding-top: 13px !important;
+}
+
+.ui-autocomplete-dd .ui-autocomplete-panel .ui-autocomplete-list {
+    background-color: white !important;
+}
