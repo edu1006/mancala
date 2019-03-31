@@ -19,6 +19,7 @@ export class ProcessService {
   private loadByIdUrl: string;
   private updateStatusUrl: string;
   private findInnerJobsUrl: string;
+  private findEnabledUrl: string;
 
   constructor(private http: HttpClient) {
     this.jobProcessDataUrl = Utils.getUrlBackend() + '/api/job_process/data';
@@ -28,6 +29,7 @@ export class ProcessService {
     this.loadByIdUrl = Utils.getUrlBackend() + '/api/job_process/';
     this.updateStatusUrl = Utils.getUrlBackend() + '/api/job_process/update-status';
     this.findInnerJobsUrl = Utils.getUrlBackend() + '/api/job_process/find-inner-jobs';
+    this.findEnabledUrl = Utils.getUrlBackend() + '/api/job_process/find-enabled';
   }
 
   getJobProcessData(): Observable<JobProcessData> {
@@ -76,6 +78,12 @@ export class ProcessService {
 
   findInnerJobs(): Observable<Array<JobProcess>> {
     return this.http.get(this.findInnerJobsUrl).pipe(
+      tap((res: Array<JobProcess>) => res)
+    );
+  }
+
+  findEnabled(): Observable<Array<JobProcess>> {
+    return this.http.get(this.findEnabledUrl).pipe(
       tap((res: Array<JobProcess>) => res)
     );
   }

@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
     Boolean existsByLogin(String login);
 
     @Query("From User u " +
-            "join fetch u.groups g " +
+            "left join fetch u.groups g " +
             "where u.id = :id ")
     Optional<User> loadById(@Param("id") Long id);
 

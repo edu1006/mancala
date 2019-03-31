@@ -102,4 +102,9 @@ public class JobProcessServiceImpl extends AbstractService implements JobProcess
     public List<JobProcess> findInnerJobsEnable() {
         return jobProcessRepository.findInnerJobsEnable(YesNoEnum.YES, StatusEnum.ENABLED);
     }
+
+    @Override
+    public List<JobProcess> findJobsEnabled() {
+        return jobProcessRepository.loadEnabled(StatusEnum.ENABLED);
+    }
 }

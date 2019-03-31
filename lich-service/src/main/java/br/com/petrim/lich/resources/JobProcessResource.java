@@ -53,4 +53,9 @@ public class JobProcessResource {
         return jobProcessService.findInnerJobsEnable();
     }
 
+    @RequestMapping(value = "/find-enabled", method = RequestMethod.GET)
+    public List<JobProcess> findJobsEnabled() {
+        return jobProcessService.findJobsEnabled();
+    }
+
 }

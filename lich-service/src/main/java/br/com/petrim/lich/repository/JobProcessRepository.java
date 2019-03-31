@@ -32,4 +32,9 @@ public interface JobProcessRepository extends JpaRepository<JobProcess, Long>, J
             @Param("innerJob") YesNoEnum innerJob,
             @Param("status") StatusEnum status);
 
+    @Query("Select new br.com.petrim.lich.model.JobProcess(jp.id, jp.idProcess) " +
+            "From JobProcess jp " +
+            "where jp.status = :status ")
+    List<JobProcess> loadEnabled(@Param("status") StatusEnum status);
+
 }

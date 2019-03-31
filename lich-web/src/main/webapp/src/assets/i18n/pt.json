@@ -146,6 +146,9 @@
     "parameter.save.success": "Sucesso ao salvar dados do parâmetro",
     "parameter.save.error": "Erro ao salvar o parâmetro",
     "parameter.status.enable.confirm": "Confirmar ativação do parâmetro",
-    "parameter.status.disable.confirm": "Confirmar inativação do parâmetro"
+    "parameter.status.disable.confirm": "Confirmar inativação do parâmetro",
+
+    "executor.title": "Execução",
+    "executor.subtitle": "Processo para execução"
 
 }

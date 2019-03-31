@@ -146,6 +146,9 @@
     "parameter.save.success": "Success to save the parameter",
     "parameter.save.error": "Error to save the parameter",
     "parameter.status.enable.confirm": "Confirm enable the parameter",
-    "parameter.status.disable.confirm": "Confirm disable the parameter"
+    "parameter.status.disable.confirm": "Confirm disable the parameter",
+
+    "executor.title": "Execution",
+    "executor.subtitle": "Job's to execution"
 
 }

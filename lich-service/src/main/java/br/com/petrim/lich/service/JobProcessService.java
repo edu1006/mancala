@@ -22,4 +22,6 @@ public interface JobProcessService {
 
     List<JobProcess> findInnerJobsEnable();
 
+    List<JobProcess> findJobsEnabled();
+
 }

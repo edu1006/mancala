@@ -2,9 +2,11 @@ package br.com.petrim.lich.resources;
 
 import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.User;
+import br.com.petrim.lich.security.AuthUserDetails;
 import br.com.petrim.lich.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,16 +22,8 @@ public class UserResource {
 
     @RequestMapping(value = "/logged", method = RequestMethod.GET)
     public User getUser(Principal principal) {
-        Optional<User> optional = userService.findByLogin(principal.getName());
-
-        if (optional.isPresent()) {
-            User user = optional.get();
-            user.setPassword(null);
-
-            return user;
-        }
-
-        throw new BusinessException("user.token.invalid");
+        Long userId = ((AuthUserDetails) ((OAuth2Authentication) principal).getUserAuthentication().getPrincipal()).getUser().getId();
+        return userService.findById(userId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

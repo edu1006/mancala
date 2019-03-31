@@ -14,6 +14,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { NumberDirective } from '../../common/number-directive/number.only.directive';
 import { ParameterComponent } from './parameter/parameter.component';
 import { MentionModule } from 'angular-mentions/mention';
+import { ExecutorComponent } from './executor/executor.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { MentionModule } from 'angular-mentions/mention';
     DetailComponent,
     NumberDirective,
     IpFormatDirective,
-    ParameterComponent
+    ParameterComponent,
+    ExecutorComponent
   ]
 })
 export class ProcessesModule { }
