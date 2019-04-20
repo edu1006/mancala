@@ -1,3 +1,5 @@
+import { ExecutorService } from './../../../service/executor.service';
+import { JobExecutionVo } from './../../../model/job.execution';
 import { JobProcess } from './../../../model/job.process';
 import { ProcessService } from './../../../service/process.service';
 import { TranslateService } from './../../../internationalization/translate.service';
@@ -17,7 +19,8 @@ export class ExecutorComponent extends BaseComponent implements OnInit {
   jobSelected: JobProcess;
 
   constructor(translateService: TranslateService,
-              private processService: ProcessService) {
+              private processService: ProcessService,
+              private executorService: ExecutorService) {
     super(translateService);
   }
 
@@ -37,6 +40,16 @@ export class ExecutorComponent extends BaseComponent implements OnInit {
         this.filteredJobs.push(job);
       }
     }
+  }
+
+  execute() {
+    const jobExecutionVo = new JobExecutionVo();
+    jobExecutionVo.idJobProcess = this.jobSelected.id;
+
+    this.executorService.execute(jobExecutionVo).subscribe(
+      res => this.addMessageSuccess('Processo iniciado com sucesso'),
+      error => this.addMessageError('Erro para iniciar processo', error)
+    );
   }
 
 }

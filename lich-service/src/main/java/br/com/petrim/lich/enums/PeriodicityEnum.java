@@ -69,7 +69,11 @@ public enum PeriodicityEnum {
 
         @Override
         public Integer convertToDatabaseColumn(PeriodicityEnum periodicityEnum) {
-            return periodicityEnum.getId();
+            if (periodicityEnum != null) {
+                return periodicityEnum.getId();
+            }
+
+            return null;
         }
 
         @Override

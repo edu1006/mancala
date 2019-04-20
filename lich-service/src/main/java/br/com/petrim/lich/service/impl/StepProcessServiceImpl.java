@@ -9,6 +9,7 @@ import br.com.petrim.lich.service.StepProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,5 +48,10 @@ public class StepProcessServiceImpl extends AbstractService implements StepProce
                 stepProcessRepository.saveAll(parallel.getStepsParallels());
             }
         }
+    }
+
+    @Override
+    public List<StepProcess> findByIdJobProcess(Long idJobProcess) {
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package br.com.petrim.lich.listener;
 
 import br.com.petrim.lich.enums.TypeTransactionEnum;
 import br.com.petrim.lich.model.Audit;
+import br.com.petrim.lich.model.JobProtocol;
 import br.com.petrim.lich.service.AuditService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +36,7 @@ public abstract class EventListener {
     }
 
     protected void audit(Object entity, TypeTransactionEnum typeTransaction) {
-        if (!entity.getClass().equals(Audit.class)) {
+        if (!entity.getClass().equals(Audit.class) && !entity.getClass().equals(JobProtocol.class)) {
             Audit audit = new Audit();
 
             // 0 - User.... 1 - System
