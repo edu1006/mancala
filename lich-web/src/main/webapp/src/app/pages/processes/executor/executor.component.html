@@ -39,4 +39,34 @@
   <br/>
   <br/>
 
+  <div class="card" *ngIf="results" >
+    <div class="card-header">{{ 'agent.result' | translate }}</div>
+    <p-table [value]="results" 
+             [paginator]="false"
+             [lazy]="false"
+             styleClass="table-responsive"
+             tableStyleClass="table table-striped table-bordered">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Job</th>
+          <th>Start</th>
+          <th>End</th>
+          <th style="width: 20%;">{{ 'general.label.status' | translate }}</th>
+          <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-result>
+        <tr>
+          <td>{{ result.jobName }}</td>
+          <td>{{ result.start }}</td>
+          <td>{{ result.end }}</td>
+          <td>{{ result.status }}</td>
+          <td class="text-center">
+
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
 </form>

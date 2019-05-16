@@ -21,7 +21,7 @@ public class JobProtocol extends AuditEntity {
     private String dsJobProcess;
 
     @Column(name = "id_job_execution")
-    private Long idJobExecution;
+    private Long idJobExecution; // Id Spring Job Execution
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_start")
@@ -30,6 +30,9 @@ public class JobProtocol extends AuditEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_end")
     private Date dateEnd;
+
+    @Column(name = "status")
+    private String status; //Spring Status
 
     @Column(name = "parentProtocol")
     private Long parentProtocol;
@@ -80,6 +83,14 @@ public class JobProtocol extends AuditEntity {
 
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getParentProtocol() {

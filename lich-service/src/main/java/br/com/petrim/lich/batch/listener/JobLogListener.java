@@ -51,7 +51,7 @@ public class JobLogListener implements JobExecutionListener {
 
     private void updateJobProtocol(JobExecution jobExecution) {
         Long idJobProtocol = jobExecution.getJobParameters().getLong(Constants.JOB_PROTOCOL);
-        updateJobProtocol(idJobProtocol);
+        updateJobProtocol(idJobProtocol, jobExecution.getStatus().name());
     }
 
     private void createInnerJobProtocol(JobExecution jobExecution) {
@@ -71,12 +71,13 @@ public class JobLogListener implements JobExecutionListener {
 
     private void updateInnerJobProtocol(JobExecution jobExecution) {
         Long idJobProtocol = jobExecution.getExecutionContext().getLong(Constants.JOB_PROTOCOL);
-        updateJobProtocol(idJobProtocol);
+        updateJobProtocol(idJobProtocol, jobExecution.getStatus().name());
     }
 
-    private void updateJobProtocol(Long idJobProtocol) {
+    private void updateJobProtocol(Long idJobProtocol, String status) {
         JobProtocol jobProtocol = findJobProtocol(idJobProtocol);
         jobProtocol.setDateEnd(new Date());
+        jobProtocol.setStatus(status);
 
         jobProtocolService.save(jobProtocol);
         jobProtocolService.updateLastExecutions();

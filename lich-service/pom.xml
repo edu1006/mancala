@@ -65,6 +65,7 @@
             <version>${spring.security.acl.version}</version>
         </dependency>
 
+        <!-- Spring security jwt -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
@@ -83,6 +84,12 @@
             <artifactId>spring-boot-starter-batch</artifactId>
         </dependency>
 
+        <!-- Spring boot starter web socket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
         <!-- Mysql Connector -->
         <dependency>
             <groupId>mysql</groupId>
@@ -90,12 +97,14 @@
             <version>${mysql.version}</version>
         </dependency>
 
+        <!-- Commons Lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
         </dependency>
 
+        <!-- Lich Web (Front) -->
         <dependency>
             <groupId>br.com.petrim</groupId>
             <artifactId>lich-web</artifactId>

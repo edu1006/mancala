@@ -16,6 +16,7 @@ public class AbstractTasklet implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+        Thread.sleep(10000L);
         System.out.println(stepProcess.getIdStep());
         return RepeatStatus.FINISHED;
     }
