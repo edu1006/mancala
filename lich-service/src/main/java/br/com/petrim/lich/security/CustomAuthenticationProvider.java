@@ -1,5 +1,6 @@
 package br.com.petrim.lich.security;
 
+import br.com.petrim.lich.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,7 +24,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             UserDetails userDetails = authUserDetailsService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
             AuthUserDetails authUserDetails = (AuthUserDetails) userDetails;
 
-            if (!userDetails.getPassword().equals(String.valueOf(authentication.getCredentials()))) {
+            String hashPassword = HashUtil.hashHexa(String.valueOf(authentication.getCredentials()), "SHA-256");
+            if (!userDetails.getPassword().equals(hashPassword)) {
                 throw new BadCredentialsException("Bad credentials");
             }
 

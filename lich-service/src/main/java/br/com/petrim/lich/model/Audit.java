@@ -7,33 +7,34 @@ import java.util.Date;
 
 @Entity
 @Table(name = "audit")
-public class Audit implements AbstractEntity {
+public class Audit extends AbstractEntity {
 
     @Id
+    @Column(name = "id", length = 20, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Convert(converter = TypeTransactionEnum.Mapper.class)
-    @Column(name = "type_transaction", length = 1)
+    @Column(name = "type_transaction", length = 1, nullable = false)
     private TypeTransactionEnum typeTransaction;
 
-    @Column(name = "date_event")
+    @Column(name = "date_event", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEvent;
 
-    @Column(name = "id_user")
+    @Column(name = "id_user", length = 20)
     private Long idUser;
 
-    @Column(name = "json_entity")
+    @Column(name = "json_entity", length = 3000)
     private String jsonEntity;
 
-    @Column(name = "class_entity")
+    @Column(name = "class_entity", length = 200)
     private String classEntity;
 
-    @Column(name = "ip")
+    @Column(name = "ip", length = 20)
     private String ip;
 
-    @Column(name = "system_transaction")
+    @Column(name = "system_transaction", length = 1)
     private Integer systemTransaction;
 
     @Override

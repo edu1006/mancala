@@ -7,9 +7,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into user (id, date_insert, login, name, password, status, version) " +
+            "values (1, :dateInsert, 'admin', 'Administrator', :password, 1, 0)",
+            nativeQuery = true)
+    void insertAdminUser(
+            @Param("dateInsert") Date dateInsert,
+            @Param("password") String password);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into user_access_group (id_user, id_access_group) values (1,1)",
+            nativeQuery = true)
+    void insertAdminUserGroup();
 
     Optional<User> findByLogin(String login);
 

@@ -11,14 +11,14 @@ import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractUserHistEntity implements AbstractEntity {
+public abstract class AbstractUserHistEntity extends AbstractEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_insert")
     @CreatedDate
     private Date dateInsert;
 
-    @Column(name = "user_insert")
+    @Column(name = "user_insert", length = 20)
     @CreatedBy
     private Long userInsert;
 
@@ -27,7 +27,7 @@ public abstract class AbstractUserHistEntity implements AbstractEntity {
     @LastModifiedDate
     private Date dateUpdate;
 
-    @Column(name = "user_update")
+    @Column(name = "user_update", length = 20)
     @LastModifiedBy
     private Long userUpdate;
 

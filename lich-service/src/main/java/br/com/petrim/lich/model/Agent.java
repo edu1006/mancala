@@ -13,39 +13,40 @@ import java.util.Date;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "agent")
-public class Agent implements AbstractEntity {
+public class Agent extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", length = 20, nullable = false)
     private Long id;
 
     @Version
     @Column(name = "version")
     private Long version;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
 
-    @Column(name = "address")
+    @Column(name = "address", length = 20, nullable = false)
     private String address;
 
-    @Column(name = "port")
+    @Column(name = "port", length = 10, nullable = false)
     private Long port;
 
     @Convert(converter = StatusEnum.Mapper.class)
-    @Column(name = "status", length = 1)
+    @Column(name = "status", length = 1, nullable = false)
     private StatusEnum status;
 
     @Convert(converter = AgentTypeEnum.Mapper.class)
-    @Column(name = "type", length = 1)
+    @Column(name = "type", length = 1, nullable = false)
     private AgentTypeEnum type;
 
     @Convert(converter = AgentTypeConnEnum.Mapper.class)
-    @Column(name = "type_connection", length = 1)
+    @Column(name = "type_connection", length = 1, nullable = false)
     private AgentTypeConnEnum typeConnection;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date_insert")
+    @Column(name = "date_insert", nullable = false)
     private Date dateInsert;
 
     @Override

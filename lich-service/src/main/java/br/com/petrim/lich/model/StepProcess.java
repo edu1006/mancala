@@ -18,104 +18,105 @@ public class StepProcess extends AbstractUserHistEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", length = 20, nullable = false)
     private Long id;
 
     @Version
     @Column(name = "version")
     private Long version;
 
-    @Column(name = "id_step")
+    @Column(name = "id_step", length = 20, nullable = false)
     private String idStep;
 
-    @Column(name = "order_step")
+    @Column(name = "order_step", length = 3, nullable = false)
     private Integer order;
 
-    @Column(name = "type_step")
+    @Column(name = "type_step", length = 2, nullable = false)
     @Convert(converter = TypeStepProcessEnum.Mapper.class)
     private TypeStepProcessEnum type;
 
-    @Column(name = "script_batch")
+    @Column(name = "script_batch", length = 200)
     private String scriptBatch;
 
-    @Column(name = "command_batch")
+    @Column(name = "command_batch", length = 5000)
     private String commandBatch;
 
-    @Column(name = "script_bash")
+    @Column(name = "script_bash", length = 200)
     private String scriptBash;
 
-    @Column(name = "command_bash")
+    @Column(name = "command_bash", length = 5000)
     private String commandBash;
 
-    @Column(name = "jar_path")
+    @Column(name = "jar_path", length = 200)
     private String jarPath;
 
-    @Column(name = "rest_url")
+    @Column(name = "rest_url", length = 200)
     private String restUrl;
 
-    @Column(name = "rest_post_parameter")
+    @Column(name = "rest_post_parameter", length = 200)
     private String restPostParameter;
 
-    @Column(name = "rest_type")
+    @Column(name = "rest_type", length = 20)
     private String restType;
 
-    @Column(name = "rest_link_attribute")
+    @Column(name = "rest_link_attribute", length = 20)
     private String restLinkAttribute;
 
-    @Column(name = "rest_status_attribute")
+    @Column(name = "rest_status_attribute", length = 20)
     private String restStatusAttribute;
 
-    @Column(name ="rest_log_attribute")
+    @Column(name ="rest_log_attribute", length = 20)
     private String restLogAttribute;
 
-    @Column(name = "rest_status_value_ok")
+    @Column(name = "rest_status_value_ok", length = 20)
     private String restStatusValueOk;
 
-    @Column(name = "rest_status_value_error")
+    @Column(name = "rest_status_value_error", length = 20)
     private String restStatusValueError;
 
-    @Column(name = "log_path")
+    @Column(name = "log_path", length = 200)
     private String logPath;
 
-    @Column(name = "log_name")
+    @Column(name = "log_name", length = 50)
     private String logName;
 
-    @Column(name = "continue_if_error")
+    @Column(name = "continue_if_error", length = 1)
     @Convert(converter = YesNoEnum.Mapper.class)
     private YesNoEnum continueIfError;
 
-    @Column(name = "ask_to_continue")
+    @Column(name = "ask_to_continue", length = 1)
     @Convert(converter = YesNoEnum.Mapper.class)
     private YesNoEnum askToContinue;
 
-    @Column(name = "ask_to_continue_message")
+    @Column(name = "ask_to_continue_message", length = 50)
     private String askToContinueMessage;
 
-    @Column(name = "time_sleep")
+    @Column(name = "time_sleep", length = 10)
     private String timeSleep;
 
-    @Column(name = "path_origin")
+    @Column(name = "path_origin", length = 200)
     private String pathOrigin;
 
-    @Column(name = "path_destiny")
+    @Column(name = "path_destiny", length = 200)
     private String pathDestiny;
 
-    @Column(name = "file_pattern")
+    @Column(name = "file_pattern", length = 100)
     private String filePattern;
 
-    @Column(name = "id_job_process")
+    @Column(name = "id_job_process", length = 20, nullable = false)
     private Long idJobProcess;
 
-    @Column(name = "id_agent")
+    @Column(name = "id_agent", length = 20)
     private Long idAgent;
 
-    @Column(name = "id_inner_job_process")
+    @Column(name = "id_inner_job_process", length = 20)
     private Long idInnerJobProcess;
 
     @Convert(converter = StatusEnum.Mapper.class)
-    @Column(name = "status")
+    @Column(name = "status", length = 1, nullable = false)
     private StatusEnum status;
 
-    @Column(name = "id_step_parallel")
+    @Column(name = "id_step_parallel", length = 20)
     private Long idStepParallel;
 
     @OneToMany(mappedBy = "idStepParallel", fetch = FetchType.LAZY)

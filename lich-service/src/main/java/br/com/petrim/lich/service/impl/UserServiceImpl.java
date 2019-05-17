@@ -4,6 +4,7 @@ import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.User;
 import br.com.petrim.lich.repository.UserRepository;
 import br.com.petrim.lich.service.UserService;
+import br.com.petrim.lich.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Override
     public void definePassword(User user) {
-        userRepository.updatePassword(user.getId(), user.getPassword());
+        userRepository.updatePassword(user.getId(), HashUtil.hashHexa(user.getPassword(), "SHA-256"));
     }
 }

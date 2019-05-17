@@ -15,23 +15,24 @@ public class Parameter extends AbstractUserHistEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", length = 20, nullable = false)
     private Long id;
 
     @Version
     @Column(name = "version")
     private Long version;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 30, nullable = false)
     private String name;
 
-    @Column(name = "value")
+    @Column(name = "value", length = 30, nullable = false)
     private String value;
 
-    @Column(name = "is_password")
+    @Column(name = "is_password", length = 1, nullable = false)
     @Convert(converter = YesNoEnum.Mapper.class)
     private YesNoEnum password;
 
-    @Column(name = "status")
+    @Column(name = "status", length = 1, nullable = false)
     @Convert(converter = StatusEnum.Mapper.class)
     private StatusEnum status;
 

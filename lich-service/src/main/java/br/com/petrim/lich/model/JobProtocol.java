@@ -1,26 +1,24 @@
 package br.com.petrim.lich.model;
 
-import br.com.petrim.lich.listener.AuditEntity;
-
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "job_protocol")
-public class JobProtocol extends AuditEntity {
+public class JobProtocol extends AbstractEntity {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 20)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "id_job_process")
+    @Column(name = "id_job_process", length = 20, nullable = false)
     private Long idJobProcess;
 
-    @Column(name = "ds_job_process")
+    @Column(name = "ds_job_process", length = 20, nullable = false)
     private String dsJobProcess;
 
-    @Column(name = "id_job_execution")
+    @Column(name = "id_job_execution", length = 20)
     private Long idJobExecution; // Id Spring Job Execution
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -31,10 +29,10 @@ public class JobProtocol extends AuditEntity {
     @Column(name = "date_end")
     private Date dateEnd;
 
-    @Column(name = "status")
+    @Column(name = "status", length = 20)
     private String status; //Spring Status
 
-    @Column(name = "parentProtocol")
+    @Column(name = "parentProtocol", length = 20)
     private Long parentProtocol;
 
     public Long getId() {

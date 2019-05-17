@@ -11,44 +11,45 @@ import java.util.List;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "user")
-public class User implements AbstractEntity {
+public class User extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", length = 20, nullable = false)
     private Long id;
 
     @Version
     @Column(name = "version")
     private Long version;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 80, nullable = false)
     private String name;
 
-    @Column(name = "login")
+    @Column(name = "login", length = 30, nullable = false)
     private String login;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 80, nullable = false)
     private String password;
 
-    @Column(name = "document")
+    @Column(name = "document", length = 20)
     private String document;
 
-    @Column(name = "registration")
+    @Column(name = "registration", length = 20)
     private String registration;
 
-    @Column(name = "phone")
+    @Column(name = "phone", length = 15)
     private Long phone;
 
-    @Column(name = "cel_phone")
+    @Column(name = "cel_phone", length = 15)
     private Long phoneCel;
 
-    @Column(name = "commercial_phone")
+    @Column(name = "commercial_phone", length = 15)
     private Long phoneCommercial;
 
-    @Column(name = "status")
+    @Column(name = "status", length = 1, nullable = false)
     private Integer status;
 
-    @Column(name = "date_insert")
+    @Column(name = "date_insert", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateInsert;
 

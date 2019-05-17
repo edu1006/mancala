@@ -51,7 +51,7 @@ public class JobProcessRepositoryImpl extends AbstractRepositoryImpl<JobProcess>
             params.put("status", filter.getStatus());
         }
 
-        if (StringUtils.isNotBlank(filter.getTags())) {
+        if (filter.getTags() != null) {
             hql.append("and j.tags like :tags ");
             params.put("tags", "%" + filter.getTags() + "%");
         }

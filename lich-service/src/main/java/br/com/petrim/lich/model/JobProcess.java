@@ -19,28 +19,29 @@ public class JobProcess extends AbstractUserHistEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", length = 20, nullable = false)
     private Long id;
 
     @Version
     @Column(name = "version")
     private Long version;
 
-    @Column(name = "id_process")
+    @Column(name = "id_process", length = 20, nullable = false)
     private String idProcess;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 100, nullable = false)
     private String description;
 
     @Convert(converter = StatusEnum.Mapper.class)
-    @Column(name = "status", length = 1)
+    @Column(name = "status", length = 1, nullable = false)
     private StatusEnum status;
 
     @Convert(converter = TypeExecutionEnum.Mapper.class)
-    @Column(name = "type_execution", length = 1)
+    @Column(name = "type_execution", length = 1, nullable = false)
     private TypeExecutionEnum typeExecution;
 
     @Convert(converter = PeriodicityEnum.Mapper.class)
-    @Column(name = "periodicity", length = 1)
+    @Column(name = "periodicity", length = 2)
     private PeriodicityEnum periodicity;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -53,17 +54,17 @@ public class JobProcess extends AbstractUserHistEntity {
     @JsonSerialize(using = DateSerializer.class)
     private Date periodicityEndDate;
 
-    @Column(name = "time_execution")
+    @Column(name = "time_execution", length = 5)
     private String timeExecution;
 
     @Convert(converter = WeekDayEnum.Mapper.class)
-    @Column(name = "week_day")
+    @Column(name = "week_day", length = 1)
     private WeekDayEnum weekDay;
 
-    @Column(name = "month_day")
+    @Column(name = "month_day", length = 2)
     private Integer monthDay;
 
-    @Column(name = "x_value")
+    @Column(name = "x_value", length = 5)
     private Integer xValue;
 
     @Convert(converter = YesNoEnum.Mapper.class)
@@ -74,8 +75,8 @@ public class JobProcess extends AbstractUserHistEntity {
     @Column(name = "inner_parallel", length = 1)
     private YesNoEnum innerParallel;
 
-    @Column(name = "tags")
-    private String tags;
+    @Column(name = "tags", length = 100)
+    private String[] tags;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "idJobProcess")
     private Set<StepProcess> stepsProcesses;
@@ -217,11 +218,11 @@ public class JobProcess extends AbstractUserHistEntity {
         this.innerParallel = innerParallel;
     }
 
-    public String getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 
