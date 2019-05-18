@@ -25,7 +25,7 @@ public class Audit extends AbstractEntity {
     @Column(name = "id_user", length = 20)
     private Long idUser;
 
-    @Column(name = "json_entity", length = 3000)
+    @Column(name = "json_entity", length = 10000)
     private String jsonEntity;
 
     @Column(name = "class_entity", length = 200)

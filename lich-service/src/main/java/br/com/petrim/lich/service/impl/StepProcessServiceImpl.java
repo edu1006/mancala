@@ -8,6 +8,7 @@ import br.com.petrim.lich.repository.StepProcessRepository;
 import br.com.petrim.lich.service.StepProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class StepProcessServiceImpl extends AbstractService implements StepProce
     private StepProcessRepository stepProcessRepository;
 
     @Override
+    @Transactional
     public void saveStepsProcesses(JobProcess jobProcess) {
 
         if (jobProcess.getStepsProcesses() == null || jobProcess.getStepsProcesses().isEmpty()) {

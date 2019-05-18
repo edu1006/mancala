@@ -25,7 +25,7 @@ public class StepProcess extends AbstractUserHistEntity {
     @Column(name = "version")
     private Long version;
 
-    @Column(name = "id_step", length = 20, nullable = false)
+    @Column(name = "id_step", length = 50, nullable = false)
     private String idStep;
 
     @Column(name = "order_step", length = 3, nullable = false)
@@ -103,7 +103,7 @@ public class StepProcess extends AbstractUserHistEntity {
     @Column(name = "file_pattern", length = 100)
     private String filePattern;
 
-    @Column(name = "id_job_process", length = 20, nullable = false)
+    @Column(name = "id_job_process", length = 20)
     private Long idJobProcess;
 
     @Column(name = "id_agent", length = 20)
