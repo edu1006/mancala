@@ -24,7 +24,10 @@
     "general.button.no": "Não",
     "general.button.yes": "Sim",
     "general.button.clear": "Limpar",
-    "general.button.back": "Voltar",    
+    "general.button.back": "Voltar",
+
+    "general.table.show.label": "Exibir",
+    "general.table.entries.label": "registros",
 
     "login.label.pass": "Senha",
     "login.label.forgotpass": "Esqueceu a senha?",

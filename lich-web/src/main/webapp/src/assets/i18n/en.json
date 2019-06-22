@@ -26,6 +26,9 @@
     "general.button.clear": "Clear",
     "general.button.back": "Back",
 
+    "general.table.show.label": "Show",
+    "general.table.entries.label": "entries",
+
     "login.label.pass": "Password",
     "login.label.forgotpass": "Forgot password?",
     "login.label.remember": "Remember me",

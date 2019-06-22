@@ -59,10 +59,14 @@
 
   <div class="card" *ngIf="totalRecords" >
     <div class="card-header">{{ 'agent.result' | translate }}</div>
+
+    <!-- table rows-->
+    <app-table-select-rows #agentsTableRows 
+                           (reloadTable)="loadAgents($event)"></app-table-select-rows>
+
     <p-table [value]="agents" 
              [paginator]="true"
-             [rows]="5"
-             [rowsPerPageOptions]="[5, 10]"
+             [(rows)]="agentsTableRows.rowsPerPage"
              [lazy]="true"
              [totalRecords]="totalRecords"
              (onLazyLoad)="loadAgents($event)"

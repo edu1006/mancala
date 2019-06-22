@@ -47,6 +47,7 @@
 
   <div class="card" *ngIf="totalRecords" >
     <div class="card-header">{{ 'users.result' | translate }}</div>
+
     <p-table [value]="users" 
               [paginator]="true"
               [rows]="5"
