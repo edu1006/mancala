@@ -1,0 +1,9 @@
+.table-rows-select-label {
+    float: left;
+    padding-top: 0.2rem;
+}
+
+.table-rows-select {
+    width: 4.5rem; 
+    float: left;
+}

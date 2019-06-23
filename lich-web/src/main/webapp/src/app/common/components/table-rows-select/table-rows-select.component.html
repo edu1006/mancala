@@ -3,10 +3,10 @@
       <div class="dataTables_lenght">
         <div class="col-md-12">
           <div class="col-md-12">
-            <div style="width: 3rem; float: left; padding-top: 0.2rem;">
+            <div class="table-rows-select-label" style="width: 3rem;">
               {{ 'general.table.show.label' | translate }}
             </div>
-            <div style="width: 4.5rem; float: left;">
+            <div class="table-rows-select">
               <select id="idQtdRows" name="idQtdRows" [(ngModel)]="rowsPerPage"
                   class="custom-select custom-select-sm" (change)="onChangeRows()">
                 <option [ngValue]="5">5</option>
@@ -14,7 +14,7 @@
                 <option [ngValue]="15">15</option>
               </select>
             </div>
-            <div style="float: left; padding-left: 0.5rem; padding-top: 0.2rem;">
+            <div class="table-rows-select-label" style="padding-left: 0.5rem;">
                 {{ 'general.table.entries.label' | translate }}
             </div>
           </div>
