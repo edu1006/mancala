@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableSelectRowsComponent } from './table-select-rows.component';
+import { TableRowsSelectComponent } from './table-rows-select.component';
 
-describe('TableSelectRowsComponent', () => {
-  let component: TableSelectRowsComponent;
-  let fixture: ComponentFixture<TableSelectRowsComponent>;
+describe('TableRowsSelectComponent', () => {
+  let component: TableRowsSelectComponent;
+  let fixture: ComponentFixture<TableRowsSelectComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TableSelectRowsComponent ]
+      declarations: [ TableRowsSelectComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableSelectRowsComponent);
+    fixture = TestBed.createComponent(TableRowsSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

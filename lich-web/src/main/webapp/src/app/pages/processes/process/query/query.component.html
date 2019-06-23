@@ -61,8 +61,8 @@
     <div class="card-header">{{ 'agent.result' | translate }}</div>
 
     <!-- table rows-->
-    <app-table-select-rows #jobsTableRows 
-                           (reloadTable)="loadJobs($event)"></app-table-select-rows>
+    <app-table-rows-select #jobsTableRows 
+                           (reloadTable)="loadJobs($event)"></app-table-rows-select>
 
     <p-table [value]="jobs" 
              [paginator]="true"

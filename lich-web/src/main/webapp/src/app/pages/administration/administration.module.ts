@@ -1,4 +1,4 @@
-import { TableSelectRowsComponent } from './../../common/table-select-rows/table-select-rows.component';
+import { ComponentsModule } from './../../common/components/components.module';
 import { TableModule } from 'primeng/table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,8 @@ import { PipeModule } from '../../pipe/pipe.module';
     AdministrationRoutingModule,
     FormsModule,
     TableModule,
-    PipeModule.forRoot()
+    PipeModule.forRoot(),
+    ComponentsModule.forRoot()
   ],
   declarations: [
     GroupsComponent,

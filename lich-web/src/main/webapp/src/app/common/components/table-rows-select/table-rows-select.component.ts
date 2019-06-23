@@ -1,12 +1,12 @@
-import { PaginationLoadLazy } from './../pagination/pagination.load';
+import { PaginationLoadLazy } from './../../pagination/pagination.load';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-table-select-rows',
-  templateUrl: './table-select-rows.component.html',
-  styleUrls: ['./table-select-rows.component.css']
+  selector: 'app-table-rows-select',
+  templateUrl: './table-rows-select.component.html',
+  styleUrls: ['./table-rows-select.component.css']
 })
-export class TableSelectRowsComponent implements OnInit {
+export class TableRowsSelectComponent implements OnInit {
 
   @Output()
   reloadTable = new EventEmitter();

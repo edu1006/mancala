@@ -1,3 +1,4 @@
+import { ComponentsModule } from './common/components/components.module';
 import { CalendarLocale } from './common/calendar/calendar.locale';
 import { GlobalData } from './util/global.data';
 import { Utils } from './util/utils';
@@ -62,7 +63,8 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
     BlockUIModule.forRoot(),
     TableModule,
     BrowserAnimationsModule,
-    PipeModule.forRoot()
+    PipeModule.forRoot(),
+    ComponentsModule.forRoot()
   ],
   providers: [
     AuthGuard,

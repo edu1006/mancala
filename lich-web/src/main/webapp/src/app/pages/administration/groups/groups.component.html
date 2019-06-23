@@ -48,10 +48,14 @@
 
   <div class="card" *ngIf="totalRecords" >
     <div class="card-header">{{ 'groups.result' | translate }}</div>
+
+    <!-- table rows-->
+    <app-table-rows-select #groupsTableRows 
+                           (reloadTable)="loadGroups($event)"></app-table-rows-select>
+
     <p-table [value]="groups" 
              [paginator]="true"
-             [rows]="5"
-             [rowsPerPageOptions]="[5, 10]"
+             [(rows)]="groupsTableRows.rowsPerPage"
              [lazy]="true"
              [totalRecords]="totalRecords"
              (onLazyLoad)="loadGroups($event)"

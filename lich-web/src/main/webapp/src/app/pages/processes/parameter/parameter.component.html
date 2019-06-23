@@ -52,8 +52,8 @@
       <div class="card-header">{{ 'parameter.result' | translate }}</div>
 
       <!-- table rows-->
-      <app-table-select-rows #parametersTableRows 
-                             (reloadTable)="loadParameters($event)"></app-table-select-rows>
+      <app-table-rows-select #parametersTableRows 
+                             (reloadTable)="loadParameters($event)"></app-table-rows-select>
 
       <p-table [value]="parameters" 
                [paginator]="true"

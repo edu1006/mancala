@@ -1,4 +1,4 @@
-import { TableSelectRowsComponent } from './../../common/table-select-rows/table-select-rows.component';
+import { ComponentsModule } from './../../common/components/components.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChipsModule } from 'primeng/chips';
 import { IpFormatDirective } from './../../common/ip-directive/ip.format.directive';
@@ -28,7 +28,8 @@ import { ExecutorComponent } from './executor/executor.component';
     ChipsModule,
     AutoCompleteModule,
     MentionModule,
-    PipeModule.forRoot()
+    PipeModule.forRoot(),
+    ComponentsModule.forRoot()
   ],
   declarations: [
     AgentComponent,
@@ -38,8 +39,7 @@ import { ExecutorComponent } from './executor/executor.component';
     NumberDirective,
     IpFormatDirective,
     ParameterComponent,
-    ExecutorComponent,
-    TableSelectRowsComponent
+    ExecutorComponent
   ]
 })
 export class ProcessesModule { }
