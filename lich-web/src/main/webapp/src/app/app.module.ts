@@ -1,3 +1,4 @@
+import { reducers } from './reducer';
 import { ComponentsModule } from './common/components/components.module';
 import { CalendarLocale } from './common/calendar/calendar.locale';
 import { GlobalData } from './util/global.data';
@@ -26,6 +27,8 @@ import { TableModule } from 'primeng/table';
 import { BlockUIModule } from 'ng-block-ui';
 import { CookieService } from 'ngx-cookie-service';
 import { PipeModule } from './pipe/pipe.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 export function tokenGetter() {
   return localStorage.getItem('acess_token');
@@ -64,7 +67,9 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
     TableModule,
     BrowserAnimationsModule,
     PipeModule.forRoot(),
-    ComponentsModule.forRoot()
+    ComponentsModule.forRoot(),
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({maxAge: 50}),
   ],
   providers: [
     AuthGuard,

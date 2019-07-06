@@ -1,7 +1,6 @@
 package br.com.petrim.lich.batch.builder;
 
 import br.com.petrim.lich.batch.listener.JobLogListener;
-import br.com.petrim.lich.batch.tasklet.ScriptTasklet;
 import br.com.petrim.lich.enums.TypeStepProcessEnum;
 import br.com.petrim.lich.exception.ProcessException;
 import br.com.petrim.lich.model.JobProcess;
@@ -10,10 +9,8 @@ import br.com.petrim.lich.util.Constants;
 import br.com.petrim.lich.util.SpringContextUtil;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.job.builder.FlowJobBuilder;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.job.builder.JobFlowBuilder;
-import org.springframework.batch.core.job.builder.SimpleJobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;

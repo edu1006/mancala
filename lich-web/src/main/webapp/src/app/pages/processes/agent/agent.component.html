@@ -62,7 +62,8 @@
 
     <!-- table rows-->
     <app-table-rows-select #agentsTableRows 
-                           (reloadTable)="loadAgents($event)"></app-table-rows-select>
+                           (reloadTable)="loadAgents($event)"
+                           [rowsPerPage]="10"></app-table-rows-select>
 
     <p-table [value]="agents" 
              [paginator]="true"

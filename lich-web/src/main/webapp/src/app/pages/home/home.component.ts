@@ -1,4 +1,7 @@
+import { State, getUserState } from './../../reducer';
+import { User } from './../../model/user';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
+    this.store.select(getUserState).subscribe(
+      user => this.user = user
+    );
   }
 
 }
