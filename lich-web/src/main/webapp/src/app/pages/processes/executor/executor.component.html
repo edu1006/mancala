@@ -51,16 +51,19 @@
           <th>Job</th>
           <th>Start</th>
           <th>End</th>
-          <th style="width: 20%;">{{ 'general.label.status' | translate }}</th>
+          <th class="text-center" style="width: 5%;">{{ 'general.label.status' | translate }}</th>
           <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-result>
-        <tr>
+        <tr [ngClass]="(result.status === 'COMPLETED') ? 'table-success' : 'table-danger'">
           <td>{{ result.jobName }}</td>
           <td>{{ result.start }}</td>
           <td>{{ result.end }}</td>
-          <td>{{ result.status }}</td>
+          <td class="text-center">
+            <img src="assets/img/process/success.png" *ngIf="result.status === 'COMPLETED'" style="width: 16px;" />
+            <img src="assets/img/process/error.png" *ngIf="result.status === 'FAILED'" style="width: 16px;" />
+          </td>
           <td class="text-center">
 
           </td>
