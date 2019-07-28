@@ -3,7 +3,6 @@ import { LoginEffects } from './public/login/effects/login.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { ComponentsModule } from './common/components/components.module';
 import { CalendarLocale } from './common/calendar/calendar.locale';
-import { GlobalData } from './util/global.data';
 import { Utils } from './util/utils';
 import { TranslateService } from './internationalization/translate.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -84,7 +83,6 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
   ],
   providers: [
     AuthGuard,
-    GlobalData,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorHttpService,
