@@ -20,4 +20,6 @@ public interface Constants {
 
     String STEP_EXECUTION = "idStepExecution";
 
+    String WARNING_STATUS = "WARNING";
+
 }

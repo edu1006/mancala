@@ -4,6 +4,7 @@ import br.com.petrim.lich.exception.ProcessException;
 import br.com.petrim.lich.model.JobProtocol;
 import br.com.petrim.lich.service.JobProtocolService;
 import br.com.petrim.lich.util.Constants;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class JobLogListener implements JobExecutionListener {
 
     private void updateJobProtocol(JobExecution jobExecution) {
         Long idJobProtocol = jobExecution.getJobParameters().getLong(Constants.JOB_PROTOCOL);
-        updateJobProtocol(idJobProtocol, jobExecution.getStatus().name());
+        updateJobProtocol(idJobProtocol, jobExecution);
     }
 
     private void createInnerJobProtocol(JobExecution jobExecution) {
@@ -71,13 +72,22 @@ public class JobLogListener implements JobExecutionListener {
 
     private void updateInnerJobProtocol(JobExecution jobExecution) {
         Long idJobProtocol = jobExecution.getExecutionContext().getLong(Constants.JOB_PROTOCOL);
-        updateJobProtocol(idJobProtocol, jobExecution.getStatus().name());
+        updateJobProtocol(idJobProtocol, jobExecution);
     }
 
-    private void updateJobProtocol(Long idJobProtocol, String status) {
+    private void updateJobProtocol(Long idJobProtocol, JobExecution jobExecution) {
         JobProtocol jobProtocol = findJobProtocol(idJobProtocol);
         jobProtocol.setDateEnd(new Date());
-        jobProtocol.setStatus(status);
+        jobProtocol.setStatus(jobExecution.getStatus().name());
+
+        // check if occurs error with completed job (in case of continuable step's)
+        if ((jobExecution.getFailureExceptions() != null && !jobExecution.getFailureExceptions().isEmpty())
+                && BatchStatus.COMPLETED.equals(jobExecution.getStatus())) {
+
+            jobProtocol.setStatus(Constants.WARNING_STATUS); // in this case, the protocol will receive warning status.
+        }
+
+        // FIXME: save error messages.
 
         jobProtocolService.save(jobProtocol);
         jobProtocolService.updateLastExecutions();
