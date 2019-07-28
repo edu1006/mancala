@@ -1,3 +1,6 @@
+import { LogoutAction } from './../../../public/login/actions/login.actions';
+import { AppState } from './../../../reducers/index';
+import { Store } from '@ngrx/store';
 import { User } from './../../../model/user';
 import { GlobalData } from './../../../util/global.data';
 import { Router } from '@angular/router';
@@ -13,7 +16,8 @@ export class HeaderComponent implements OnInit {
   loggedUser: User;
 
   constructor(private router: Router,
-              private globalData: GlobalData) {
+              private globalData: GlobalData,
+              private store: Store<AppState>) {
     this.loggedUser = globalData.getUser();
   }
 
@@ -21,10 +25,11 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    this.store.dispatch(new LogoutAction());
+    // localStorage.removeItem('access_token');
+    // localStorage.removeItem('refresh_token');
 
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
   }
 
 }

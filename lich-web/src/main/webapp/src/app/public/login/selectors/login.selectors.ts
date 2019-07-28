@@ -6,3 +6,8 @@ export const userLogged = createSelector(
     selectLoginState,
     login => login.user
 );
+
+export const isLoggedIn = createSelector(
+    selectLoginState,
+    login => login.loggedIn
+);

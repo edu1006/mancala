@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
     ).subscribe(
       user => this.user = user
     );
+
   }
 
 }

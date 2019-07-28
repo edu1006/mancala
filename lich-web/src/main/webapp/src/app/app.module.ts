@@ -1,3 +1,6 @@
+import { LoginModule } from './public/login/login.module';
+import { LoginEffects } from './public/login/effects/login.effects';
+import { EffectsModule } from '@ngrx/effects';
 import { ComponentsModule } from './common/components/components.module';
 import { CalendarLocale } from './common/calendar/calendar.locale';
 import { GlobalData } from './util/global.data';
@@ -67,6 +70,7 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
     BrowserAnimationsModule,
     PipeModule.forRoot(),
     ComponentsModule.forRoot(),
+    LoginModule.forRoot(),
     StoreDevtoolsModule.instrument({maxAge: 50}),
     StoreModule.forRoot(reducers, {
       metaReducers,
@@ -76,6 +80,7 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([]),
   ],
   providers: [
     AuthGuard,

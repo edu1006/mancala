@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import * as fromLogin from './reducers/login.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { LoginEffects } from './effects/login.effects';
 
 @NgModule({
     imports: [
@@ -13,10 +15,18 @@ import * as fromLogin from './reducers/login.reducer';
       FormsModule,
       LoginRoutingModule,
       PipeModule.forRoot(),
-      StoreModule.forFeature('login', fromLogin.reducer)
+      StoreModule.forFeature('login', fromLogin.reducer),
+      EffectsModule.forFeature([LoginEffects])
     ],
     declarations: [
         LoginComponent
     ]
   })
-export class LoginModule { }
+export class LoginModule {
+  static forRoot() {
+    return {
+        ngModule: LoginModule,
+        providers: []
+    };
+}
+}
