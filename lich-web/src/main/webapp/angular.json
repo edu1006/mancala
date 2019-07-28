@@ -148,5 +148,8 @@
       }
     }
   },
-  "defaultProject": "lich"
+  "defaultProject": "lich",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

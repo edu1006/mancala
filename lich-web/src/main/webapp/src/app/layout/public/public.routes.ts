@@ -1,7 +1,10 @@
+import { LoginComponent } from './../../public/login/component/login.component';
 import { Routes } from '@angular/router';
-import { LoginComponent } from '../../public/login/login.component';
 
 export const PUBLIC_ROUTES: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent}
+    {
+        path: 'login',
+        loadChildren: './public/login/login.module#LoginModule'
+    }
 ];

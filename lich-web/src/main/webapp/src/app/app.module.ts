@@ -1,4 +1,3 @@
-import { reducers } from './reducer';
 import { ComponentsModule } from './common/components/components.module';
 import { CalendarLocale } from './common/calendar/calendar.locale';
 import { GlobalData } from './util/global.data';
@@ -12,7 +11,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PublicComponent } from './layout/public/public.component';
 import { PagesComponent } from './layout/pages/pages.component';
-import { LoginComponent } from './public/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guard/auth.guard';
@@ -29,6 +27,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { PipeModule } from './pipe/pipe.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers, metaReducers } from './reducers';
+import { environment } from '../environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem('acess_token');
@@ -46,7 +46,6 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
     AppComponent,
     PublicComponent,
     PagesComponent,
-    LoginComponent,
     HomeComponent,
     MenuComponent,
     HeaderComponent,
@@ -68,8 +67,15 @@ export function setupTranslateFactory(service: TranslateService, cookie: CookieS
     BrowserAnimationsModule,
     PipeModule.forRoot(),
     ComponentsModule.forRoot(),
-    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({maxAge: 50}),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
     AuthGuard,

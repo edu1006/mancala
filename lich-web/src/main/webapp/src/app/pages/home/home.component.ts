@@ -1,4 +1,3 @@
-import { State, getUserState } from './../../reducer';
 import { User } from './../../model/user';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -12,12 +11,10 @@ export class HomeComponent implements OnInit {
 
   user: User;
 
-  constructor(private store: Store<State>) { }
+  constructor() {}
 
   ngOnInit() {
-    this.store.select(getUserState).subscribe(
-      user => this.user = user
-    );
+
   }
 
 }

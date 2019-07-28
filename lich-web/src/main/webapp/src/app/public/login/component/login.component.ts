@@ -1,8 +1,6 @@
-import { GetUser } from './../../pages/home/ngrx-store/action';
-import { State } from './../../reducer';
 import { Store } from '@ngrx/store';
-import { UserService } from './../../service/user.service';
-import { GlobalData } from './../../util/global.data';
+import { UserService } from './../../../service/user.service';
+import { GlobalData } from './../../../util/global.data';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserLogin } from 'src/app/model/UserLogin';
@@ -21,8 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private loginService: LoginService,
               private userService: UserService,
-              private globalData: GlobalData,
-              private store: Store<State>) {
+              private globalData: GlobalData) {
     this.userLogin = new UserLogin();
   }
 
@@ -51,7 +48,6 @@ export class LoginComponent implements OnInit {
     this.userService.getLoggedUser().subscribe(
       res => {
         this.globalData.setUser(res);
-        this.store.dispatch(new GetUser(res));
         this.router.navigate(['/home']);
       },
       error => {
