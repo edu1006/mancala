@@ -1,3 +1,4 @@
+import { Crypt } from './../../../util/crypt';
 import { Router } from '@angular/router';
 import { LoginAction, LogoutAction } from './../actions/login.actions';
 import { Injectable } from '@angular/core';
@@ -14,7 +15,10 @@ export class LoginEffects {
   login$ = this.actions$.pipe(
     ofType<LoginAction>(LoginActionTypes.LoginAction),
     tap(action => {
-      localStorage.setItem('lc_user', JSON.stringify(action.payload.user));
+      const jsonUser = JSON.stringify(action.payload.user);
+      const jsonUserEnc = Crypt.cryptAes(jsonUser);
+
+      localStorage.setItem('lc_user', jsonUserEnc);
     })
   );
 
@@ -37,7 +41,8 @@ export class LoginEffects {
       const userData = localStorage.getItem('lc_user');
 
       if (userData) {
-        return of(new LoginAction({user: JSON.parse(userData)}));
+        const userDataDec = Crypt.decryptAes(userData);
+        return of(new LoginAction({user: JSON.parse(userDataDec)}));
       }
 
     }
