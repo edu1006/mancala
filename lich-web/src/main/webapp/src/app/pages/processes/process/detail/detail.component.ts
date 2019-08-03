@@ -200,8 +200,12 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     }
 
     // inner jobs
+    this.loadInnerJobs();
+  }
+
+  loadInnerJobs() {
     this.innerJobs = null;
-    if (this.stepProcess.type === this.typeStepProcessEnum.JOB_PROCESS) {
+    if (this.typeStepProcessEnum.JOB_PROCESS === this.stepProcess.type) {
       this.processService.findInnerJobs().subscribe(
         res => this.innerJobs = res,
         error => this.addMessageError('', error)
@@ -254,6 +258,9 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     };
 
     this.loadAgentToEditStep();
+
+    // load inner jobs when step run job.
+    this.loadInnerJobs();
   }
 
   loadAgentToEditStep() {
@@ -401,6 +408,9 @@ export class DetailComponent extends BaseOperationComponent implements OnInit {
     };
 
     this.loadAgentToEditStep();
+
+    // load inner jobs when step run job.
+    this.loadInnerJobs();
   }
 
   enableDisableStepForParallel(item: StepProcess) {
