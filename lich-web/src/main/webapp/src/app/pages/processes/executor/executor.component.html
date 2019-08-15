@@ -39,37 +39,57 @@
   <br/>
   <br/>
 
-  <div class="card" *ngIf="results" >
-    <div class="card-header">{{ 'agent.result' | translate }}</div>
-    <p-table [value]="results" 
-             [paginator]="false"
-             [lazy]="false"
-             styleClass="table-responsive"
-             tableStyleClass="table table-striped table-bordered">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Job</th>
-          <th>Start</th>
-          <th>End</th>
-          <th class="text-center" style="width: 5%;">{{ 'general.label.status' | translate }}</th>
-          <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-result>
-        <tr [ngClass]="(result.status === 'COMPLETED') ? 'table-success' : 'table-danger'">
-          <td>{{ result.jobName }}</td>
-          <td>{{ result.start }}</td>
-          <td>{{ result.end }}</td>
-          <td class="text-center">
-            <img src="assets/img/process/success.png" *ngIf="result.status === 'COMPLETED'" style="width: 16px;" />
-            <img src="assets/img/process/error.png" *ngIf="result.status === 'FAILED'" style="width: 16px;" />
-          </td>
-          <td class="text-center">
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs nav-responsive-md">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#navs-top-execution">Executions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#navs-top-executed">Executed</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <div class="tab-pane fade active show" id="navs-top-execution">
+          jobs in execution
+        </div>
+        <div class="tab-pane fade" id="navs-top-executed">
+          jobs executed
 
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+          <p-table [value]="results" 
+                  [paginator]="false"
+                  [lazy]="false"
+                  styleClass="table-responsive"
+                  tableStyleClass="table table-striped table-bordered">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Job</th>
+                <th>Start</th>
+                <th>End</th>
+                <th class="text-center" style="width: 5%;">{{ 'general.label.status' | translate }}</th>
+                <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-result>
+              <tr [ngClass]="(result.status === 'COMPLETED') ? 'table-success' : 'table-danger'">
+                <td>{{ result.jobName }}</td>
+                <td>{{ result.start }}</td>
+                <td>{{ result.end }}</td>
+                <td class="text-center">
+                  <img src="assets/img/process/success.png" *ngIf="result.status === 'COMPLETED'" style="width: 16px;" />
+                  <img src="assets/img/process/error.png" *ngIf="result.status === 'FAILED'" style="width: 16px;" />
+                </td>
+                <td class="text-center">
+
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
   </div>
 
 </form>

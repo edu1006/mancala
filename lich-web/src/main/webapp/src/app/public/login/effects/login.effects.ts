@@ -1,3 +1,4 @@
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Crypt } from './../../../util/crypt';
 import { Router } from '@angular/router';
 import { LoginAction, LogoutAction } from './../actions/login.actions';
@@ -38,16 +39,28 @@ export class LoginEffects {
   @Effect()
   init$ = defer(
     () => {
-      const userData = localStorage.getItem('lc_user');
 
-      if (userData) {
-        const userDataDec = Crypt.decryptAes(userData);
-        return of(new LoginAction({user: JSON.parse(userDataDec)}));
+      if (this.isAccessTokenEnable() || this.isRefreshTokenEnable()) {
+        const userData = localStorage.getItem('lc_user');
+
+        if (userData) {
+          const userDataDec = Crypt.decryptAes(userData);
+          return of(new LoginAction({user: JSON.parse(userDataDec)}));
+        }
       }
-
     }
   );
 
-  constructor(private actions$: Actions, private router: Router) {}
+  private isRefreshTokenEnable(): boolean {
+    const refreshToken = localStorage.getItem('refresh_token');
+    return !this.jwtHelper.isTokenExpired(refreshToken);
+  }
+
+  private isAccessTokenEnable(): boolean {
+    const accessToken = localStorage.getItem('access_token');
+    return !this.jwtHelper.isTokenExpired(accessToken);
+  }
+
+  constructor(private actions$: Actions, private router: Router, private jwtHelper: JwtHelperService) {}
 
 }
