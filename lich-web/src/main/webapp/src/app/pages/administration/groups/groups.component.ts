@@ -30,6 +30,8 @@ export class GroupsComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.filter = new Group();
     this.filter.status = null;
+
+    this.find();
   }
 
   find() {

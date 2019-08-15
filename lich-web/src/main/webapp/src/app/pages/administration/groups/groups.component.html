@@ -6,12 +6,16 @@
 </h4>
 
 <form id="formGroups">
-
+  
   <div class="card md-4">
     <!--<h6 class="card-header">Search</h6>-->
     <div class="card-header with-elements">
       <span class="card-header-title mr-2">{{ 'general.title.search' | translate }}</span>
       <div class="card-header-elements ml-md-auto">
+        <a class="btn btn-xs btn-outline-secondary" data-toggle="collapse" href="#idAccordionFilter" aria-expanded="false">
+          <span class="ion ion-md-search"></span>
+          {{ 'general.button.filter' | translate }}
+        </a>
         <button type="button" class="btn btn-xs btn-outline-primary" (click)="newGroup()">
           <span class="ion ion-md-add"></span>
           {{ 'groups.new' | translate }}
@@ -19,26 +23,28 @@
       </div>
     </div>
 
-    <div class="card-body">
+    <div id="idAccordionFilter" class="collapse">
+      <div class="card-body">
 
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label class="form-label">{{ 'general.label.name' | translate }}:</label>
-          <input id="idName" name="idName" type="text" class="form-control" placeholder="{{ 'general.label.name' | translate }}" [(ngModel)]="filter.name" />
+        <div class="form-row">
+          <div class="form-group col-md-8">
+            <label class="form-label">{{ 'general.label.name' | translate }}:</label>
+            <input id="idName" name="idName" type="text" class="form-control" placeholder="{{ 'general.label.name' | translate }}" [(ngModel)]="filter.name" />
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="form-label">{{ 'general.label.status' | translate }}:</label>
+            <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
+              <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+              <option [ngValue]="1">{{ 'general.label.enabled' | translate }}</option>
+              <option [ngValue]="0">{{ 'general.label.disabled' | translate }}</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option [ngValue]="1">{{ 'general.label.enabled' | translate }}</option>
-            <option [ngValue]="0">{{ 'general.label.disabled' | translate }}</option>
-          </select>
+        <div class="text-right">
+          <button id="idBtnSearch" type="button" class="btn btn-default" (click)="find()">{{ 'general.button.search' | translate }}</button>      
         </div>
-      </div>
-
-      <div class="text-right">
-        <button id="idBtnSearch" type="button" class="btn btn-default" (click)="find()">{{ 'general.button.search' | translate }}</button>      
       </div>
     </div>
   </div>
