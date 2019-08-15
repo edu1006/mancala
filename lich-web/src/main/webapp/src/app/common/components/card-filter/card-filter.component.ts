@@ -44,12 +44,18 @@ export class CardFilterComponent implements OnInit {
     // call the method to search element
     this.clickSearchButton.emit();
 
-    // close filter accordion after search
-    $('#' + this.id + '-accordion').collapse('hide');
+    this.closeAccordion();
   }
 
   clearFilter() {
     // call the method to clear filter
     this.clickClearButton.emit();
+
+    this.closeAccordion();
+  }
+
+  closeAccordion() {
+    // close filter accordion after search
+    $('#' + this.id + '-accordion').collapse('hide');
   }
 }

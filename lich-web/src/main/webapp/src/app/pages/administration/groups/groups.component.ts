@@ -28,6 +28,10 @@ export class GroupsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clearFilter();
+  }
+
+  clearFilter() {
     this.filter = new Group();
     this.filter.status = null;
 

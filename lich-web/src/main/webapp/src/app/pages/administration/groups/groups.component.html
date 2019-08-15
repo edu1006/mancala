@@ -7,7 +7,7 @@
 
 <form id="formGroups">
   
-  <app-card-filter id="filterGroup" buttonAddText="{{ 'groups.new' | translate }}" (clickAddButton)="newGroup()" (clickSearchButton)="find()">
+  <app-card-filter id="filterGroup" buttonAddText="{{ 'groups.new' | translate }}" (clickAddButton)="newGroup()" (clickSearchButton)="find()" showClearButton="true" (clickClearButton)="clearFilter()">
     <div class="form-row">
       <div class="form-group col-md-8">
         <label class="form-label">{{ 'general.label.name' | translate }}:</label>
