@@ -7,52 +7,33 @@
 
 <form id="formAgents">
 
-  <div class="card md-4">
-    <!--<h6 class="card-header">Search</h6>-->
-    <div class="card-header with-elements">
-      <span class="card-header-title mr-2">{{ 'general.title.search' | translate }}</span>
-      <div class="card-header-elements ml-md-auto">
-        <button type="button" class="btn btn-xs btn-outline-primary" (click)="newAgent()">
-          <span class="ion ion-md-add"></span>
-          {{ 'agent.new' | translate }}
-        </button>
+  <app-card-filter id="filterAgent" buttonAddText="{{ 'agent.new' | translate }}" (clickAddButton)="newAgent()" (clickSearchButton)="find()" showClearButton="true" (clickClearButton)="cleanFilter()">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'general.label.name' | translate }}:</label>
+        <input id="idName" name="idName" [(ngModel)]="filter.name" type="text" 
+            class="form-control" placeholder="{{ 'general.label.name' | translate }}"/>
+      </div>
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'agent.label.type' | translate }}:</label>
+        <select id="idType" name="idType" class="custom-select" [(ngModel)]="filter.type">
+          <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <option [ngValue]="agentTypeEnum.Linux">{{ agentTypeEnum[agentTypeEnum.Linux] }}</option>
+          <option [ngValue]="agentTypeEnum.Unix">{{ agentTypeEnum[agentTypeEnum.Unix] }}</option>
+          <option [ngValue]="agentTypeEnum.Windows">{{ agentTypeEnum[agentTypeEnum.Windows] }}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'general.label.status' | translate }}:</label>
+        <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
+          <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
+          <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
+        </select>
       </div>
     </div>
-
-    <div class="card-body">
-
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.name' | translate }}:</label>
-          <input id="idName" name="idName" [(ngModel)]="filter.name" type="text" 
-              class="form-control" placeholder="{{ 'general.label.name' | translate }}"/>
-        </div>
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'agent.label.type' | translate }}:</label>
-          <select id="idType" name="idType" class="custom-select" [(ngModel)]="filter.type">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option [ngValue]="agentTypeEnum.Linux">{{ agentTypeEnum[agentTypeEnum.Linux] }}</option>
-            <option [ngValue]="agentTypeEnum.Unix">{{ agentTypeEnum[agentTypeEnum.Unix] }}</option>
-            <option [ngValue]="agentTypeEnum.Windows">{{ agentTypeEnum[agentTypeEnum.Windows] }}</option>
-          </select>
-        </div>
-
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
-            <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="text-right">
-        <button id="idBtnClear" type="button" class="btn btn-default mr-2" (click)="cleanFilter()">{{ 'general.button.clear' | translate }}</button>
-        <button id="idBtnSearch" type="button" class="btn btn-default" (click)="find()">{{ 'general.button.search' | translate }}</button>      
-      </div>
-    </div>
-  </div>
+  </app-card-filter>
 
   <br/>
   <br/>
@@ -89,13 +70,13 @@
           <td>{{ agentTypeEnum[agent.type] }}</td>
           <td>{{ (agent.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
           <td class="text-center">
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editAgent(agent)" [title]="'general.button.edit' | translate">
+            <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editAgent(agent)" [title]="'general.button.edit' | translate">
               <span class="ion ion-md-create"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableAgent(agent)" [title]="'general.button.disable' | translate" *ngIf="agent.status === statusEnum.ENABLED">
+            <button type="button" class="btn btn-xs btn-outline-danger ml-1" (click)="enableDisableAgent(agent)" [title]="'general.button.disable' | translate" *ngIf="agent.status === statusEnum.ENABLED">
               <span class="ion ion-md-close"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableAgent(agent)" [title]="'general.button.enable' | translate" *ngIf="agent.status === statusEnum.DISABLED">
+            <button type="button" class="btn btn-xs btn-outline-success ml-1" (click)="enableDisableAgent(agent)" [title]="'general.button.enable' | translate" *ngIf="agent.status === statusEnum.DISABLED">
               <span class="ion ion-md-checkmark"></span>
             </button>
           </td>

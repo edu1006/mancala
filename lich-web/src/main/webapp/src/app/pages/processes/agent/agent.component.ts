@@ -34,6 +34,7 @@ export class AgentComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cleanFilter();
   }
 
   cleanFilter() {
