@@ -8,6 +8,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { JobExecResultVo } from 'src/app/model/job.exec.result';
+import { JobExecsResultVo } from '../../../model/job.execs.result';
 
 @Component({
   selector: 'app-executor',
@@ -21,6 +22,7 @@ export class ExecutorComponent extends BaseComponent implements OnInit, OnDestro
 
   jobSelected: JobProcess;
 
+  runnings: Array<JobExecResultVo>;
   results: Array<JobExecResultVo>;
 
   private serverUrl = 'http://localhost:8080/ws_lich_socket';
@@ -39,6 +41,10 @@ export class ExecutorComponent extends BaseComponent implements OnInit, OnDestro
         this.jobsProcess = res;
       }
     );
+
+    this.executorService.findLasExecutions().subscribe(
+      res => this.updateResult(res)
+    );
   }
 
   ngOnDestroy() {
@@ -54,15 +60,22 @@ export class ExecutorComponent extends BaseComponent implements OnInit, OnDestro
     this.stompClient.connect({}, function(frame) {
       self.stompClient.subscribe('/ws_lich_topic/process_executed', (message) => {
         if (message.body) {
-          const results: Array<JobExecResultVo> = JSON.parse(message.body);
-          self.updateResult(results);
+          // const results: Array<JobExecResultVo> = JSON.parse(message.body);
+          const result: JobExecsResultVo = JSON.parse(message.body);
+          self.updateResult(result);
         }
       });
     });
   }
 
-  updateResult(results: Array<JobExecResultVo>) {
-    this.results = results;
+  updateResult(result: JobExecsResultVo) {
+    if (result.executeds) {
+      this.results = result.executeds;
+    }
+
+    if (result.runnings) {
+      this.runnings = result.runnings;
+    }
   }
 
   filterJobs(event: any) {

@@ -16,4 +16,10 @@ public interface JobProtocolRepository extends JpaRepository<JobProtocol, Long> 
             "order by jp.dateEnd desc ")
     List<JobProtocol> findEndsProtocols(@Param("dateEnd") Date dateEnd);
 
+    @Query("From JobProtocol jp " +
+            "where jp.parentProtocol is null " +
+            "and jp.dateEnd is null " +
+            "order by jp.dateStart ")
+    List<JobProtocol> findNotEndsProtocols();
+
 }

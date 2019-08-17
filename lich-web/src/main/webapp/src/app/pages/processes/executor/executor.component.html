@@ -53,10 +53,38 @@
     <div class="card-body">
       <div class="tab-content">
         <div class="tab-pane fade active show" id="navs-top-execution">
-          jobs in execution
+          
+            <p-table [value]="runnings" 
+                    [paginator]="false"
+                    [lazy]="false"
+                    styleClass="table-responsive"
+                    tableStyleClass="table table-striped table-bordered">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Job</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th class="text-center" style="width: 5%;">{{ 'general.label.status' | translate }}</th>
+                  <th class="text-center" style="width: 15%;">{{ 'general.label.options' | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-result>
+                <tr [ngClass]="(result.status === 'COMPLETED') ? 'table-success' : 'table-danger'">
+                  <td>{{ result.jobName }}</td>
+                  <td>{{ result.start }}</td>
+                  <td>{{ result.end }}</td>
+                  <td class="text-center">
+                    <img src="assets/img/process/success.png" *ngIf="result.status === 'COMPLETED'" style="width: 16px;" />
+                    <img src="assets/img/process/error.png" *ngIf="result.status === 'FAILED'" style="width: 16px;" />
+                  </td>
+                  <td class="text-center">
+
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
         </div>
         <div class="tab-pane fade" id="navs-top-executed">
-          jobs executed
 
           <p-table [value]="results" 
                   [paginator]="false"

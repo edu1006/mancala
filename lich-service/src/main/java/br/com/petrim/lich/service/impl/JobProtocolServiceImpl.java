@@ -5,6 +5,7 @@ import br.com.petrim.lich.repository.JobProtocolRepository;
 import br.com.petrim.lich.service.JobProtocolService;
 import br.com.petrim.lich.util.SpringContextUtil;
 import br.com.petrim.lich.vo.JobExecResultVo;
+import br.com.petrim.lich.vo.JobExecsResultVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -46,10 +47,30 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
     }
 
     @Override
-    public synchronized void updateLastExecutions() {
-        List<JobProtocol> protocols = findLastExecutions();
-        List<JobExecResultVo> results = new ArrayList<>();
+    public JobExecsResultVo findLastExecutions() {
+        List<JobProtocol> protocols = findLastExecuteds();
+        List<JobProtocol> runningProtocols = findRunningExecutions();
 
+        List<JobExecResultVo> results = new ArrayList<>();
+        List<JobExecResultVo> runningResults = new ArrayList<>();
+
+        setResults(protocols, results);
+        setResults(runningProtocols, runningResults);
+
+        getLogger().info("Executions size: " + results.size());
+        getLogger().info("Running size: " + runningResults.size());
+
+        return new JobExecsResultVo(runningResults, results);
+    }
+
+    @Override
+    public synchronized void updateLastExecutions() {
+        // Notify client's
+        JobExecsResultVo result = findLastExecutions();
+        simpMessagingTemplate.convertAndSend("/ws_lich_topic/process_executed", getResultsJson(result));
+    }
+
+    private void setResults(List<JobProtocol> protocols, List<JobExecResultVo> results) {
         JobExecution execution;
         JobExecResultVo result;
 
@@ -59,14 +80,9 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
 
             results.add(result);
         }
-
-        getLogger().info("Executions size: " + results.size());
-
-        // Notify client's
-        simpMessagingTemplate.convertAndSend("/ws_lich_topic/process_executed", getResultsJson(results));
     }
 
-    private List<JobProtocol> findLastExecutions() {
+    private List<JobProtocol> findLastExecuteds() {
         Long lastHours = NumberUtils.LONG_ONE; //FIXME: Recuperar de propriedade
         LocalDateTime localDateTime = LocalDateTime.now().minusHours(lastHours);
         Date dateEnd = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -74,12 +90,16 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
         return jobProtocolRepository.findEndsProtocols(dateEnd);
     }
 
-    private String getResultsJson(List<JobExecResultVo> results) {
+    private List<JobProtocol> findRunningExecutions() {
+        return jobProtocolRepository.findNotEndsProtocols();
+    }
+
+    private String getResultsJson(JobExecsResultVo result) {
         String resultJson = "Error";
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            resultJson = mapper.writeValueAsString(results);
+            resultJson = mapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             getLogger().error(e.getMessage(), e);
         }
