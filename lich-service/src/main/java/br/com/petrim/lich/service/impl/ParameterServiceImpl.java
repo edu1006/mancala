@@ -39,7 +39,7 @@ public class ParameterServiceImpl extends AbstractService implements ParameterSe
 
     private void validateParameterExists(Parameter parameter) {
         if (parameterRepository.countByNameAndStatus(parameter.getName(), StatusEnum.ENABLED).compareTo(NumberUtils.LONG_ZERO) > 0) {
-            throw new BusinessException("");
+            throw new BusinessException("parameter.exists");
         }
     }
 

@@ -6,44 +6,24 @@
 </h4>
 
 <form id="formAgents">
+  <app-card-filter id="filterParameter" buttonAddText="{{ 'parameter.new' | translate }}" (clickAddButton)="newParameter()" (clickSearchButton)="find()" showClearButton="true" (clickClearButton)="cleanFilter()">
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label class="form-label">{{ 'general.label.name' | translate }}:</label>
+        <input id="idName" name="idName" [(ngModel)]="filter.name" type="text" 
+            class="form-control" placeholder="{{ 'general.label.name' | translate }}"/>
+      </div>
 
-  <div class="card md-4">
-    <!--<h6 class="card-header">Search</h6>-->
-    <div class="card-header with-elements">
-      <span class="card-header-title mr-2">{{ 'general.title.search' | translate }}</span>
-      <div class="card-header-elements ml-md-auto">
-        <button type="button" class="btn btn-xs btn-outline-primary" (click)="newParameter()">
-          <span class="ion ion-md-add"></span>
-          {{ 'parameter.new' | translate }}
-        </button>
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'general.label.status' | translate }}:</label>
+        <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
+          <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
+          <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
+        </select>
       </div>
     </div>
-
-    <div class="card-body">
-
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label class="form-label">{{ 'general.label.name' | translate }}:</label>
-          <input id="idName" name="idName" [(ngModel)]="filter.name" type="text" 
-              class="form-control" placeholder="{{ 'general.label.name' | translate }}"/>
-        </div>
-
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
-            <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="text-right">
-        <button id="idBtnClear" type="button" class="btn btn-default mr-2" (click)="cleanFilter()">{{ 'general.button.clear' | translate }}</button>
-        <button id="idBtnSearch" type="button" class="btn btn-default" (click)="find()">{{ 'general.button.search' | translate }}</button>      
-      </div>
-    </div>
-  </div>
+  </app-card-filter>
 
   <br/>
   <br/>
@@ -77,13 +57,13 @@
             <td>{{ parameter.value }}</td>
             <td>{{ (parameter.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
             <td class="text-center">
-              <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editParameter(parameter)" [title]="'general.button.edit' | translate">
+              <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editParameter(parameter)" [title]="'general.button.edit' | translate">
                 <span class="ion ion-md-create"></span>
               </button>
-              <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableParameter(parameter)" [title]="'general.button.disable' | translate" *ngIf="parameter.status === statusEnum.ENABLED">
+              <button type="button" class="btn btn-xs btn-outline-danger ml-1" (click)="enableDisableParameter(parameter)" [title]="'general.button.disable' | translate" *ngIf="parameter.status === statusEnum.ENABLED">
                 <span class="ion ion-md-close"></span>
               </button>
-              <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableParameter(parameter)" [title]="'general.button.enable' | translate" *ngIf="parameter.status === statusEnum.DISABLED">
+              <button type="button" class="btn btn-xs btn-outline-success ml-1" (click)="enableDisableParameter(parameter)" [title]="'general.button.enable' | translate" *ngIf="parameter.status === statusEnum.DISABLED">
                 <span class="ion ion-md-checkmark"></span>
               </button>
             </td>
@@ -125,13 +105,6 @@
             </select>
           </div>
 
-          <div class="form-group col-md-4 mt-2">
-            <label class="custom-control custom-checkbox mt-4 ml-2">
-              <input id="idIsPasswordNew" name="idIsPasswordNew" type="checkbox" class="custom-control-input" [(ngModel)]="parameter.password" />
-              <span class="custom-control-label">{{ 'parameter.label.ispassword' | translate }}</span>
-            </label>
-          </div>
-
           <div class="form-group col-md-8" *ngIf="!parameter.password">
             <label class="form-label">{{ 'parameter.label.value' | translate }}*:</label>
             <input id="idValueNew" name="idValueNew" [(ngModel)]="parameter.value" type="text"
@@ -145,6 +118,14 @@
               class="form-control {{ (idValuePasswordNew.invalid && parameterForm.submitted) ? 'is-invalid' : '' }}"
               placeholder="{{ 'parameter.label.value' | translate }}" #idValuePasswordNew="ngModel" required/>
           </div>
+
+          <div class="form-group col-md-4 mt-2">
+            <label class="custom-control custom-checkbox mt-4 ml-2">
+              <input id="idIsPasswordNew" name="idIsPasswordNew" type="checkbox" class="custom-control-input" [(ngModel)]="parameter.password" />
+              <span class="custom-control-label">{{ 'parameter.label.ispassword' | translate }}</span>
+            </label>
+          </div>
+  
         </div>
       </div>
       <div class="modal-footer">

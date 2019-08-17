@@ -32,12 +32,13 @@ export class ParameterComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filter = new Parameter();
-    this.filter.status = null;
+    this.cleanFilter();
   }
 
   cleanFilter() {
-    this.ngOnInit();
+    this.filter = new Parameter();
+    this.filter.status = null;
+
     this.find();
   }
 
