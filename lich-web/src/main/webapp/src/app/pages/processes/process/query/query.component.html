@@ -1,58 +1,39 @@
 
 <form id="formProcess" *ngIf="operation === operationEnum.QUERY">
 
-  <div class="card md-4">
-    <!--<h6 class="card-header">Search</h6>-->
-    <div class="card-header with-elements">
-      <span class="card-header-title mr-2">{{ 'general.title.search' | translate }}</span>
-      <div class="card-header-elements ml-md-auto">
-        <button type="button" class="btn btn-xs btn-outline-primary" (click)="newProcess()">
-          <span class="ion ion-md-add"></span>
-          {{ 'process.new' | translate }}
-        </button>
+  <app-card-filter id="filterProcess" buttonAddText="{{ 'process.new' | translate }}" (clickAddButton)="newProcess()" (clickSearchButton)="find()" showClearButton="true" (clickClearButton)="cleanFilter()">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label class="form-label">{{ 'process.label.id' | translate }}:</label>
+        <input id="idProcess" name="idProcess" type="text" [(ngModel)]="filter.idProcess"
+            class="form-control" placeholder="{{ 'process.label.id' | translate }}"/>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'process.label.typeexecution' | translate }}:</label>
+        <select id="idTypeExecutionNew" name="idTypeExecutionNew" class="custom-select" [(ngModel)]="filter.typeExecution">
+          <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <option [ngValue]="typeExecutionEnum.AUTO">{{ 'process.label.auto' | translate }}</option>
+          <option [ngValue]="typeExecutionEnum.MANUAL">{{ 'process.label.manual' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'general.label.status' | translate }}:</label>
+        <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
+          <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
+          <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'process.label.tags' | translate }}:</label>
+        <input id="idTags" name="idTags" type="text" [(ngModel)]="filter.tags"
+            class="form-control" placeholder="{{ 'process.label.tags' | translate }}"/>
       </div>
     </div>
-
-    <div class="card-body">
-
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label class="form-label">{{ 'process.label.id' | translate }}:</label>
-          <input id="idProcess" name="idProcess" type="text" [(ngModel)]="filter.idProcess"
-              class="form-control" placeholder="{{ 'process.label.id' | translate }}"/>
-        </div>
-
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'process.label.typeexecution' | translate }}:</label>
-          <select id="idTypeExecutionNew" name="idTypeExecutionNew" class="custom-select" [(ngModel)]="filter.typeExecution">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option [ngValue]="typeExecutionEnum.AUTO">{{ 'process.label.auto' | translate }}</option>
-            <option [ngValue]="typeExecutionEnum.MANUAL">{{ 'process.label.manual' | translate }}</option>
-          </select>
-        </div>
-
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatus" name="idStatus" class="custom-select" [(ngModel)]="filter.status">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option [ngValue]="statusEnum.ENABLED">{{ 'general.label.enabled' | translate }}</option>
-            <option [ngValue]="statusEnum.DISABLED">{{ 'general.label.disabled' | translate }}</option>
-          </select>
-        </div>
-
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'process.label.tags' | translate }}:</label>
-          <input id="idTags" name="idTags" type="text" [(ngModel)]="filter.tags"
-              class="form-control" placeholder="{{ 'process.label.tags' | translate }}"/>
-        </div>
-      </div>
-
-      <div class="text-right">
-        <button id="idBtnClear" type="button" class="btn btn-default mr-2" (click)="cleanFilter()">{{ 'general.button.clear' | translate }}</button>
-        <button id="idBtnSearch" type="button" class="btn btn-default" (click)="find()">{{ 'general.button.search' | translate }}</button>      
-      </div>
-    </div>
-  </div>
+  </app-card-filter>
 
   <br/>
   <br/>
@@ -86,13 +67,13 @@
           <td>{{ (job.typeExecution === typeExecutionEnum.AUTO) ? ('process.label.auto' | translate) : ('process.label.manual' | translate) }}</td>
           <td>{{ (job.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
           <td class="text-center">
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editProcess(job)" [title]="'general.button.edit' | translate">
+            <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editProcess(job)" [title]="'general.button.edit' | translate">
               <span class="ion ion-md-create"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableJob(job)" [title]="'general.button.disable' | translate" *ngIf="job.status === statusEnum.ENABLED">
+            <button type="button" class="btn btn-xs btn-outline-danger ml-1" (click)="enableDisableJob(job)" [title]="'general.button.disable' | translate" *ngIf="job.status === statusEnum.ENABLED">
               <span class="ion ion-md-close"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableJob(job)" [title]="'general.button.enable' | translate" *ngIf="job.status === statusEnum.DISABLED">
+            <button type="button" class="btn btn-xs btn-outline-success ml-1" (click)="enableDisableJob(job)" [title]="'general.button.enable' | translate" *ngIf="job.status === statusEnum.DISABLED">
               <span class="ion ion-md-checkmark"></span>
             </button>
           </td>

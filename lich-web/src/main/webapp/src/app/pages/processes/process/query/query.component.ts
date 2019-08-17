@@ -43,6 +43,7 @@ export class QueryComponent extends BaseOperationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cleanFilter();
   }
 
   cleanFilter() {
