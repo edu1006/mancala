@@ -55,13 +55,13 @@
           <td>{{group.name}}</td>
           <td>{{ (group.status === 1) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
           <td class="text-center">
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editGroup(group)" [title]="'general.button.edit' | translate">
+            <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editGroup(group)" [title]="'general.button.edit' | translate">
               <span class="ion ion-md-create"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableGroup(group)" [title]="'general.button.disable' | translate" *ngIf="group.status === 1">
+            <button type="button" class="btn btn-xs btn-outline-danger ml-1" (click)="enableDisableGroup(group)" [title]="'general.button.disable' | translate" *ngIf="group.status === 1">
               <span class="ion ion-md-close"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableGroup(group)" [title]="'general.button.enable' | translate" *ngIf="group.status === 0">
+            <button type="button" class="btn btn-xs btn-outline-success ml-1" (click)="enableDisableGroup(group)" [title]="'general.button.enable' | translate" *ngIf="group.status === 0">
               <span class="ion ion-md-checkmark"></span>
             </button>
           </td>

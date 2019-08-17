@@ -6,41 +6,24 @@
 </h4>
 
 <form id="formUsers">
-  <div class="card md-4">
-    <!--<h6 class="card-header">Search</h6>-->
-    <div class="card-header with-elements">
-      <span class="card-header-title mr-2">{{ 'general.title.search' | translate }}</span>
-      <div class="card-header-elements ml-md-auto">
-        <button type="button" class="btn btn-xs btn-outline-primary" (click)="newUser()">
-          <span class="ion ion-md-add"></span>
-          {{ 'users.new' | translate }}
-        </button>
+
+  <app-card-filter id="filterUser" buttonAddText="{{ 'users.new' | translate }}" (clickAddButton)="newUser()" (clickSearchButton)="find()" showClearButton="true" (clickClearButton)="clearFilter()">
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label class="form-label">{{ 'general.label.name' | translate }}:</label>
+        <input id="idName" type="text" class="form-control" placeholder="{{ 'general.label.name' | translate }}" />
+      </div>
+
+      <div class="form-group col-md-4">
+        <label class="form-label">{{ 'general.label.status' | translate }}:</label>
+        <select id="idStatus" class="custom-select">
+          <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
+          <option value="1">{{ 'general.label.enabled' | translate }}</option>
+          <option value="0">{{ 'general.label.disabled' | translate }}</option>
+        </select>
       </div>
     </div>
-
-    <div class="card-body">
-
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label class="form-label">{{ 'general.label.name' | translate }}:</label>
-          <input id="idName" type="text" class="form-control" placeholder="{{ 'general.label.name' | translate }}" />
-        </div>
-
-        <div class="form-group col-md-4">
-          <label class="form-label">{{ 'general.label.status' | translate }}:</label>
-          <select id="idStatus" class="custom-select">
-            <option [ngValue]="null">{{ 'general.label.select' | translate }}</option>
-            <option value="1">{{ 'general.label.enabled' | translate }}</option>
-            <option value="0">{{ 'general.label.disabled' | translate }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="text-right">
-        <button id="idBtnSearch" type="button" class="btn btn-default" (click)="find()">{{ 'general.button.search' | translate }}</button>      
-      </div>
-    </div>
-  </div>
+  </app-card-filter>
 
   <br />
   <br />
@@ -76,13 +59,13 @@
           <td>{{ user.phone }}</td>
           <td>{{ (user.status === 1) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
           <td class="text-center">
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editUser(user)" [title]="'general.button.edit' | translate">
+            <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editUser(user)" [title]="'general.button.edit' | translate">
               <span class="ion ion-md-create"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableUser(user)" [title]="'general.button.disable' | translate" *ngIf="user.status === 1">
+            <button type="button" class="btn btn-xs btn-outline-danger ml-1" (click)="enableDisableUser(user)" [title]="'general.button.disable' | translate" *ngIf="user.status === 1">
               <span class="ion ion-md-close"></span>
             </button>
-            <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableUser(user)" [title]="'general.button.enable' | translate" *ngIf="user.status === 0">
+            <button type="button" class="btn btn-xs btn-outline-success ml-1" (click)="enableDisableUser(user)" [title]="'general.button.enable' | translate" *ngIf="user.status === 0">
               <span class="ion ion-md-checkmark"></span>
             </button>
             <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="changePassword(user)" [title]="'users.label.password' | translate">

@@ -4,6 +4,7 @@ import br.com.petrim.lich.exception.BusinessException;
 import br.com.petrim.lich.model.User;
 import br.com.petrim.lich.security.AuthUserDetails;
 import br.com.petrim.lich.service.UserService;
+import br.com.petrim.lich.vo.UserStatusVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -49,6 +50,11 @@ public class UserResource {
     @RequestMapping(value = "/definePassword", method = RequestMethod.POST)
     public void definePassword(@RequestBody User user) {
         userService.definePassword(user);
+    }
+
+    @RequestMapping(value = "/enableDisable", method = RequestMethod.POST)
+    public void enableDisable(@RequestBody UserStatusVo userStatusVo) {
+        userService.enableDisable(userStatusVo);
     }
 
 }

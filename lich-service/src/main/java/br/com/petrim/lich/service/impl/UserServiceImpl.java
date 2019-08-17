@@ -5,6 +5,7 @@ import br.com.petrim.lich.model.User;
 import br.com.petrim.lich.repository.UserRepository;
 import br.com.petrim.lich.service.UserService;
 import br.com.petrim.lich.util.HashUtil;
+import br.com.petrim.lich.vo.UserStatusVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +70,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Override
     public void definePassword(User user) {
         userRepository.updatePassword(user.getId(), HashUtil.hashHexa(user.getPassword(), "SHA-256"));
+    }
+
+    @Override
+    public void enableDisable(UserStatusVo userStatusVo) {
+        userRepository.enableDisable(userStatusVo.getId(), userStatusVo.getStatus().getId());
     }
 }

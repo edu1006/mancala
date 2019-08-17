@@ -77,7 +77,7 @@ export class GroupsComponent extends BaseComponent implements OnInit {
     this.groupService.save(this.group).subscribe(
       res => {
         this.find();
-        this.addMessageSuccess(this.getMessage('groups.save.sucess'));
+        this.addMessageSuccess(this.getMessage('groups.save.success'));
 
         funcAfterSave();
       },

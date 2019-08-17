@@ -1,3 +1,4 @@
+import { UserStatus } from './../../../model/user.status';
 import { GroupService } from './../../../service/group.service';
 import { TranslateService } from './../../../internationalization/translate.service';
 import { BaseComponent } from './../../base.component';
@@ -35,20 +36,27 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filter = new User();
-    this.filter.status = undefined;
-
     this.groupService.findEnabled().subscribe(
       res => {
         this.groups = res;
         if (!this.groups || this.groups.length <= 0) {
           this.addMessageError(this.getMessage('users.groups.not.exists'));
+        } else {
+
+          this.clearFilter();
         }
       },
       error => {
         this.addMessageError('', error);
       }
     );
+  }
+
+  clearFilter() {
+    this.filter = new User();
+    this.filter.status = undefined;
+
+    this.find();
   }
 
   find() {
@@ -140,7 +148,16 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   confirmEnableDisableUser(status: number) {
     this.user.status = status;
-    this.saveUser(() => this.closeModal(this.idModalUserStatus));
+
+    this.userService.enableDisableUser(new UserStatus(this.user.id, this.user.status)).subscribe(
+      res => {
+        this.find();
+        this.addMessageSuccess(this.getMessage('users.save.success'));
+
+        this.closeModal(this.idModalUserStatus);
+      },
+      error => this.addMessageError(this.getMessage('users.save.error'), error)
+    );
   }
 
   changePassword(item: User) {

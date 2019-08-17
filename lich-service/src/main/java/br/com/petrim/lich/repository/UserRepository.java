@@ -47,4 +47,11 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
             "where u.login = :login ")
     Long findIdByLogin(@Param("login") String login);
 
+    @Modifying
+    @Transactional
+    @Query("Update User u set u.status = :status where u.id = :id")
+    void enableDisable(
+            @Param("id") Long id,
+            @Param("status") Integer status);
+
 }

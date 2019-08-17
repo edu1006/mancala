@@ -1,3 +1,4 @@
+import { UserStatus } from './../model/user.status';
 import { Utils } from './../util/utils';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -16,6 +17,7 @@ export class UserService {
   private countUrl: string;
   private findUrl: string;
   private definePasswordUrl: string;
+  private enableDisableUrl: string;
 
   constructor(private http: HttpClient) {
     this.loggedUserUrl = Utils.getUrlBackend() + '/api/user/logged';
@@ -24,6 +26,7 @@ export class UserService {
     this.countUrl = Utils.getUrlBackend() + '/api/user/count';
     this.findUrl = Utils.getUrlBackend() + '/api/user/find';
     this.definePasswordUrl = Utils.getUrlBackend() + '/api/user/definePassword';
+    this.enableDisableUrl = Utils.getUrlBackend() + '/api/user/enableDisable';
   }
 
   getLoggedUser() {
@@ -62,5 +65,9 @@ export class UserService {
 
   defineNewPassword(user: User) {
     return this.http.post(this.definePasswordUrl, user);
+  }
+
+  enableDisableUser(userStatus: UserStatus) {
+    return this.http.post(this.enableDisableUrl, userStatus);
   }
 }
