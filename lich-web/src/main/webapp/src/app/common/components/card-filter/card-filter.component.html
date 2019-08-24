@@ -20,7 +20,7 @@
       <ng-content></ng-content>
 
       <div class="text-right">
-        <button id="idBtnClear" type="button" class="btn btn-default mr-2" (click)="clearFilter()" *ngIf="showClearButton">{{ 'general.button.clear' | translate }}</button>
+        <button id="{{ id }}-btn-clear" type="button" class="btn btn-default mr-2" (click)="clearFilter()" *ngIf="showClearButton">{{ 'general.button.clear' | translate }}</button>
         <button id="{{ id }}-btn-search" type="button" class="btn btn-default" (click)="searchElement()">{{ 'general.button.search' | translate }}</button>      
       </div>
     </div>
