@@ -2,6 +2,7 @@ package br.com.petrim.lich.repository.impl;
 
 import br.com.petrim.lich.model.Parameter;
 import br.com.petrim.lich.repository.ParameterRepositoryCustom;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,5 +34,15 @@ public class ParameterRepositoryImpl extends AbstractRepositoryImpl<Parameter> i
 
     private void filterQuery(Parameter filter, StringBuilder hql, Map<String, Object> params) {
         hql.append("where p.status is not null ");
+
+        if (StringUtils.isNotBlank(filter.getName())) {
+            hql.append("and p.name like :name ");
+            params.put("name", "%" + filter.getName() + "%");
+        }
+
+        if (filter.getStatus() != null) {
+            hql.append("and p.status = :status ");
+            params.put("status", filter.getStatus());
+        }
     }
 }

@@ -38,22 +38,23 @@
   <br/>
   <br/>
 
-  <div class="card" *ngIf="totalRecords" >
+  <div class="card" *ngIf="totalRecords$ | async" >
     <div class="card-header">{{ 'agent.result' | translate }}</div>
 
-    <!-- table rows-->
+    <!-- table rows--> 
     <app-table-rows-select #agentsTableRows 
                            (reloadTable)="loadAgents($event)"
-                           [rowsPerPage]="10"></app-table-rows-select>
+                           [rowsPerPage]="5"></app-table-rows-select>
 
     <p-table [value]="agents" 
              [paginator]="true"
              [(rows)]="agentsTableRows.rowsPerPage"
              [lazy]="true"
-             [totalRecords]="totalRecords"
+             [totalRecords]="totalRecords$ | async"
              (onLazyLoad)="loadAgents($event)"
              styleClass="table-responsive"
-             tableStyleClass="table table-striped table-bordered">
+             tableStyleClass="table table-striped table-bordered"
+             #agentsTable>
       <ng-template pTemplate="header">
         <tr>
           <th>{{ 'general.label.name' | translate }}</th>

@@ -1,19 +1,30 @@
+import { AppState } from './../../../reducers/index';
+import { Store, select } from '@ngrx/store';
 import { PaginationLoadLazy } from './../../../common/pagination/pagination.load';
 import { TranslateService } from './../../../internationalization/translate.service';
 import { BaseComponent } from './../../base.component';
 import { NgForm } from '@angular/forms';
 import { Agent } from './../../../model/agent';
 import { AgentService } from './../../../service/agent.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AgentTypeEnum } from '../../../enums/agent.type.enum';
 import { StatusEnum } from '../../../enums/status.enum';
+import { PageQuery } from '../../../common/pagination/page.query';
+import { agentsPageRequested, agentsCount, agentsSaveSucess, agentsCountSuccess } from './actions/agent.actions';
+import { selectAgentsPage, selectAgentsCount, selectAllAgents } from './selectors/agent.selectors';
+import { tap, catchError } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-agent',
   templateUrl: './agent.component.html',
   styleUrls: ['./agent.component.css']
 })
-export class AgentComponent extends BaseComponent implements OnInit {
+export class AgentComponent extends BaseComponent implements OnInit, OnDestroy {
+
+  @ViewChild('agentsTable')
+  tableAgents: Table;
 
   idModalAgentSave = 'idModalAgentSave';
   idModalAgentStatus = 'idModalAgentStatus';
@@ -23,18 +34,25 @@ export class AgentComponent extends BaseComponent implements OnInit {
 
   filter: Agent;
   agents: Array<Agent>;
-  totalRecords: number;
+  totalRecords$: Observable<number>;
+  executeFind: boolean;
 
   agent: Agent;
 
   constructor(translateService: TranslateService,
+              private store: Store<AppState>,
               private agentService: AgentService) {
     super(translateService);
     this.filter = new Agent();
   }
 
   ngOnInit() {
+    this.totalRecords$ = this.store.pipe(select(selectAgentsCount));
     this.cleanFilter();
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(agentsCountSuccess({count: undefined}));
   }
 
   cleanFilter() {
@@ -44,17 +62,37 @@ export class AgentComponent extends BaseComponent implements OnInit {
 
   find() {
     this.agents = null;
-    this.totalRecords = null;
+    this.executeFind = true;
 
-    this.agentService.count(this.filter).subscribe(
-      res => this.totalRecords = res
-    );
+    if (this.tableAgents) {
+      this.tableAgents.reset();
+    }
+
+    this.store.dispatch(agentsCount({filter: Object.assign({}, this.filter)}));
   }
 
   loadAgents(event: PaginationLoadLazy) {
-    this.agentService.find(this.filter, event.first, (event.first + event.rows)).subscribe(
-      res => this.agents = res
-    );
+
+    const page: PageQuery = {
+      first: event.first,
+      max: (event.first + event.rows)
+    };
+
+    this.executeFind = true;
+
+    this.store
+      .pipe(
+        select(selectAgentsPage(page)),
+        tap(agents => {
+          if (agents.length > 0) {
+            this.agents = Object.assign([], agents);
+          } else if (this.executeFind) {
+            this.store.dispatch(agentsPageRequested({filter: Object.assign({}, this.filter), page}));
+            this.executeFind = false;
+          }
+        }),
+        catchError(err => of([]))
+      ).subscribe();
   }
 
   newAgent() {
@@ -80,7 +118,7 @@ export class AgentComponent extends BaseComponent implements OnInit {
   saveAgent(functionAfterSave: Function) {
     this.agentService.save(this.agent).subscribe(
       res => {
-        this.find();
+        this.store.dispatch(agentsSaveSucess({agent: res}));
         this.addMessageSuccess(this.getMessage('agent.save.success'));
 
         functionAfterSave();

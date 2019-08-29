@@ -1,3 +1,6 @@
+import { AgentEffects } from './agent/effects/agent.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { ComponentsModule } from './../../common/components/components.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ChipsModule } from 'primeng/chips';
@@ -17,6 +20,7 @@ import { NumberDirective } from '../../common/number-directive/number.only.direc
 import { ParameterComponent } from './parameter/parameter.component';
 import { MentionModule } from 'angular-mentions/mention';
 import { ExecutorComponent } from './executor/executor.component';
+import { agentReducer } from './agent/reducers/agent.reducers';
 
 @NgModule({
   imports: [
@@ -29,7 +33,13 @@ import { ExecutorComponent } from './executor/executor.component';
     AutoCompleteModule,
     MentionModule,
     PipeModule.forRoot(),
-    ComponentsModule.forRoot()
+    ComponentsModule.forRoot(),
+
+    // reducers
+    StoreModule.forFeature('agents', agentReducer),
+
+    // effects
+    EffectsModule.forFeature([AgentEffects])
   ],
   declarations: [
     AgentComponent,
