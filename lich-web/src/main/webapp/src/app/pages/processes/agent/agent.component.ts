@@ -62,7 +62,6 @@ export class AgentComponent extends BaseComponent implements OnInit, OnDestroy {
 
   find() {
     this.agents = null;
-    this.executeFind = true;
 
     if (this.tableAgents) {
       this.tableAgents.reset();
@@ -87,7 +86,7 @@ export class AgentComponent extends BaseComponent implements OnInit, OnDestroy {
           if (agents.length > 0) {
             this.agents = Object.assign([], agents);
           } else if (this.executeFind) {
-            this.store.dispatch(agentsPageRequested({filter: Object.assign({}, this.filter), page}));
+            this.store.dispatch(agentsPageRequested({page}));
             this.executeFind = false;
           }
         }),

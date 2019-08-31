@@ -1,12 +1,13 @@
 import { AgentService } from './../../../../service/agent.service';
 import { AppState } from './../../../../reducers/index';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { mergeMap, catchError, map } from 'rxjs/operators';
+import { mergeMap, catchError, map, withLatestFrom } from 'rxjs/operators';
 import { Agent } from '../../../../model/agent';
 import { of } from 'rxjs';
 import * as AgentActions from '../actions/agent.actions';
+import { selectAgentsFilter } from '../selectors/agent.selectors';
 
 @Injectable()
 export class AgentEffects {
@@ -26,8 +27,9 @@ export class AgentEffects {
     loadAgentsPage$ = createEffect(() => this.actions$
         .pipe(
             ofType(AgentActions.agentsPageRequested),
-            mergeMap((action) => {
-                return this.agentService.find(action.filter, action.page.first, action.page.max)
+            withLatestFrom(this.store.pipe(select(selectAgentsFilter))),
+            mergeMap(([action, filter]) => {
+                return this.agentService.find(filter, action.page.first, action.page.max)
                     .pipe(
                         catchError((err) => {
                             return of(AgentActions.agentsPageRequestedError());

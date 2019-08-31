@@ -16,7 +16,7 @@ export const agentsCountError = createAction('[Agents API] Agents Count Error');
 
 export const agentsPageRequested = createAction(
     '[Agents API] Agents Page Requested',
-    props<{filter: Agent, page: PageQuery}> ()
+    props<{page: PageQuery}> ()
 );
 
 export const agentsPageRequestedSuccess = createAction(

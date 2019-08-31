@@ -15,6 +15,11 @@ export const selectAgentsCount = createSelector(
     state => state.countAgents
 );
 
+export const selectAgentsFilter = createSelector(
+    selectAgentState,
+    state => state.filter
+);
+
 export const selectAgentsPage = (page: PageQuery) => createSelector(
     selectAllAgents,
     agents => {
