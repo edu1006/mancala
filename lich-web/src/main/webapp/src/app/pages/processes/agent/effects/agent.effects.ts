@@ -18,7 +18,8 @@ export class AgentEffects {
             mergeMap((action) => {
                 return this.agentService.count(action.filter)
                     .pipe(
-                        map((count: number) => AgentActions.agentsCountSuccess({ count }))
+                        map((count: number) => AgentActions.agentsCountSuccess({ filter: action.filter, count })),
+                        catchError(err => of(AgentActions.agentsCountError()))
                     );
             })
         )

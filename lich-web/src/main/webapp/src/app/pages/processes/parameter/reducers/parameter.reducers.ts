@@ -11,7 +11,8 @@ export interface ParameterState extends EntityState<Parameter> {
 
 export const initialParameterState: ParameterState = adapter.getInitialState({
     filter: undefined,
-    countParameters: 0
+    countParameters: 0,
+    entities: []
 });
 
 export function parameterReducer(state = initialParameterState, action: ParameterActions): ParameterState {

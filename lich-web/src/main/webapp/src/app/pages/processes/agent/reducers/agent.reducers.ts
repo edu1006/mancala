@@ -13,7 +13,8 @@ export interface AgentState extends EntityState<Agent> {
 
 export const initialAgentState: AgentState = adapter.getInitialState({
     filter: undefined,
-    countAgents: 0
+    countAgents: 0,
+    entities: []
 });
 
 const initAgentReducer = createReducer(
@@ -27,11 +28,8 @@ const initAgentReducer = createReducer(
     on(AgentActions.agentsPageRequestedError, (state) => ({
         ...state, loading: false
     })),
-    on(AgentActions.agentsCount, (state, {filter}) => ({
-        ...initialAgentState, filter
-    })),
-    on(AgentActions.agentsCountSuccess, (state, {count}) => {
-        return {...state, countAgents: count};
+    on(AgentActions.agentsCountSuccess, (state, {filter, count}) => {
+        return {...initialAgentState, filter: filter, countAgents: count};
     }),
     on(AgentActions.agentsSaveSucess, (state, {agent}) => {
         return adapter.upsertOne(agent, state);

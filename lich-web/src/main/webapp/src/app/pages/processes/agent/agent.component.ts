@@ -52,7 +52,7 @@ export class AgentComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(agentsCountSuccess({count: undefined}));
+    this.store.dispatch(agentsCountSuccess({ filter: undefined, count: undefined}));
   }
 
   cleanFilter() {

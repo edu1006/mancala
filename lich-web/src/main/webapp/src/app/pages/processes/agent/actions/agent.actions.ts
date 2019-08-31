@@ -9,7 +9,7 @@ export const agentsCount = createAction(
 
 export const agentsCountSuccess = createAction(
     '[Agents API] Agents Count Success',
-    props<{count: number}> ()
+    props<{filter: Agent, count: number}> ()
 );
 
 export const agentsCountError = createAction('[Agents API] Agents Count Error');

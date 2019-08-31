@@ -1,5 +1,5 @@
 import { Table } from 'primeng/table';
-import { ParametersCount, ParametersPageRequested } from './actions/parameter.actions';
+import { ParametersCount, ParametersPageRequested, ParametersCountSuccess } from './actions/parameter.actions';
 import { Store, select } from '@ngrx/store';
 import { PaginationLoadLazy } from './../../../common/pagination/pagination.load';
 import { ParameterService } from './../../../service/parameter.service';
@@ -7,7 +7,7 @@ import { TranslateService } from './../../../internationalization/translate.serv
 import { BaseComponent } from './../../base.component';
 import { NgForm } from '@angular/forms';
 import { Parameter } from './../../../model/parameter';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { StatusEnum } from '../../../enums/status.enum';
 import { Observable, of } from 'rxjs';
 import { AppState } from '../../../reducers/index';
@@ -20,7 +20,7 @@ import { tap, catchError } from 'rxjs/operators';
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.css']
 })
-export class ParameterComponent extends BaseComponent implements OnInit {
+export class ParameterComponent extends BaseComponent implements OnInit, OnDestroy {
 
   @ViewChild('parametersTable')
   tableParameters: Table;
@@ -46,6 +46,10 @@ export class ParameterComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.totalRecords$ = this.store.pipe(select(selectParametersCount));
     this.cleanFilter();
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new ParametersCountSuccess({ filter: undefined, count: 0 }));
   }
 
   cleanFilter() {
