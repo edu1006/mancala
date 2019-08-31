@@ -28,7 +28,7 @@
   <br/>
   <br/>
 
-  <div class="card" *ngIf="totalRecords" >
+  <div class="card" *ngIf="totalRecords$ | async" >
       <div class="card-header">{{ 'parameter.result' | translate }}</div>
 
       <!-- table rows-->
@@ -39,10 +39,11 @@
                [paginator]="true"
                [(rows)]="parametersTableRows.rowsPerPage"
                [lazy]="true"
-               [totalRecords]="totalRecords"
+               [totalRecords]="totalRecords$ | async"
                (onLazyLoad)="loadParameters($event)"
                styleClass="table-responsive"
-               tableStyleClass="table table-striped table-bordered">
+               tableStyleClass="table table-striped table-bordered"
+               #parametersTable>
         <ng-template pTemplate="header">
           <tr>
             <th>{{ 'general.label.name' | translate }}</th>

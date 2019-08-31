@@ -1,12 +1,19 @@
+import { Table } from 'primeng/table';
+import { ParametersCount, ParametersPageRequested } from './actions/parameter.actions';
+import { Store, select } from '@ngrx/store';
 import { PaginationLoadLazy } from './../../../common/pagination/pagination.load';
 import { ParameterService } from './../../../service/parameter.service';
 import { TranslateService } from './../../../internationalization/translate.service';
 import { BaseComponent } from './../../base.component';
 import { NgForm } from '@angular/forms';
 import { Parameter } from './../../../model/parameter';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusEnum } from '../../../enums/status.enum';
-import { find } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { AppState } from '../../../reducers/index';
+import { selectParametersCount, selectParametersPage } from './selectors/parameter.selectors';
+import { PageQuery } from '../../../common/pagination/page.query';
+import { tap, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parameter',
@@ -15,6 +22,9 @@ import { find } from 'rxjs/operators';
 })
 export class ParameterComponent extends BaseComponent implements OnInit {
 
+  @ViewChild('parametersTable')
+  tableParameters: Table;
+
   idModalParameterSave = 'idModalParameterSave';
   idModalParameterStatus = 'idModalParameterStatus';
 
@@ -22,16 +32,19 @@ export class ParameterComponent extends BaseComponent implements OnInit {
 
   filter: Parameter;
   parameters: Array<Parameter>;
-  totalRecords: number;
+  totalRecords$: Observable<number>;
+  executeFind: boolean;
 
   parameter: Parameter;
 
   constructor(translateService: TranslateService,
+              private store: Store<AppState>,
               private parameterService: ParameterService) {
     super(translateService);
   }
 
   ngOnInit() {
+    this.totalRecords$ = this.store.pipe(select(selectParametersCount));
     this.cleanFilter();
   }
 
@@ -44,17 +57,39 @@ export class ParameterComponent extends BaseComponent implements OnInit {
 
   find() {
     this.parameters = null;
-    this.totalRecords = null;
 
-    this.parameterService.countByFilter(this.filter).subscribe(
-      res => this.totalRecords = res
-    );
+    if (this.tableParameters) {
+      this.tableParameters.reset();
+    }
+
+    this.executeFind = true;
+    this.store.dispatch(new ParametersCount({filter: Object.assign({}, this.filter)}));
   }
 
   loadParameters(event: PaginationLoadLazy) {
-    this.parameterService.findByFilter(this.filter, event.first, (event.first + event.rows)).subscribe(
+    /*this.parameterService.findByFilter(this.filter, event.first, (event.first + event.rows)).subscribe(
       res => this.parameters = res
-    );
+    );*/
+
+    const page: PageQuery = {
+      first: event.first,
+      max: (event.first + event.rows)
+    };
+    this.executeFind = true;
+
+    this.store
+      .pipe(
+        select(selectParametersPage(page)),
+        tap(parameters => {
+          if (parameters.length > 0) {
+            this.parameters = Object.assign([], parameters);
+          } else if (this.executeFind) {
+            this.store.dispatch(new ParametersPageRequested({page}));
+            this.executeFind = false;
+          }
+        }),
+        catchError(err => of([]))
+      ).subscribe();
   }
 
   newParameter() {

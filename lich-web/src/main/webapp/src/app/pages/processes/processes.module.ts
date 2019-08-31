@@ -1,3 +1,4 @@
+import { ParameterEffects } from './parameter/effects/parameter.effects';
 import { AgentEffects } from './agent/effects/agent.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -21,6 +22,7 @@ import { ParameterComponent } from './parameter/parameter.component';
 import { MentionModule } from 'angular-mentions/mention';
 import { ExecutorComponent } from './executor/executor.component';
 import { agentReducer } from './agent/reducers/agent.reducers';
+import { parameterReducer } from './parameter/reducers/parameter.reducers';
 
 @NgModule({
   imports: [
@@ -37,9 +39,10 @@ import { agentReducer } from './agent/reducers/agent.reducers';
 
     // reducers
     StoreModule.forFeature('agents', agentReducer),
+    StoreModule.forFeature('parameters', parameterReducer),
 
     // effects
-    EffectsModule.forFeature([AgentEffects])
+    EffectsModule.forFeature([AgentEffects, ParameterEffects]),
   ],
   declarations: [
     AgentComponent,
