@@ -17,11 +17,8 @@ export const initialParameterState: ParameterState = adapter.getInitialState({
 export function parameterReducer(state = initialParameterState, action: ParameterActions): ParameterState {
     switch (action.type) {
 
-        case ParameterActionTypes.ParametersCount:
-            return {...initialParameterState, filter: action.payload.filter};
-
         case ParameterActionTypes.ParametersCountSuccess:
-            return {...state, countParameters: action.payload.count};
+            return {...initialParameterState, filter: action.payload.filter, countParameters: action.payload.count};
 
         case ParameterActionTypes.ParametersCountError:
             return adapter.removeAll({...state, countParameters: 0});

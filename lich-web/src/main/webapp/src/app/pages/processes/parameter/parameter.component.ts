@@ -62,14 +62,10 @@ export class ParameterComponent extends BaseComponent implements OnInit {
       this.tableParameters.reset();
     }
 
-    this.executeFind = true;
     this.store.dispatch(new ParametersCount({filter: Object.assign({}, this.filter)}));
   }
 
   loadParameters(event: PaginationLoadLazy) {
-    /*this.parameterService.findByFilter(this.filter, event.first, (event.first + event.rows)).subscribe(
-      res => this.parameters = res
-    );*/
 
     const page: PageQuery = {
       first: event.first,

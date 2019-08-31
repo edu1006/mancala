@@ -19,7 +19,7 @@ export class ParametersCount implements Action {
 
 export class ParametersCountSuccess implements Action {
     readonly type = ParameterActionTypes.ParametersCountSuccess;
-    constructor(public payload: {count: number}) {}
+    constructor(public payload: {filter: Parameter, count: number}) {}
 }
 
 export class ParametersCountError implements Action {

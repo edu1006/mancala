@@ -19,12 +19,12 @@ export class ParameterEffects {
             ofType<ParametersCount>(ParameterActionTypes.ParametersCount),
             mergeMap((action) => this.parameterService.countByFilter(action.payload.filter)
                 .pipe(
+                    map((count: number) => new ParametersCountSuccess({filter: action.payload.filter, count})),
                     catchError(err => {
                         console.log(err);
                         return of(new ParametersCountError());
                     })
-                )),
-            map((count: number) => new ParametersCountSuccess({count})),
+                ))
         );
 
     @Effect()
@@ -32,7 +32,8 @@ export class ParameterEffects {
         .pipe(
             ofType<ParametersPageRequested>(ParameterActionTypes.ParametersPageRequested),
             withLatestFrom(this.store.pipe(select(selectParametersFilter))),
-            mergeMap(([action, filter]) => this.parameterService.findByFilter(filter, action.payload.page.first, action.payload.page.max)
+            mergeMap(([action, filter]) =>
+                this.parameterService.findByFilter(filter, action.payload.page.first, action.payload.page.max)
                 .pipe(
                     catchError(err => {
                         console.log(err);
