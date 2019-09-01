@@ -1,5 +1,4 @@
 import { Table } from 'primeng/table';
-import { ParametersCount, ParametersPageRequested, ParametersCountSuccess } from './actions/parameter.actions';
 import { Store, select } from '@ngrx/store';
 import { PaginationLoadLazy } from './../../../common/pagination/pagination.load';
 import { ParameterService } from './../../../service/parameter.service';
@@ -14,6 +13,7 @@ import { AppState } from '../../../reducers/index';
 import { selectParametersCount, selectParametersPage } from './selectors/parameter.selectors';
 import { PageQuery } from '../../../common/pagination/page.query';
 import { tap, catchError } from 'rxjs/operators';
+import { parametersCountSuccess, parametersCount, parametersPageRequested } from './actions/parameter.actions';
 
 @Component({
   selector: 'app-parameter',
@@ -49,7 +49,7 @@ export class ParameterComponent extends BaseComponent implements OnInit, OnDestr
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new ParametersCountSuccess({ filter: undefined, count: 0 }));
+    this.store.dispatch(parametersCountSuccess({ filter: undefined, count: 0 }));
   }
 
   cleanFilter() {
@@ -66,7 +66,7 @@ export class ParameterComponent extends BaseComponent implements OnInit, OnDestr
       this.tableParameters.reset();
     }
 
-    this.store.dispatch(new ParametersCount({filter: Object.assign({}, this.filter)}));
+    this.store.dispatch(parametersCount({filter: Object.assign({}, this.filter)}));
   }
 
   loadParameters(event: PaginationLoadLazy) {
@@ -84,7 +84,7 @@ export class ParameterComponent extends BaseComponent implements OnInit, OnDestr
           if (parameters.length > 0) {
             this.parameters = Object.assign([], parameters);
           } else if (this.executeFind) {
-            this.store.dispatch(new ParametersPageRequested({page}));
+            this.store.dispatch(parametersPageRequested({page}));
             this.executeFind = false;
           }
         }),

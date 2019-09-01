@@ -2,7 +2,6 @@ import { Agent } from './../../../../model/agent';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, Action, on } from '@ngrx/store';
 import * as AgentActions from '../actions/agent.actions';
-import { agentsCount } from '../actions/agent.actions';
 
 export const adapter: EntityAdapter<Agent> = createEntityAdapter<Agent>();
 

@@ -1,6 +1,8 @@
-import { ParameterActions, ParameterActionTypes } from '../actions/parameter.actions';
+import { ParameterState } from './parameter.reducers';
 import { Parameter } from '../../../../model/parameter';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import * as ParameterActions from '../actions/parameter.actions';
+import { createReducer, on, Action } from '@ngrx/store';
 
 export const adapter: EntityAdapter<Parameter> = createEntityAdapter<Parameter>();
 
@@ -15,6 +17,27 @@ export const initialParameterState: ParameterState = adapter.getInitialState({
     entities: []
 });
 
+const initParameterReducer = createReducer(
+    initialParameterState,
+    on(ParameterActions.parametersCountSuccess, (state, {filter, count}) => {
+        return {...initialParameterState, filter, countParameters: count};
+    }),
+    on(ParameterActions.parametersCountError, (state) => {
+        return adapter.removeAll({ ...state, countParameters: 0 });
+    }),
+    on(ParameterActions.parametersPageRequestedSuccess, (state, {parameters}) => {
+        return adapter.addMany(parameters, {...state});
+    }),
+    on(ParameterActions.parametersPageRequestedError, (state) => {
+        return adapter.removeAll({ ...state });
+    })
+);
+
+export function parameterReducer(state: ParameterState | undefined, action: Action) {
+    return initParameterReducer(state, action);
+}
+
+/*
 export function parameterReducer(state = initialParameterState, action: ParameterActions): ParameterState {
     switch (action.type) {
 
@@ -34,7 +57,7 @@ export function parameterReducer(state = initialParameterState, action: Paramete
             return state;
     }
 }
-
+*/
 export const {
     selectAll,
     selectEntities,

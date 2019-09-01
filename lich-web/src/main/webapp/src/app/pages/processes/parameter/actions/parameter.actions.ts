@@ -1,49 +1,31 @@
 import { Parameter } from './../../../../model/parameter';
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { PageQuery } from '../../../../common/pagination/page.query';
 
-export enum ParameterActionTypes {
-    ParametersCount = '[Parameter API] Parameters Count',
-    ParametersCountSuccess = '[Parameter API] Parameters Count Success',
-    ParametersCountError = '[Parameter API] Parameters Count Error',
+export const parametersCount = createAction(
+    '[Parameter API] Parameters Count',
+    props<{filter: Parameter}> ()
+);
 
-    ParametersPageRequested = '[Parameter API] Parameters Page Requested',
-    ParametersPageRequestedSuccess = '[Parameter API] Parameters Page Requested Success',
-    ParametersPageRequestedError = '[Parameter API] Parameters Page Requested Error'
-}
+export const parametersCountSuccess = createAction(
+    '[Parameter API] Parameters Count Success',
+    props<{filter: Parameter, count: number}> ()
+);
 
-export class ParametersCount implements Action {
-    readonly type = ParameterActionTypes.ParametersCount;
-    constructor(public payload: {filter: Parameter}) {}
-}
+export const parametersCountError = createAction(
+    '[Parameter API] Parameters Count Error'
+);
 
-export class ParametersCountSuccess implements Action {
-    readonly type = ParameterActionTypes.ParametersCountSuccess;
-    constructor(public payload: {filter: Parameter, count: number}) {}
-}
+export const parametersPageRequested = createAction(
+    '[Parameter API] Parameters Page Requested',
+    props<{page: PageQuery}> ()
+);
 
-export class ParametersCountError implements Action {
-    readonly type = ParameterActionTypes.ParametersCountError;
-}
+export const parametersPageRequestedSuccess = createAction(
+    '[Parameter API] Parameters Page Requested Success',
+    props<{parameters: Array<Parameter>}> ()
+);
 
-export class ParametersPageRequested implements Action {
-    readonly type = ParameterActionTypes.ParametersPageRequested;
-    constructor(public payload: {page: PageQuery}) {}
-}
-
-export class ParametersPageRequestedSuccess implements Action {
-    readonly type = ParameterActionTypes.ParametersPageRequestedSuccess;
-    constructor(public payload: {parameters: Array<Parameter>}) {}
-}
-
-export class ParametersPageRequestedError implements Action {
-    readonly type = ParameterActionTypes.ParametersPageRequestedError;
-}
-
-export type ParameterActions =
-    ParametersCount
-    | ParametersCountSuccess
-    | ParametersCountError
-    | ParametersPageRequested
-    | ParametersPageRequestedSuccess
-    | ParametersPageRequestedError;
+export const parametersPageRequestedError = createAction(
+    '[Parameter API] Parameters Page Requested Error'
+);

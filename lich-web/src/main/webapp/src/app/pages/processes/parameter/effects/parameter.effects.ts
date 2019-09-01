@@ -1,32 +1,48 @@
-import { ParametersCount } from './../actions/parameter.actions';
 import { ParameterService } from './../../../../service/parameter.service';
 import { Store, select } from '@ngrx/store';
-import { Actions, ofType, Effect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { AppState } from '../../../../reducers/index';
-import { ParameterActionTypes, ParametersCountSuccess, ParametersCountError, ParametersPageRequested, ParametersPageRequestedError, ParametersPageRequestedSuccess } from '../actions/parameter.actions';
 import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { selectParametersFilter } from '../selectors/parameter.selectors';
 import { Parameter } from '../../../../model/parameter';
+import * as ParameterActions from '../actions/parameter.actions';
 
 @Injectable()
 export class ParameterEffects {
 
-    @Effect()
-    loadParameterCount = this.actions$
+    loadParametersCount = createEffect(() => this.actions$
         .pipe(
-            ofType<ParametersCount>(ParameterActionTypes.ParametersCount),
-            mergeMap((action) => this.parameterService.countByFilter(action.payload.filter)
+            ofType(ParameterActions.parametersCount),
+            mergeMap((action) => this.parameterService.countByFilter(action.filter)
                 .pipe(
-                    map((count: number) => new ParametersCountSuccess({filter: action.payload.filter, count})),
+                    map((count: number) => ParameterActions.parametersCountSuccess({ filter: action.filter, count })),
                     catchError(err => {
                         console.log(err);
-                        return of(new ParametersCountError());
+                        return of(ParameterActions.parametersCountError());
                     })
                 ))
-        );
+        )
+    );
 
+    loadParametersPage = createEffect(() => this.actions$
+        .pipe(
+            ofType(ParameterActions.parametersPageRequested),
+            withLatestFrom(this.store.pipe(select(selectParametersFilter))),
+            mergeMap(([action, filter]) =>
+                this.parameterService.findByFilter(filter, action.page.first, action.page.max)
+                .pipe(
+                    catchError(err => {
+                        console.log(err);
+                        return of(ParameterActions.parametersPageRequestedError());
+                    })
+                )),
+            map((parameters: Array<Parameter>) => ParameterActions.parametersPageRequestedSuccess({ parameters }))
+        )
+    );
+
+    /*
     @Effect()
     loadParametersPage = this.actions$
         .pipe(
@@ -42,6 +58,7 @@ export class ParameterEffects {
                 )),
             map((parameters: Array<Parameter>) => new ParametersPageRequestedSuccess({parameters}))
         );
+        */
 
     constructor(private actions$: Actions,
                 private store: Store<AppState>,
