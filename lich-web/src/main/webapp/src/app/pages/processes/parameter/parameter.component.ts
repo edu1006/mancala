@@ -13,7 +13,7 @@ import { AppState } from '../../../reducers/index';
 import { selectParametersCount, selectParametersPage } from './selectors/parameter.selectors';
 import { PageQuery } from '../../../common/pagination/page.query';
 import { tap, catchError } from 'rxjs/operators';
-import { parametersCountSuccess, parametersCount, parametersPageRequested, parametersSave, parametersSaveSuccess } from './actions/parameter.actions';
+import { parametersCountSuccess, parametersCount, parametersPageRequested, parametersSaveSuccess } from './actions/parameter.actions';
 
 @Component({
   selector: 'app-parameter',

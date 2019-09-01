@@ -1,3 +1,5 @@
+import { TranslateService } from './../../../../internationalization/translate.service';
+import { BaseEffects } from './../../../base.effects';
 import { ParameterService } from './../../../../service/parameter.service';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
@@ -10,7 +12,7 @@ import { Parameter } from '../../../../model/parameter';
 import * as ParameterActions from '../actions/parameter.actions';
 
 @Injectable()
-export class ParameterEffects {
+export class ParameterEffects extends BaseEffects {
 
     loadParametersCount = createEffect(() => this.actions$
         .pipe(
@@ -19,7 +21,7 @@ export class ParameterEffects {
                 .pipe(
                     map((count: number) => ParameterActions.parametersCountSuccess({ filter: action.filter, count })),
                     catchError(err => {
-                        console.log(err);
+                        super.addMessageError(err);
                         return of(ParameterActions.parametersCountError());
                     })
                 ))
@@ -34,7 +36,7 @@ export class ParameterEffects {
                 this.parameterService.findByFilter(filter, action.page.first, action.page.max)
                 .pipe(
                     catchError(err => {
-                        console.log(err);
+                        super.addMessageError(err);
                         return of(ParameterActions.parametersPageRequestedError());
                     })
                 )),
@@ -44,6 +46,9 @@ export class ParameterEffects {
 
     constructor(private actions$: Actions,
                 private store: Store<AppState>,
-                private parameterService: ParameterService) {}
+                private parameterService: ParameterService,
+                transalateService: TranslateService) {
+        super(transalateService);
+    }
 
 }

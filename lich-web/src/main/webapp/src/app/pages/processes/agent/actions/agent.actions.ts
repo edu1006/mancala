@@ -26,14 +26,7 @@ export const agentsPageRequestedSuccess = createAction(
 
 export const agentsPageRequestedError = createAction('[Agents API] Agents Page Requested Error');
 
-export const agentsSave = createAction(
-    '[Agents API] Agents Save',
-    props<{agent: Agent}> ()
-);
-
 export const agentsSaveSucess = createAction(
     '[Agents API] Agents Sabe Success',
     props<{agent: Agent}> ()
 );
-
-export const agentsSaveError = createAction('[Agents API] Agents Sabe Error');

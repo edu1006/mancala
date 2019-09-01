@@ -1,3 +1,5 @@
+import { TranslateService } from './../../../../internationalization/translate.service';
+import { BaseEffects } from './../../../base.effects';
 import { AgentService } from './../../../../service/agent.service';
 import { AppState } from './../../../../reducers/index';
 import { Store, select } from '@ngrx/store';
@@ -10,7 +12,7 @@ import * as AgentActions from '../actions/agent.actions';
 import { selectAgentsFilter } from '../selectors/agent.selectors';
 
 @Injectable()
-export class AgentEffects {
+export class AgentEffects extends BaseEffects {
 
     loadAgentCount$ = createEffect(() => this.actions$
         .pipe(
@@ -19,7 +21,10 @@ export class AgentEffects {
                 return this.agentService.count(action.filter)
                     .pipe(
                         map((count: number) => AgentActions.agentsCountSuccess({ filter: action.filter, count })),
-                        catchError(err => of(AgentActions.agentsCountError()))
+                        catchError(err => {
+                            super.addMessageError(err);
+                            return of(AgentActions.agentsCountError());
+                        })
                     );
             })
         )
@@ -33,6 +38,7 @@ export class AgentEffects {
                 return this.agentService.find(filter, action.page.first, action.page.max)
                     .pipe(
                         catchError((err) => {
+                            super.addMessageError(err);
                             return of(AgentActions.agentsPageRequestedError());
                         })
                     );
@@ -41,22 +47,10 @@ export class AgentEffects {
         )
     );
 
-    saveAgent$ = createEffect(() => this.actions$
-        .pipe(
-            ofType(AgentActions.agentsSave),
-            mergeMap((action) => {
-                return this.agentService.save(action.agent)
-                    .pipe(
-                        map((agent: Agent) => AgentActions.agentsSaveSucess({ agent })),
-                        catchError((err) => {
-                            return of(AgentActions.agentsSaveError());
-                        })
-                    );
-            })
-        )
-    );
-
     constructor (private actions$: Actions,
                  private store: Store<AppState>,
-                 private agentService: AgentService) {}
+                 private agentService: AgentService,
+                 translateService: TranslateService) {
+        super(translateService);
+    }
 }
