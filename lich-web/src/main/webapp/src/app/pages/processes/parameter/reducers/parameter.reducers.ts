@@ -30,6 +30,9 @@ const initParameterReducer = createReducer(
     }),
     on(ParameterActions.parametersPageRequestedError, (state) => {
         return adapter.removeAll({ ...state });
+    }),
+    on(ParameterActions.parametersSaveSuccess, (state, {parameter}) => {
+        return adapter.upsertOne(parameter, {...state});
     })
 );
 

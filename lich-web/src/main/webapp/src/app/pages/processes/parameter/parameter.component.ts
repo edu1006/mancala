@@ -13,7 +13,7 @@ import { AppState } from '../../../reducers/index';
 import { selectParametersCount, selectParametersPage } from './selectors/parameter.selectors';
 import { PageQuery } from '../../../common/pagination/page.query';
 import { tap, catchError } from 'rxjs/operators';
-import { parametersCountSuccess, parametersCount, parametersPageRequested } from './actions/parameter.actions';
+import { parametersCountSuccess, parametersCount, parametersPageRequested, parametersSave, parametersSaveSuccess } from './actions/parameter.actions';
 
 @Component({
   selector: 'app-parameter',
@@ -36,6 +36,7 @@ export class ParameterComponent extends BaseComponent implements OnInit, OnDestr
   executeFind: boolean;
 
   parameter: Parameter;
+  functionAfterSave: Function;
 
   constructor(translateService: TranslateService,
               private store: Store<AppState>,
@@ -110,12 +111,17 @@ export class ParameterComponent extends BaseComponent implements OnInit, OnDestr
     this.parameterService.save(this.parameter).subscribe(
       res => {
         this.addMessageSuccess(this.getMessage('parameter.save.success'));
-        this.find();
+        this.store.dispatch(parametersSaveSuccess({ parameter: res }));
 
         functionAfterSave();
       },
       error => this.addMessageError(this.getMessage('parameter.save.error'), error)
     );
+  }
+
+  runFunctionAfterSave() {
+    this.functionAfterSave();
+    this.functionAfterSave = null;
   }
 
   editParameter(item: Parameter) {

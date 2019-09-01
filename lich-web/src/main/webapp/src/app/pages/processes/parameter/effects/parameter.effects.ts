@@ -42,24 +42,6 @@ export class ParameterEffects {
         )
     );
 
-    /*
-    @Effect()
-    loadParametersPage = this.actions$
-        .pipe(
-            ofType<ParametersPageRequested>(ParameterActionTypes.ParametersPageRequested),
-            withLatestFrom(this.store.pipe(select(selectParametersFilter))),
-            mergeMap(([action, filter]) =>
-                this.parameterService.findByFilter(filter, action.payload.page.first, action.payload.page.max)
-                .pipe(
-                    catchError(err => {
-                        console.log(err);
-                        return of(new ParametersPageRequestedError());
-                    })
-                )),
-            map((parameters: Array<Parameter>) => new ParametersPageRequestedSuccess({parameters}))
-        );
-        */
-
     constructor(private actions$: Actions,
                 private store: Store<AppState>,
                 private parameterService: ParameterService) {}
