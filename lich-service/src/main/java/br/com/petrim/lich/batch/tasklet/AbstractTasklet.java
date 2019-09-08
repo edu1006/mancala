@@ -135,7 +135,7 @@ public abstract class AbstractTasklet implements Tasklet {
      * @param message
      */
     protected void logInfo(String message) {
-        this.getLogger().info(getStepProcess().getIdStep() + " - " + message);
+        this.getLogger().info("{0} - {1}", getStepProcess().getIdStep(), message);
     }
 
     /**
@@ -145,7 +145,11 @@ public abstract class AbstractTasklet implements Tasklet {
      * @param t
      */
     protected void logWarn(String message, Throwable t) {
-        this.getLogger().warn(getStepProcess().getIdStep() + " - " + message, t);
+        StringBuilder warnMessage = new StringBuilder(getStepProcess().getIdStep());
+        warnMessage.append(" - ");
+        warnMessage.append(message);
+
+        this.getLogger().warn(warnMessage.toString(), t);
     }
 
 }

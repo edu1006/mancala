@@ -81,7 +81,7 @@ public class JobLogListener implements JobExecutionListener {
         jobProtocol.setStatus(jobExecution.getStatus().name());
 
         // check if occurs error with completed job (in case of continuable step's)
-        if ((jobExecution.getFailureExceptions() != null && !jobExecution.getFailureExceptions().isEmpty())
+        if ((!jobExecution.getFailureExceptions().isEmpty())
                 && BatchStatus.COMPLETED.equals(jobExecution.getStatus())) {
 
             jobProtocol.setStatus(Constants.WARNING_STATUS); // in this case, the protocol will receive warning status.

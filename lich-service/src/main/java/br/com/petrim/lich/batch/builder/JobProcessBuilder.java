@@ -35,7 +35,7 @@ public class JobProcessBuilder {
         JobBuilder jobBuilder = getJobBuilder(jobProcess, innerJob);
         JobFlowBuilder jobFlowBuilder = buildJobFlow(jobBuilder, jobProcess);
 
-        if (jobFlowBuilder == null) {
+        if (checkJobFlowBuilderIsNull(jobFlowBuilder)) {
             throw new ProcessException("Error to create process");
         }
 
@@ -118,6 +118,10 @@ public class JobProcessBuilder {
 
     private JobLogListener getJobLogListener() {
         return SpringContextUtil.getBean(JobLogListener.class);
+    }
+
+    private Boolean checkJobFlowBuilderIsNull(JobFlowBuilder jobFlowBuilder) {
+        return jobFlowBuilder == null;
     }
 
 }

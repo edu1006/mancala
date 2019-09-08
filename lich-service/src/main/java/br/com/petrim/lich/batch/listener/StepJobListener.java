@@ -14,10 +14,7 @@ public class StepJobListener implements StepExecutionListener {
     @Override
     public void beforeStep(StepExecution stepExecution) {
         Long idJobProcess = stepExecution.getJobParameters().getLong(Constants.JOB_PROCESS);
-
-        if (idJobProcess != null) {
-            stepExecution.getExecutionContext().putLong(Constants.JOB_PARENT, idJobProcess);
-        }
+        stepExecution.getExecutionContext().putLong(Constants.JOB_PARENT, idJobProcess);
     }
 
     @Override
