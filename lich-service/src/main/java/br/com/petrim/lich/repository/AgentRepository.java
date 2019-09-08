@@ -20,4 +20,8 @@ public interface AgentRepository extends JpaRepository<Agent, Long>, AgentReposi
 
     List<Agent> findByStatusAndType(StatusEnum status, AgentTypeEnum type);
 
+    @Query("Select new br.com.petrim.lich.model.Agent(a.id, a.address, a.port, a.typeConnection) " +
+            "From Agent a where a.id = :id ")
+    Agent findToRunStep(@Param("id") Long id);
+
 }

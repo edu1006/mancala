@@ -17,4 +17,6 @@ public interface AgentService {
 
     Agent findById(Long id);
 
+    Agent findToRunStep(Long id);
+
 }

@@ -49,6 +49,17 @@ public class Agent extends AbstractEntity {
     @Column(name = "date_insert", nullable = false)
     private Date dateInsert;
 
+    public Agent() {
+        // Default constructor
+    }
+
+    public Agent(Long id, String address, Long port, AgentTypeConnEnum typeConnection) {
+        this.id = id;
+        this.address = address;
+        this.port = port;
+        this.typeConnection = typeConnection;
+    }
+
     @Override
     public Long getId() {
         return this.id;

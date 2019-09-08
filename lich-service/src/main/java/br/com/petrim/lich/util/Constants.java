@@ -22,4 +22,6 @@ public interface Constants {
 
     String WARNING_STATUS = "WARNING";
 
+    Long STEP_SCRIPT_TIME_WAIT = 5000L; // FIXME: transform to property on properties file.
+
 }

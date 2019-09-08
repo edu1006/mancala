@@ -82,4 +82,9 @@ public class AgentServiceImpl extends AbstractService implements AgentService {
 
         return optional.get();
     }
+
+    @Override
+    public Agent findToRunStep(Long id) {
+        return agentRepository.findToRunStep(id);
+    }
 }
