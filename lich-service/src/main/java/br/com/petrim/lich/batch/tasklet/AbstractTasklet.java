@@ -76,6 +76,9 @@ public abstract class AbstractTasklet implements Tasklet {
             Thread.sleep(time);
         } catch (InterruptedException e) {
             logWarn("Problem to wait", e);
+
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
         }
     }
 

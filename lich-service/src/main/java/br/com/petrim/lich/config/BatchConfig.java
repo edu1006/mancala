@@ -4,7 +4,6 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +13,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
-
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Bean("batchAsyncExecutor")
     public TaskExecutor batchAsyncExecutor() {
@@ -31,18 +27,8 @@ public class BatchConfig {
         return executor;
     }
 
-//    @Bean("batchJobRepository")
-//    public JobRepository batchJobRepository() throws Exception {
-//        JobRepositoryFactoryBean jobRepositoryFactoryBean = new JobRepositoryFactoryBean();
-//
-//        jobRepositoryFactoryBean.setDataSource(SpringContextUtil.getBean(DataSource.class));
-//        jobRepositoryFactoryBean.setTransactionManager(SpringContextUtil.getBean(PlatformTransactionManager.class));
-//
-//        return jobRepositoryFactoryBean.getObject();
-//    }
-
     @Bean("batchJobLauncher")
-    public JobLauncher batchJobLauncher() throws Exception {
+    public JobLauncher batchJobLauncher(ApplicationContext applicationContext) throws Exception {
         SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
 
         jobLauncher.setJobRepository(applicationContext.getBean(JobRepository.class));

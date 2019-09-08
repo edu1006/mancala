@@ -1,5 +1,7 @@
 package br.com.petrim.lich.util;
 
+import br.com.petrim.lich.exception.BusinessException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,12 +26,12 @@ public class DateUtil {
      * @return date from string
      */
     public static Date getDateFromString(String dateS, String pattern) {
-        Date dateD = null;
+        Date dateD;
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {
             dateD = sdf.parse(dateS);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new BusinessException("date.parse.error", e, dateS);
         }
         return dateD;
     }

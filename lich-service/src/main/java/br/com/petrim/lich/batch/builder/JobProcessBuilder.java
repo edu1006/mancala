@@ -67,45 +67,49 @@ public class JobProcessBuilder {
         List<StepProcess> stepsProcesses = jobProcess.getStepsProcesses().stream().collect(Collectors.toList());
         stepsProcesses.sort((Comparator.comparing(StepProcess::getOrder)));
 
-        if (stepsProcesses != null && !stepsProcesses.isEmpty()) {
+        if (!stepsProcesses.isEmpty()) {
 
-            int index = 0;
             Iterator<StepProcess> iterator = stepsProcesses.iterator();
-
-            StepProcess stepProcess;
-
-            while (iterator.hasNext()) {
-                stepProcess = iterator.next();
-
-                if (index == 0) { // It's the first step of job
-
-                    if (isStepParallel(stepProcess)) {
-                        jobFlowBuilder = jobBuilder.start(stepProcessBuilder.buildParallelStep(stepProcess)); // parallel step first
-                    } else {
-                        jobFlowBuilder = jobBuilder.start(stepProcessBuilder.buildFlowStep(stepProcess));
-                    }
-
-
-                } else {
-
-                    if (jobFlowBuilder != null) {
-
-                        if (isStepParallel(stepProcess)) {
-                            jobFlowBuilder.next(stepProcessBuilder.buildParallelStep(stepProcess));
-                        } else {
-                            jobFlowBuilder.next(stepProcessBuilder.buildStep(stepProcess));
-                        }
-
-                    }
-
-                }
-
-                index++;
-            }
-
+            buildSteps(jobBuilder, jobFlowBuilder, iterator);
         }
 
         return jobFlowBuilder;
+    }
+
+    private void buildSteps(JobBuilder jobBuilder, JobFlowBuilder jobFlowBuilder, Iterator<StepProcess> iterator) {
+        int index = 0;
+        StepProcess stepProcess;
+
+        while (iterator.hasNext()) {
+            stepProcess = iterator.next();
+
+            if (index == 0) { // It's the first step of job
+
+                jobFlowBuilder = buildFirstStep(jobBuilder, stepProcess);
+
+            } else {
+
+                buildNextStep(jobFlowBuilder, stepProcess);
+            }
+
+            index++;
+        }
+    }
+
+    private JobFlowBuilder buildFirstStep(JobBuilder jobBuilder, StepProcess stepProcess) {
+        if (isStepParallel(stepProcess)) {
+            return jobBuilder.start(stepProcessBuilder.buildParallelStep(stepProcess)); // parallel step first
+        } else {
+            return jobBuilder.start(stepProcessBuilder.buildFlowStep(stepProcess));
+        }
+    }
+
+    private void buildNextStep(JobFlowBuilder jobFlowBuilder, StepProcess stepProcess) {
+        if (isStepParallel(stepProcess)) {
+            jobFlowBuilder.next(stepProcessBuilder.buildParallelStep(stepProcess));
+        } else {
+            jobFlowBuilder.next(stepProcessBuilder.buildStep(stepProcess));
+        }
     }
 
     private Boolean isStepParallel(StepProcess stepProcess) {

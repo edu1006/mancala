@@ -114,7 +114,7 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
         result.setJobName(execution.getJobInstance().getJobName());
         result.setStart(execution.getStartTime());
 
-        if (execution.getEndTime() != null) {
+        if (!execution.isRunning()) {
             result.setEnd(execution.getEndTime());
             result.setStatus(execution.getStatus().getBatchStatus().name());
             result.setExitCode(execution.getExitStatus().getExitCode());
