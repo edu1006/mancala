@@ -24,6 +24,8 @@ public final class Constants {
 
     public static final String STEP_PROCESS = "idStepProcess";
 
+    public static final String STEP_LOG_PATH = "stepLogPath";
+
     public static final String WARNING_STATUS = "WARNING";
 
     public static final Long STEP_SCRIPT_TIME_WAIT = 5000L; // FIXME: transform to property on properties file.

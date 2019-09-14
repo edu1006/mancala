@@ -6,6 +6,7 @@ import br.com.petrim.lich.model.StepProcess;
 import br.com.petrim.lich.service.ParameterService;
 import br.com.petrim.lich.util.Constants;
 import br.com.petrim.lich.util.SpringContextUtil;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
@@ -16,7 +17,13 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractTasklet implements Tasklet {
@@ -24,6 +31,11 @@ public abstract class AbstractTasklet implements Tasklet {
     private ChunkContext chunkContext;
 
     private StepProcess stepProcess;
+
+    /**
+     * Used to log by list.
+     */
+    private Integer nextLineLog;
 
     public AbstractTasklet(StepProcess stepProcess) {
         this.stepProcess = stepProcess;
@@ -112,6 +124,37 @@ public abstract class AbstractTasklet implements Tasklet {
         return script;
     }
 
+    protected void updateLog(String log) {
+        String logPath = getStepExecutionContext().getString(Constants.STEP_LOG_PATH);
+        Path pathLogPath = Paths.get(logPath);
+
+        String line = System.lineSeparator() + log;
+        try {
+            if (Files.exists(pathLogPath)) {
+                Files.write(pathLogPath, line.getBytes(), StandardOpenOption.APPEND);
+            } else {
+                Files.write(pathLogPath, line.getBytes(), StandardOpenOption.CREATE_NEW);
+            }
+        } catch (IOException e) {
+            logWarn("Error to save on log file: " + logPath, e);
+        }
+    }
+
+    protected void updateLog(List<String> log) {
+        if (log != null && !log.isEmpty()) {
+            Integer lineToStart = (this.nextLineLog != null) ? this.nextLineLog : NumberUtils.INTEGER_ZERO;
+            updateLogLines(log, lineToStart);
+        }
+    }
+
+    private void updateLogLines(List<String> log, Integer lineToStart) {
+        for (int i = lineToStart; i < log.size(); i++) {
+            updateLog(log.get(i));
+        }
+
+        this.nextLineLog = log.size();
+    }
+
     // Get's and Set's
 
     /**
@@ -165,7 +208,7 @@ public abstract class AbstractTasklet implements Tasklet {
      * @param message
      */
     protected void logInfo(String message) {
-        this.getLogger().info("{0} - {1}", getStepProcess().getIdStep(), message);
+        this.getLogger().info("{} - {}", getStepProcess().getIdStep(), message);
     }
 
     /**

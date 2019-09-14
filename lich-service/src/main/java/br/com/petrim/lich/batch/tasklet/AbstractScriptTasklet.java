@@ -75,7 +75,8 @@ public abstract class AbstractScriptTasklet extends AbstractTasklet {
         ResponseEntity<VoStepExecution> statusProcessResp = restTemplate.postForEntity(statusProcessRest, executeReq, VoStepExecution.class);
 
         VoStepExecution voStepExecution = statusProcessResp.getBody();
-        //updateLogger();
+
+        updateLog(voStepExecution.getLog());
         //updateSystemProcessId();
 
         while (StatusStepExecutionEnum.FINISHED.getStatus().compareTo(voStepExecution.getStatusStepExecution()) != 0) {
@@ -85,7 +86,7 @@ public abstract class AbstractScriptTasklet extends AbstractTasklet {
             statusProcessResp = restTemplate.postForEntity(statusProcessRest, executeReq, VoStepExecution.class);
             voStepExecution = statusProcessResp.getBody();
 
-            //updateLogger();
+            updateLog(voStepExecution.getLog());
 
             //updateSystemProcessId .... if not set yet.
         }
@@ -138,7 +139,7 @@ public abstract class AbstractScriptTasklet extends AbstractTasklet {
             message.append(logger.toString());
         }
         message.append(getMessageToStatus(status).toString());
-        // updateLogger()
+        updateLog(message.toString());
         throw new ProcessException(message.toString());
     }
 

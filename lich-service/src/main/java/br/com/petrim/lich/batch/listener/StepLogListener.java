@@ -26,6 +26,7 @@ public class StepLogListener implements StepExecutionListener {
         // save step protocol
         StepProtocol stepProtocol = saveNewStepProtocol(stepExecution);
         stepExecution.getExecutionContext().putLong(Constants.STEP_PROTOCOL, stepProtocol.getId());
+        stepExecution.getExecutionContext().putString(Constants.STEP_LOG_PATH, stepProtocol.getLogPath());
     }
 
     @Override
@@ -58,11 +59,23 @@ public class StepLogListener implements StepExecutionListener {
         stepProtocol.setIdStepExecution(stepExecution.getId());
         stepProtocol.setDsStepProcess(stepExecution.getStepName());
         stepProtocol.setDateStart(new Date());
+        stepProtocol.setLogPath(getLogPath(stepExecution));
 
         return stepProtocolService.save(stepProtocol);
     }
 
     private String getLogPath(StepExecution stepExecution) {
-        return ""; // FIXME: define log path on disk.
+
+        StringBuilder logPath = new StringBuilder("/opt/petrim/lich/log/"); //FIXME: load from properties file.
+        logPath.append(stepExecution.getJobParameters().getLong(Constants.JOB_PROCESS));
+        logPath.append("_");
+        logPath.append(stepExecution.getStepName());
+        logPath.append("_");
+        logPath.append(stepExecution.getJobParameters().getLong(Constants.TIME));
+        logPath.append("_");
+        logPath.append((new Date()).getTime());
+        logPath.append(".log");
+
+        return logPath.toString();
     }
 }
