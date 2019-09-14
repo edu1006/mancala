@@ -19,4 +19,8 @@ public interface ParameterRepository extends JpaRepository<Parameter, Long>, Par
             "From Parameter p where p.status = :status ")
     List<Parameter> findByStatus(@Param("status") StatusEnum status);
 
+    @Query("Select new br.com.petrim.lich.model.Parameter(p.id, p.name, p.value) " +
+            "From Parameter  p where p.status = :status ")
+    List<Parameter> findValuesByStatus(@Param("status") StatusEnum status);
+
 }

@@ -1,7 +1,11 @@
 package br.com.petrim.lich.batch.tasklet;
 
 import br.com.petrim.lich.enums.YesNoEnum;
+import br.com.petrim.lich.model.Parameter;
 import br.com.petrim.lich.model.StepProcess;
+import br.com.petrim.lich.service.ParameterService;
+import br.com.petrim.lich.util.Constants;
+import br.com.petrim.lich.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
@@ -11,6 +15,9 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractTasklet implements Tasklet {
 
@@ -28,6 +35,9 @@ public abstract class AbstractTasklet implements Tasklet {
         // Executions (step and job)
         StepExecution stepExecution = chunkContext.getStepContext().getStepExecution();
         JobExecution jobExecution = stepExecution.getJobExecution();
+
+        // Set id step process on execution context.
+        stepExecution.getExecutionContext().putLong(Constants.STEP_PROCESS, stepProcess.getId());
 
         // Execution of the step
         try {
@@ -80,6 +90,26 @@ public abstract class AbstractTasklet implements Tasklet {
             // Restore interrupted state...
             Thread.currentThread().interrupt();
         }
+    }
+
+    protected String replaceParameter(String script) {
+        ParameterService parameterService = SpringContextUtil.getBean(ParameterService.class);
+        Map<String, Parameter> mapParameters = parameterService.findEnabledValued();
+
+        String[] words = script.split("#");
+        if (words.length > 0) {
+            for (String word: words) {
+                if (!word.contains(" ")) {
+                    Parameter parameter = mapParameters.get(word);
+
+                    if (parameter != null) {
+                        script = script.replace("#" + word + "#", parameter.getValue());
+                    }
+                }
+            }
+        }
+
+        return script;
     }
 
     // Get's and Set's

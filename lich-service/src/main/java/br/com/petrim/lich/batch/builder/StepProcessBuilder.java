@@ -2,11 +2,13 @@ package br.com.petrim.lich.batch.builder;
 
 import br.com.petrim.lich.batch.extractor.StepJobParameterExtractor;
 import br.com.petrim.lich.batch.listener.StepJobListener;
-import br.com.petrim.lich.batch.tasklet.ScriptTasklet;
+import br.com.petrim.lich.batch.listener.StepLogListener;
+import br.com.petrim.lich.batch.tasklet.AbstractTasklet;
 import br.com.petrim.lich.enums.TypeStepProcessEnum;
 import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.model.StepProcess;
 import br.com.petrim.lich.service.JobProcessService;
+import br.com.petrim.lich.util.ReflectionUtil;
 import br.com.petrim.lich.util.SpringContextUtil;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -39,8 +41,24 @@ public class StepProcessBuilder {
 
     private Step buildSimpleStep(StepProcess stepProcess) {
         return stepBuilders.get(stepProcess.getIdStep())
-                .tasklet(new ScriptTasklet(stepProcess))
+                .tasklet(getTasklet(stepProcess))
+                .listener(getStepLogListener())
                 .build();
+    }
+
+    private AbstractTasklet getTasklet(StepProcess stepProcess) {
+        return (AbstractTasklet) ReflectionUtil
+                .newInstanceOfTasklet(
+                        getCompleteClassName(
+                                stepProcess.getType().getClassName()), stepProcess);
+    }
+
+    private String getCompleteClassName(String className) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(AbstractTasklet.class.getPackage().getName());
+        sb.append(".impl.");
+        sb.append(className);
+        return sb.toString();
     }
 
     private Step buildJobStep(StepProcess stepProcess) {
@@ -55,11 +73,16 @@ public class StepProcessBuilder {
                 .job(job)
                 .parametersExtractor(new StepJobParameterExtractor())
                 .listener(getStepJobListener())
+                //.listener(getStepLogListener())
                 .build();
     }
 
     private StepJobListener getStepJobListener() {
         return SpringContextUtil.getBean(StepJobListener.class);
+    }
+
+    private StepLogListener getStepLogListener() {
+        return SpringContextUtil.getBean(StepLogListener.class);
     }
 
     public Flow buildParallelStep(StepProcess stepProcess) {

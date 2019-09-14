@@ -70,15 +70,17 @@ public class JobProcessBuilder {
         if (!stepsProcesses.isEmpty()) {
 
             Iterator<StepProcess> iterator = stepsProcesses.iterator();
-            buildSteps(jobBuilder, jobFlowBuilder, iterator);
+            jobFlowBuilder = buildSteps(jobBuilder, iterator);
         }
 
         return jobFlowBuilder;
     }
 
-    private void buildSteps(JobBuilder jobBuilder, JobFlowBuilder jobFlowBuilder, Iterator<StepProcess> iterator) {
+    private JobFlowBuilder buildSteps(JobBuilder jobBuilder, Iterator<StepProcess> iterator) {
         int index = 0;
         StepProcess stepProcess;
+
+        JobFlowBuilder jobFlowBuilder = null;
 
         while (iterator.hasNext()) {
             stepProcess = iterator.next();
@@ -94,6 +96,8 @@ public class JobProcessBuilder {
 
             index++;
         }
+
+        return jobFlowBuilder;
     }
 
     private JobFlowBuilder buildFirstStep(JobBuilder jobBuilder, StepProcess stepProcess) {

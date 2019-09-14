@@ -19,6 +19,7 @@ public class StepJobListener implements StepExecutionListener {
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        return null;
+        return stepExecution.getExitStatus();
     }
+
 }

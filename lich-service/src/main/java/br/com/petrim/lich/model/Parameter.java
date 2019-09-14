@@ -45,6 +45,12 @@ public class Parameter extends AbstractUserHistEntity {
         this.name = name;
     }
 
+    public Parameter(Long id, String name, String value) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+    }
+
     @Override
     public Long getId() {
         return this.id;

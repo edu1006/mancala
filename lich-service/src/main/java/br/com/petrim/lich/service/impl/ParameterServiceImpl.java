@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service("parameterService")
 public class ParameterServiceImpl extends AbstractService implements ParameterService {
@@ -56,5 +59,11 @@ public class ParameterServiceImpl extends AbstractService implements ParameterSe
     @Override
     public List<Parameter> findEnabled() {
         return parameterRepository.findByStatus(StatusEnum.ENABLED);
+    }
+
+    @Override
+    public Map<String, Parameter> findEnabledValued() {
+        List<Parameter> parameters = parameterRepository.findValuesByStatus(StatusEnum.ENABLED);
+        return parameters.stream().collect(Collectors.toMap(Parameter::getName, Function.identity()));
     }
 }

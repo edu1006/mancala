@@ -20,6 +20,10 @@ public final class Constants {
 
     public static final String STEP_EXECUTION = "idStepExecution";
 
+    public static final String STEP_PROTOCOL = "idStepProtocol";
+
+    public static final String STEP_PROCESS = "idStepProcess";
+
     public static final String WARNING_STATUS = "WARNING";
 
     public static final Long STEP_SCRIPT_TIME_WAIT = 5000L; // FIXME: transform to property on properties file.

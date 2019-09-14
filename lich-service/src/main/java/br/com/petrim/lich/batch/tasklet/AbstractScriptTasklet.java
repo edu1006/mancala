@@ -9,17 +9,20 @@ import br.com.petrim.lich.model.StepProcess;
 import br.com.petrim.lich.service.AgentService;
 import br.com.petrim.lich.util.Constants;
 import br.com.petrim.lich.util.SpringContextUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
+
 /**
  * Script taxi will be enable to execute only remote.
  */
-public class ScriptTasklet extends AbstractTasklet {
+public abstract class AbstractScriptTasklet extends AbstractTasklet {
 
-    public ScriptTasklet(StepProcess stepProcess) {
+    public AbstractScriptTasklet(StepProcess stepProcess) {
         super(stepProcess);
     }
 
@@ -47,7 +50,7 @@ public class ScriptTasklet extends AbstractTasklet {
         String urlProcessRest = getUrlProcessRest(agent);
 
         HttpEntity<VoStepExecution> executeReq = new HttpEntity<>(getVoStepExecution());
-        ResponseEntity<String> executeRes = restTemplate.postForEntity(urlProcessRest, executeReq, String.class);
+            ResponseEntity<String> executeRes = restTemplate.postForEntity(urlProcessRest, executeReq, String.class);
 
         String idStepExecuted = executeRes.getBody();
 
@@ -192,11 +195,46 @@ public class ScriptTasklet extends AbstractTasklet {
     }
 
     private VoStepExecution getVoStepExecution() {
-        return null;
+        VoStepExecution voStepExecution = new VoStepExecution();
+
+        voStepExecution.setId(getIdToJsonAgent());
+        voStepExecution.setScript(getScriptProcess());
+        voStepExecution.setTime(new Date().getTime());
+
+        /** if step have a specific log path */
+        if (StringUtils.isNotBlank(getStepProcess().getLogPath())) {
+            voStepExecution.setLogpath(getStepProcess().getLogPath());
+        }
+
+        /** if step have a specific log file */
+        if (StringUtils.isNotBlank(getStepProcess().getLogName())) {
+            voStepExecution.setLogname(getStepProcess().getLogName());
+        }
+
+        return voStepExecution;
+    }
+
+    //FIXME: build id
+    private String getIdToJsonAgent() {
+        StringBuilder id = new StringBuilder();
+
+        id.append(getStepProcess().getIdJobProcess());
+        id.append("_");
+        id.append(getStepProcess().getIdStep());
+        id.append("_");
+
+        return id.toString();
     }
 
     private Agent getAgent() {
         AgentService agentService = SpringContextUtil.getBean(AgentService.class);
         return agentService.findToRunStep(getStepProcess().getIdAgent());
     }
+
+    /**
+     * Method to implement scripts to be executed.
+     *
+     * @return
+     */
+    protected abstract String getScriptProcess();
 }
