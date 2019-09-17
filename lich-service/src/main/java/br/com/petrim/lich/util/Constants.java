@@ -16,7 +16,7 @@ public final class Constants {
 
     public static final String JOB_PROTOCOL = "jobProtocol";
 
-    public static final String PREFIX_INNER_JOB = "lich_ij_";
+    public static final String PREFIX_INNER_JOB = "lich_ij_"; //FIXME: check in job insert if the job name contains this information.
 
     public static final String STEP_EXECUTION = "idStepExecution";
 

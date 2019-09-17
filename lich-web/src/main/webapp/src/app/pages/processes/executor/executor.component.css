@@ -1,0 +1,5 @@
+.ui-table .ui-table-thead > tr > th:first-child,
+.ui-table .ui-table-tbody > tr > td:first-child,
+.ui-table .ui-table-tfoot > tr > td:first-child {
+    padding-left: 0.5rem !important;
+}

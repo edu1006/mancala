@@ -3,16 +3,11 @@ package br.com.petrim.lich.service.impl;
 import br.com.petrim.lich.model.JobProtocol;
 import br.com.petrim.lich.repository.JobProtocolRepository;
 import br.com.petrim.lich.service.JobProtocolService;
-import br.com.petrim.lich.util.SpringContextUtil;
 import br.com.petrim.lich.vo.JobExecResultVo;
 import br.com.petrim.lich.vo.JobExecsResultVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.repository.dao.JobExecutionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -29,9 +24,6 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
 
     @Autowired
     private JobProtocolRepository jobProtocolRepository;
-
-    @Autowired
-    private JobExplorer jobExplorer;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -71,12 +63,10 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
     }
 
     private void setResults(List<JobProtocol> protocols, List<JobExecResultVo> results) {
-        JobExecution execution;
         JobExecResultVo result;
 
         for (JobProtocol protocol : protocols) {
-            execution = jobExplorer.getJobExecution(protocol.getIdJobExecution());
-            result = getResult(protocol, execution);
+            result = getResult(protocol);
 
             results.add(result);
         }
@@ -107,21 +97,15 @@ public class JobProtocolServiceImpl extends AbstractService implements JobProtoc
         return resultJson;
     }
 
-    private JobExecResultVo getResult(JobProtocol protocol, JobExecution execution) {
+    private JobExecResultVo getResult(JobProtocol protocol) {
         JobExecResultVo result = new JobExecResultVo();
 
-        result.setIdJobExecution(execution.getId());
-        result.setJobName(execution.getJobInstance().getJobName());
-        result.setStart(execution.getStartTime());
+        result.setIdJobExecution(protocol.getId());
+        result.setJobName(protocol.getDsJobProcess());
+        result.setStart(protocol.getDateStart());
 
-        if (!execution.isRunning()) {
-            result.setEnd(execution.getEndTime());
-            result.setStatus(execution.getStatus().getBatchStatus().name());
-            result.setExitCode(execution.getExitStatus().getExitCode());
-        } else {
-            result.setEnd(protocol.getDateEnd());
-            result.setStatus(protocol.getStatus());
-        }
+        result.setEnd(protocol.getDateEnd());
+        result.setStatus(protocol.getStatus());
 
         return result;
     }

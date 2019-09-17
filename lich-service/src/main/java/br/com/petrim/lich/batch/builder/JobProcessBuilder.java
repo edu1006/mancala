@@ -45,6 +45,8 @@ public class JobProcessBuilder {
     private JobBuilder getJobBuilder(JobProcess jobProcess, Boolean innerJob) {
 
         StringBuilder jobName = new StringBuilder();
+        jobName.append(jobProcess.getId());
+        jobName.append("_");
 
         if (innerJob) {
             jobName.append(Constants.PREFIX_INNER_JOB);

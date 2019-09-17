@@ -40,10 +40,19 @@ public class StepProcessBuilder {
     }
 
     private Step buildSimpleStep(StepProcess stepProcess) {
-        return stepBuilders.get(stepProcess.getIdStep())
+        return stepBuilders.get(getStepName(stepProcess))
                 .tasklet(getTasklet(stepProcess))
                 .listener(getStepLogListener())
                 .build();
+    }
+
+    private String getStepName(StepProcess stepProcess) {
+        StringBuilder stepName = new StringBuilder();
+        stepName.append(stepProcess.getId());
+        stepName.append("_");
+        stepName.append(stepProcess.getIdStep());
+
+        return stepName.toString();
     }
 
     private AbstractTasklet getTasklet(StepProcess stepProcess) {

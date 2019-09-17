@@ -170,21 +170,21 @@
                   <td>{{ typeStepProcessEnum[step.type] }}</td>
                   <td>{{ (step.status === statusEnum.ENABLED) ? ('general.label.enabled' | translate) : ('general.label.disabled' | translate) }}</td>
                   <td class="text-center">
-                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editStep(step)" [title]="'general.button.edit' | translate"
+                    <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editStep(step)" [title]="'general.button.edit' | translate"
                       *ngIf="typeStepProcessEnum.STEP_PARALLEL !== step.type">
                       <span class="ion ion-md-create"></span>
                     </button>
-                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="editParallelStep(step)" [title]="'general.button.edit' | translate"
+                    <button type="button" class="btn btn-xs btn-outline-info ml-1" (click)="editParallelStep(step)" [title]="'general.button.edit' | translate"
                       *ngIf="typeStepProcessEnum.STEP_PARALLEL === step.type">
                       <span class="ion ion-md-create"></span>
                     </button>
-                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStep(step)" [title]="'general.button.disable' | translate" *ngIf="step.status === statusEnum.ENABLED">
+                    <button type="button" class="btn btn-xs btn-outline-danger ml-1" (click)="enableDisableStep(step)" [title]="'general.button.disable' | translate" *ngIf="step.status === statusEnum.ENABLED">
                       <span class="ion ion-md-close"></span>
                     </button>
-                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="enableDisableStep(step)" [title]="'general.button.enable' | translate" *ngIf="step.status === statusEnum.DISABLED">
+                    <button type="button" class="btn btn-xs btn-outline-success ml-1" (click)="enableDisableStep(step)" [title]="'general.button.enable' | translate" *ngIf="step.status === statusEnum.DISABLED">
                       <span class="ion ion-md-checkmark"></span>
                     </button>
-                    <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="deleteStep(step)" [title]="'general.button.delete' | translate">
+                    <button type="button" class="btn btn-xs btn-outline-warning ml-1" (click)="deleteStep(step)" [title]="'general.button.delete' | translate">
                       <span class="ion ion-md-trash"></span>
                     </button>
                     <button type="button" class="btn btn-xs btn-outline-secondary ml-1" (click)="setToDown(step)" [title]="'step.button.down' | translate"

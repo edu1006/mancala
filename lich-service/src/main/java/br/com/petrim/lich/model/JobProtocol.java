@@ -15,7 +15,7 @@ public class JobProtocol extends AbstractEntity {
     @Column(name = "id_job_process", length = 20, nullable = false)
     private Long idJobProcess;
 
-    @Column(name = "ds_job_process", length = 20, nullable = false)
+    @Column(name = "ds_job_process", length = 100, nullable = false)
     private String dsJobProcess;
 
     @Column(name = "id_job_execution", length = 20)

@@ -18,6 +18,12 @@ public class StepProtocol extends AbstractEntity {
     @Column(name = "ds_step_process", length = 50, nullable = false)
     private String dsStepProcess;
 
+    @Column(name = "id_job_protocol", length = 20, nullable = false)
+    private Long idJobProtocol;
+
+    @Column(name = "order_step", length = 5)
+    private Integer order;
+
     @Column(name = "id_step_execution")
     private Long idStepExecution;
 
@@ -61,6 +67,22 @@ public class StepProtocol extends AbstractEntity {
 
     public void setDsStepProcess(String dsStepProcess) {
         this.dsStepProcess = dsStepProcess;
+    }
+
+    public Long getIdJobProtocol() {
+        return idJobProtocol;
+    }
+
+    public void setIdJobProtocol(Long idJobProtocol) {
+        this.idJobProtocol = idJobProtocol;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     public Long getIdStepExecution() {

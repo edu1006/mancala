@@ -23,7 +23,7 @@ public class JobLogListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        if (!jobExecution.getJobInstance().getJobName().startsWith(Constants.PREFIX_INNER_JOB)) {
+        if (!jobExecution.getJobInstance().getJobName().contains(Constants.PREFIX_INNER_JOB)) {
             createJobProtocol(jobExecution);
         } else {
             createInnerJobProtocol(jobExecution);

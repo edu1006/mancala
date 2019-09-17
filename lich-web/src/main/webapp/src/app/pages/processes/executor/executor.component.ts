@@ -9,11 +9,25 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { JobExecResultVo } from 'src/app/model/job.exec.result';
 import { JobExecsResultVo } from '../../../model/job.execs.result';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-executor',
   templateUrl: './executor.component.html',
-  styleUrls: ['./executor.component.css']
+  styleUrls: ['./executor.component.css'],
+  animations: [
+    trigger('rowExpansionTrigger', [
+      state('void', style({
+          transform: 'translateX(-10%)',
+          opacity: 0
+      })),
+      state('active', style({
+          transform: 'translateX(0)',
+          opacity: 1
+      })),
+      transition('* <=> *', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+    ])
+  ]
 })
 export class ExecutorComponent extends BaseComponent implements OnInit, OnDestroy {
 

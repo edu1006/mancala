@@ -58,6 +58,7 @@ public class StepLogListener implements StepExecutionListener {
 
         stepProtocol.setIdStepExecution(stepExecution.getId());
         stepProtocol.setDsStepProcess(stepExecution.getStepName());
+        stepProtocol.setIdJobProtocol(getJobProtocol(stepExecution));
         stepProtocol.setDateStart(new Date());
         stepProtocol.setLogPath(getLogPath(stepExecution));
 
@@ -77,5 +78,13 @@ public class StepLogListener implements StepExecutionListener {
         logPath.append(".log");
 
         return logPath.toString();
+    }
+
+    private Long getJobProtocol(StepExecution stepExecution) {
+        if (stepExecution.getJobExecution().getExecutionContext().containsKey(Constants.JOB_PROTOCOL)) {
+            return stepExecution.getJobExecution().getExecutionContext().getLong(Constants.JOB_PROTOCOL);
+        }
+
+        return stepExecution.getJobParameters().getLong(Constants.JOB_PROTOCOL);
     }
 }
