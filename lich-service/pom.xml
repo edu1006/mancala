@@ -104,6 +104,13 @@
             <version>3.8.1</version>
         </dependency>
 
+        <!-- Orika Core -->
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+
         <!-- Lich Web (Front) -->
         <dependency>
             <groupId>br.com.petrim</groupId>

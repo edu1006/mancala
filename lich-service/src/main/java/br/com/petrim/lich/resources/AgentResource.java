@@ -3,6 +3,7 @@ package br.com.petrim.lich.resources;
 import br.com.petrim.lich.enums.AgentTypeEnum;
 import br.com.petrim.lich.model.Agent;
 import br.com.petrim.lich.service.AgentService;
+import br.com.petrim.lich.vo.AgentVo;
 import br.com.petrim.lich.vo.StepAgentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,14 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/agent", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-public class AgentResource {
+public class AgentResource extends AbstractResource {
 
     @Autowired
     private AgentService agentService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public Agent save(@RequestBody Agent agent) {
-        return agentService.save(agent);
+    public Agent save(@RequestBody AgentVo agent) {
+        return agentService.save(convert(agent, Agent.class));
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)

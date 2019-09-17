@@ -1,7 +1,9 @@
 package br.com.petrim.lich.resources;
 
+import br.com.petrim.lich.mapper.BeanMapper;
 import br.com.petrim.lich.model.User;
 import br.com.petrim.lich.security.AuthUserDetails;
+import br.com.petrim.lich.util.SpringContextUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
@@ -12,6 +14,10 @@ public abstract class AbstractResource {
         AuthUserDetails userDetails = (AuthUserDetails) authentication.getPrincipal();
 
         return userDetails.getUser();
+    }
+
+    protected <T extends Object> T convert(Object value, Class<T> clazz) {
+        return SpringContextUtil.getBean(BeanMapper.class).getMapper().map(value, clazz);
     }
 
 }
