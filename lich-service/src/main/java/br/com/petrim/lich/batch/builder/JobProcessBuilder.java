@@ -80,24 +80,13 @@ public class JobProcessBuilder {
     }
 
     private JobFlowBuilder buildSteps(JobBuilder jobBuilder, Iterator<StepProcess> iterator) {
-        int index = 0;
         StepProcess stepProcess;
 
-        JobFlowBuilder jobFlowBuilder = null;
+        JobFlowBuilder jobFlowBuilder = buildFirstStep(jobBuilder, iterator.next()); // Build first step.
 
         while (iterator.hasNext()) {
             stepProcess = iterator.next();
-
-            if (index == 0) { // It's the first step of job
-
-                jobFlowBuilder = buildFirstStep(jobBuilder, stepProcess);
-
-            } else {
-
-                buildNextStep(jobFlowBuilder, stepProcess);
-            }
-
-            index++;
+            buildNextStep(jobFlowBuilder, stepProcess);
         }
 
         return jobFlowBuilder;
