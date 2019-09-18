@@ -4,6 +4,7 @@ import br.com.petrim.lich.model.JobProcess;
 import br.com.petrim.lich.service.JobProcessService;
 import br.com.petrim.lich.vo.JobProcessDataVo;
 import br.com.petrim.lich.vo.JobProcessStatusVo;
+import br.com.petrim.lich.vo.JobProcessVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/job_process", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-public class JobProcessResource {
+public class JobProcessResource extends AbstractResource {
 
     @Autowired
     private JobProcessService jobProcessService;
@@ -23,19 +24,19 @@ public class JobProcessResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public JobProcess save(@RequestBody JobProcess jobProcess) {
-        return jobProcessService.save(jobProcess);
+    public JobProcess save(@RequestBody JobProcessVo jobProcess) {
+        return jobProcessService.save(convert(jobProcess, JobProcess.class));
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
-    public Long countByFilter(@RequestBody JobProcess filter) {
-        return jobProcessService.countByFilter(filter);
+    public Long countByFilter(@RequestBody JobProcessVo filter) {
+        return jobProcessService.countByFilter(convert(filter, JobProcess.class));
     }
 
     @RequestMapping(value = "/find/{page}/{max}", method = RequestMethod.POST)
-    public List<JobProcess> findByFilter(@RequestBody JobProcess filter, @PathVariable("page") Integer page,
+    public List<JobProcess> findByFilter(@RequestBody JobProcessVo filter, @PathVariable("page") Integer page,
                                          @PathVariable("max") Integer max) {
-        return jobProcessService.findByFilter(filter, page, max);
+        return jobProcessService.findByFilter(convert(filter, JobProcess.class), page, max);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
