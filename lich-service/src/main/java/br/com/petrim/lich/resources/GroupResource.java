@@ -2,6 +2,7 @@ package br.com.petrim.lich.resources;
 
 import br.com.petrim.lich.model.Group;
 import br.com.petrim.lich.service.GroupService;
+import br.com.petrim.lich.vo.GroupVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -10,24 +11,24 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/group", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-public class GroupResource {
+public class GroupResource extends AbstractResource {
 
     @Autowired
     private GroupService groupService;
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Group save(@RequestBody Group group) {
-        return groupService.save(group);
+    public Group save(@RequestBody GroupVo group) {
+        return groupService.save(convert(group, Group.class));
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
     public Long countByFilter(@RequestBody Group filter) {
-        return groupService.countByFilter(filter);
+        return groupService.countByFilter(convert(filter, Group.class));
     }
 
     @RequestMapping(value = "/find/{page}/{max}", method = RequestMethod.POST)
     public List<Group> findByFilter(@RequestBody Group filter, @PathVariable("page") Integer page, @PathVariable("max") Integer max) {
-        return groupService.findByFilter(filter, page, max);
+        return groupService.findByFilter(convert(filter, Group.class), page, max);
     }
 
     @RequestMapping(value = "/find/enabled", method = RequestMethod.GET)

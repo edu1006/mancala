@@ -24,14 +24,14 @@ public class AgentResource extends AbstractResource {
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
-    public Long countByFilter(@RequestBody Agent filter) {
-        return agentService.countByFilter(filter);
+    public Long countByFilter(@RequestBody AgentVo filter) {
+        return agentService.countByFilter(convert(filter, Agent.class));
     }
 
     @RequestMapping(value = "/find/{page}/{max}", method = RequestMethod.POST)
-    public List<Agent> findByFilter(@RequestBody Agent filter, @PathVariable("page") Integer page,
+    public List<Agent> findByFilter(@RequestBody AgentVo filter, @PathVariable("page") Integer page,
                                     @PathVariable("max") Integer max) {
-        return agentService.findByFilter(filter, page, max);
+        return agentService.findByFilter(convert(filter, Agent.class), page, max);
     }
 
     @RequestMapping(value = "/find/enable/{type}")
