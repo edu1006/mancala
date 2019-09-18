@@ -22,12 +22,12 @@ public class GroupResource extends AbstractResource {
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.POST)
-    public Long countByFilter(@RequestBody Group filter) {
+    public Long countByFilter(@RequestBody GroupVo filter) {
         return groupService.countByFilter(convert(filter, Group.class));
     }
 
     @RequestMapping(value = "/find/{page}/{max}", method = RequestMethod.POST)
-    public List<Group> findByFilter(@RequestBody Group filter, @PathVariable("page") Integer page, @PathVariable("max") Integer max) {
+    public List<Group> findByFilter(@RequestBody GroupVo filter, @PathVariable("page") Integer page, @PathVariable("max") Integer max) {
         return groupService.findByFilter(convert(filter, Group.class), page, max);
     }
 
