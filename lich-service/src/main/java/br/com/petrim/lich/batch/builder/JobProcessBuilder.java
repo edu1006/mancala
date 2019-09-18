@@ -35,11 +35,6 @@ public class JobProcessBuilder {
     public synchronized Job build(JobProcess jobProcess, Boolean innerJob) {
         JobBuilder jobBuilder = getJobBuilder(jobProcess, innerJob);
         JobFlowBuilder jobFlowBuilder = buildJobFlow(jobBuilder, jobProcess);
-
-        if (jobFlowBuilder != null ) {
-            throw new ProcessException("Error to create process");
-        }
-
         return jobFlowBuilder.build().build();
     }
 
@@ -63,20 +58,18 @@ public class JobProcessBuilder {
 
     private JobFlowBuilder buildJobFlow(JobBuilder jobBuilder, JobProcess jobProcess) {
 
-        JobFlowBuilder jobFlowBuilder = null;
-
         jobBuilder.incrementer(new RunIdIncrementer());
-
-        List<StepProcess> stepsProcesses = jobProcess.getStepsProcesses().stream().collect(Collectors.toList());
+        
+        List<StepProcess> stepsProcesses = new ArrayList<>(jobProcess.getStepsProcesses());
         stepsProcesses.sort((Comparator.comparing(StepProcess::getOrder)));
 
         if (!stepsProcesses.isEmpty()) {
-
             Iterator<StepProcess> iterator = stepsProcesses.iterator();
-            jobFlowBuilder = buildSteps(jobBuilder, iterator);
+            return buildSteps(jobBuilder, iterator);
+        } else {
+            throw new ProcessException("Without step's to configure process");
         }
 
-        return jobFlowBuilder;
     }
 
     private JobFlowBuilder buildSteps(JobBuilder jobBuilder, Iterator<StepProcess> iterator) {
