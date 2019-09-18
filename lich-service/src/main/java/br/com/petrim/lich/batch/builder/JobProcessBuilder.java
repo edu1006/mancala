@@ -9,6 +9,7 @@ import br.com.petrim.lich.util.Constants;
 import br.com.petrim.lich.util.SpringContextUtil;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.job.builder.FlowJobBuilder;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.job.builder.JobFlowBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -35,7 +36,7 @@ public class JobProcessBuilder {
         JobBuilder jobBuilder = getJobBuilder(jobProcess, innerJob);
         JobFlowBuilder jobFlowBuilder = buildJobFlow(jobBuilder, jobProcess);
 
-        if (checkJobFlowBuilderIsNull(jobFlowBuilder)) {
+        if (jobFlowBuilder != null ) {
             throw new ProcessException("Error to create process");
         }
 
@@ -124,10 +125,6 @@ public class JobProcessBuilder {
 
     private JobLogListener getJobLogListener() {
         return SpringContextUtil.getBean(JobLogListener.class);
-    }
-
-    private Boolean checkJobFlowBuilderIsNull(JobFlowBuilder jobFlowBuilder) {
-        return jobFlowBuilder == null;
     }
 
 }
