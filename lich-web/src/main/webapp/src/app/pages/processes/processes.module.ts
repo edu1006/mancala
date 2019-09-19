@@ -23,6 +23,7 @@ import { MentionModule } from 'angular-mentions/mention';
 import { ExecutorComponent } from './executor/executor.component';
 import { agentReducer } from './agent/reducers/agent.reducers';
 import { parameterReducer } from './parameter/reducers/parameter.reducers';
+import { DateFormatDirective } from '../../common/date-directive/date.format.directive';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { parameterReducer } from './parameter/reducers/parameter.reducers';
     DetailComponent,
     NumberDirective,
     IpFormatDirective,
+    DateFormatDirective,
     ParameterComponent,
     ExecutorComponent
   ]

@@ -80,7 +80,7 @@
           <p-calendar id="idTimeExecutionNew" name="idTimeExecutionNew" styleClass="w-100"
             inputStyleClass="form-control" timeOnly="true" timeSeparator=":"
             [(ngModel)]="jobProcess.timeExecution" [stepMinute]="5"
-            [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat" required></p-calendar>
+            [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat" autocomplete="off" required></p-calendar>
         </div>
 
         <div class="form-group col-4" *ngIf="periodicityEnum.SEMANALMENTE === jobProcess.periodicity">
@@ -114,7 +114,7 @@
             monthNavigator="true" yearNavigator="true" yearRange="2019:2100"
             [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat"
             placeholder="{{ 'process.label.periodicity.start' | translate }}"
-            (onSelect)="onChangePeriodicityStart()"></p-calendar>
+            (onSelect)="onChangePeriodicityStart()" autocomplete="off" mask="true" pattern="dd/MM/yyyy" appDateFormat></p-calendar>
         </div>
 
         <div class="form-group col-md-4" *ngIf="typeExecutionEnum.AUTO === jobProcess.typeExecution">
@@ -124,7 +124,7 @@
             monthNavigator="true" yearNavigator="true" yearRange="2019:2100"
             [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat"
             placeholder="{{ 'process.label.periodicity.end' | translate }}"
-            [minDate]="jobProcess.periodicityStartDate"></p-calendar>
+            [minDate]="jobProcess.periodicityStartDate" autocomplete="off" appDateFormat></p-calendar>
         </div>
 
         <div class="form-group col-md-12">
@@ -387,7 +387,7 @@
             <p-calendar id="idTimeExecutionNew" name="idTimeExecutionNew" styleClass="w-100"
               inputStyleClass="form-control" timeOnly="true" timeSeparator=":"
               [(ngModel)]="stepProcess.timeSleep"
-              [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat" required></p-calendar>
+              [locale]="calendarLocale.getLocale()" [dateFormat]="calendarLocale.getLocale().dateFormat" autocomplete="off" required></p-calendar>
           </div>
 
           <div class="form-group col-12" *ngIf="typeStepProcessEnum.MOVE_FILES_LINUX === stepProcess.type
