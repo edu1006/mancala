@@ -22,16 +22,22 @@
         <spring.security.oauth.version>2.3.4.RELEASE</spring.security.oauth.version>
         <spring.security.acl.version>5.1.2.RELEASE</spring.security.acl.version>
         <spring.security.jwt.version>1.0.9.RELEASE</spring.security.jwt.version>
-
-        <mysql.version>6.0.6</mysql.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <!-- <scope>test</scope> -->
         </dependency>
+        
+        <!-- openpojo -->
+		<dependency>
+		    <groupId>com.openpojo</groupId>
+		    <artifactId>openpojo</artifactId>
+		    <version>0.8.13</version>
+		    <!-- <scope>test</scope> -->
+		</dependency>
 
         <!-- Spring boot web -->
         <dependency>
@@ -94,7 +100,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
         </dependency>
 
         <!-- Commons Lang3 -->
@@ -110,7 +115,7 @@
             <artifactId>orika-core</artifactId>
             <version>1.5.4</version>
         </dependency>
-
+        
         <!-- Lich Web (Front) -->
         <dependency>
             <groupId>br.com.petrim</groupId>
