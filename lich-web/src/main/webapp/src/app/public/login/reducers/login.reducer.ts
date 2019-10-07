@@ -7,11 +7,13 @@ import { LoginActions } from '../actions/login.actions';
 export interface LoginState {
   loggedIn: boolean;
   user: User;
+  f: Array<number>;
 }
 
 export const initialState: LoginState = {
   loggedIn: false,
-  user: undefined
+  user: undefined,
+  f: []
 };
 
 export function reducer(state = initialState, action: LoginActions): LoginState {
@@ -19,13 +21,17 @@ export function reducer(state = initialState, action: LoginActions): LoginState 
     case LoginActionTypes.LoginAction:
       return {
         loggedIn: true,
-        user: action.payload.user
+        user: action.payload.user,
+        f: []
       };
     case LoginActionTypes.LogoutAction:
       return {
         loggedIn: false,
-        user: undefined
+        user: undefined,
+        f: []
       };
+    case LoginActionTypes.AccessAction:
+      return {...state, f: action.payload.f};
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
@@ -53,5 +54,11 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
     void enableDisable(
             @Param("id") Long id,
             @Param("status") Integer status);
+    
+    @Query("Select distinct f.id From User u "
+    		+ "inner join u.groups g "
+    		+ "inner join g.functionalities f "
+    		+ "where u.id = :idUser ")
+    List<Long> findFunctionalityByUser(@Param("idUser") Long id);
 
 }

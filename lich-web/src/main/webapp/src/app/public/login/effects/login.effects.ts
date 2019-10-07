@@ -1,25 +1,31 @@
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Crypt } from './../../../util/crypt';
 import { Router } from '@angular/router';
-import { LoginAction, LogoutAction } from './../actions/login.actions';
+import { LoginAction, LogoutAction, AccessAction } from './../actions/login.actions';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { LoginActionTypes } from '../actions/login.actions';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { defer } from 'rxjs';
 
 @Injectable()
 export class LoginEffects {
 
-  @Effect({dispatch: false})
+  @Effect()
   login$ = this.actions$.pipe(
     ofType<LoginAction>(LoginActionTypes.LoginAction),
-    tap(action => {
+    mergeMap(action => {
       const jsonUser = JSON.stringify(action.payload.user);
       const jsonUserEnc = Crypt.cryptAes(jsonUser);
 
       localStorage.setItem('lc_user', jsonUserEnc);
+
+      // get permissions
+      const accessToken = localStorage.getItem('access_token');
+
+      const f: Array<number> = this.jwtHelper.decodeToken(accessToken).f;
+      return of(new AccessAction({ f }));
     })
   );
 

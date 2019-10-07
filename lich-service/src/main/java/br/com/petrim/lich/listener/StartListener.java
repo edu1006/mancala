@@ -44,6 +44,8 @@ public class StartListener implements ApplicationListener<ApplicationReadyEvent>
             groupRepository.insertAdminGroup();
             LOGGER.info("-----------------------------SAVE ADMIN GROUP--------------------------------------");
         }
+        
+        updateGroupAdminFunctionalities(groupRepository, optionalGroup);
     }
 
     private void saveUserAdmin() {
@@ -70,5 +72,19 @@ public class StartListener implements ApplicationListener<ApplicationReadyEvent>
     	});
     	
     	LOGGER.info("-----------------------------SAVE FUNCTIONALITIES--------------------------------------");
+    }
+    
+    private void updateGroupAdminFunctionalities(GroupRepository groupRepository, Optional<Group> optionalGroup) {
+    	if (optionalGroup.isPresent()) {
+    		List<Long> functionalities = groupRepository.findAdminGroupFunctionalities();
+    		
+    		for (FunctionalityEnum functionalityEnum : FunctionalityEnum.values()) {
+    			if (!functionalities.contains(functionalityEnum.getId())) {
+    				groupRepository.insertAdminGroupFuncionality(functionalityEnum.getId());
+    			}
+    		}
+    		
+    	}
+    	
     }
 }

@@ -14,7 +14,11 @@ public class AuthUserDetails implements UserDetails {
 
     public AuthUserDetails(User user) {
         this.user = user;
-        //FIXME: preencher authorities
+    }
+    
+    public AuthUserDetails(User user, List<AuthGrantAuthority> authorities) {
+    	this(user);
+    	this.authorities = authorities;
     }
 
     @Override

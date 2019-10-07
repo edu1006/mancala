@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 export enum LoginActionTypes {
     LoginAction = '[Login] Action',
     LogoutAction = '[Logout] Action',
+    AccessAction = '[Login] Access Action',
 }
 
 export class LoginAction implements Action {
@@ -15,4 +16,12 @@ export class LogoutAction implements Action {
     readonly type = LoginActionTypes.LogoutAction;
 }
 
-export type LoginActions = LoginAction | LogoutAction;
+export class AccessAction implements Action {
+    readonly type = LoginActionTypes.AccessAction;
+    constructor(public payload: {f: Array<number>}) {}
+}
+
+export type LoginActions =
+    LoginAction |
+    LogoutAction |
+    AccessAction;
