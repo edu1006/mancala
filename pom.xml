@@ -4,9 +4,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>br.com.petrim</groupId>
   <artifactId>lich</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+
+  <parent>
+    <groupId>br.com.petrim</groupId>
+    <artifactId>petrim-pom</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
   <modules>
     <module>lich-web</module>
     <module>lich-service</module>
