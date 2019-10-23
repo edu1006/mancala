@@ -5,6 +5,11 @@ import { Group } from '../../../model/group';
 import { BaseComponent } from '../../base.component';
 import { TranslateService } from '../../../internationalization/translate.service';
 import { NgForm } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../../../reducers/index';
+import { Observable } from 'rxjs';
+import { selectGroupsCount } from './selectors/groups.selectors';
+import { groupsCount } from './actions/groups.actions';
 
 @Component({
   selector: 'app-groups',
@@ -18,16 +23,20 @@ export class GroupsComponent extends BaseComponent implements OnInit {
 
   filter: Group;
   groups: Array<Group>;
-  totalRecords: number;
+  //totalRecords: number;
+  totalRecords$: Observable<number>;
+  executeFind: boolean;
 
   group: Group;
 
   constructor(translateService: TranslateService,
+              private store: Store<AppState>,
               private groupService: GroupService) {
     super(translateService);
   }
 
   ngOnInit() {
+    this.totalRecords$ = this.store.pipe(select(selectGroupsCount));
     this.clearFilter();
   }
 
@@ -40,13 +49,7 @@ export class GroupsComponent extends BaseComponent implements OnInit {
 
   find() {
     this.groups = null;
-    this.totalRecords = null;
-
-    this.groupService.count(this.filter).subscribe(
-      res => {
-        this.totalRecords = res as number;
-      }
-    );
+    this.store.dispatch(groupsCount({ filter: Object.assign({}, this.filter) }));
   }
 
   loadGroups(event: PaginationLoadLazy) {

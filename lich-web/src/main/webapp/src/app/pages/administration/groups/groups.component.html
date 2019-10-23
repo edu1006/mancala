@@ -28,7 +28,7 @@
   <br/>
   <br/>
 
-  <div class="card" *ngIf="totalRecords" >
+  <div class="card" *ngIf="totalRecords$ | async" >
     <div class="card-header">{{ 'groups.result' | translate }}</div>
 
     <!-- table rows-->
@@ -39,7 +39,7 @@
              [paginator]="true"
              [(rows)]="groupsTableRows.rowsPerPage"
              [lazy]="true"
-             [totalRecords]="totalRecords"
+             [totalRecords]="totalRecords$ | async"
              (onLazyLoad)="loadGroups($event)"
              styleClass="table-responsive"
              tableStyleClass="table table-striped table-bordered">
