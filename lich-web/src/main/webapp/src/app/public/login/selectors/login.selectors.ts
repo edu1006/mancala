@@ -11,3 +11,8 @@ export const isLoggedIn = createSelector(
     selectLoginState,
     login => login.loggedIn
 );
+
+export const selectFunctionalities = createSelector(
+    selectLoginState,
+    login => (login) ? login.f : []
+);
