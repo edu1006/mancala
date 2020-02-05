@@ -1,0 +1,36 @@
+<div *ngIf="gameResponse.winner != null">
+  Player {{gameResponse?.winner.name}} , you win!
+  teste
+</div>
+
+<div *ngIf="gameResponse.winner == null">
+  <h2>
+    Player {{gameResponse?.playerTurn.name}} is your turn!
+  </h2>
+
+  <TABLE border="1" width="200" height="50">
+    <TR bgcolor="silver" align="center">
+      <td colspan="8">Player 1</td>
+    </TR>
+    <TR bgcolor="silver" align="center">
+      <td rowspan="2">{{gameResponse?.totalSeedsPlayerOne}}</td>
+      <td bod *ngFor="let pit of gameResponse?.playerOnePits.reverse(), let i = index">
+        <a (click)="makeMovePlayerOne(pit, i)">
+          {{pit}}
+        </a>
+      </td>
+      <td rowspan="2">{{gameResponse?.totalSeedsPlayerTwo}}</td>
+    </TR>
+    <TR bgcolor="silver" align="center">
+      <td bod *ngFor="let pit of gameResponse?.playerTwoPits ,  let i = index">
+        <a (click)="makeMovePlayerTwo(pit, i)">
+          {{pit}}
+        </a>
+      </td>
+    </TR>
+    <TR bgcolor="silver" align="center">
+      <td colspan="8">Player 2</td>
+    </TR>
+
+  </TABLE>
+</div>
