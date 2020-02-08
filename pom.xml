@@ -15,9 +15,7 @@
   </modules>
   <packaging>pom</packaging>
 
-  <name>lich</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.lich.com.br</url>
+  <name>Mancala</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

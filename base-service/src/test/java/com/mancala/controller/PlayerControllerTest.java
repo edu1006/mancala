@@ -1,48 +1,41 @@
 package com.mancala.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.assertj.core.util.Arrays;
 
-import com.mancala.controller.PlayerController;
-import com.mancala.dto.PlayerDTO;
-import com.mancala.util.PlayerUtil;
+public class PlayerControllerTest{
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class PlayerControllerTest implements AbstractTest {
+	public static void main(String[] args) {
+		
+		
+		int [] teste = { 1, -1, 1 -2,   4, 5}; 
+		
+		List<Object> list = Arrays.asList(teste); 
 
-	@Autowired
-	PlayerController controller;
-
-	@Test
-	public void contexLoads() throws Exception {
-		assertThat(controller).isNotNull();
+		
+		int count =0;
+		//big notation O(N*+n) 
+		for (Object object : list) {
+			if (checkNumber(list,object)) {
+				if (!set.contains((Integer) object)) {
+					set.add((Integer)object); 
+					count+= 1; 
+				}
+			}	
+		}
+		System.out.println(count/2);
 	}
 
-	@Test
-	public void testSavePlayer() {
-		ResponseEntity<PlayerDTO> response = controller.save(PlayerUtil.createPlayerRequestForTests(PLAYER_NAME));
-		assertThat(response).isNotNull();
-		assertThat(response.getBody().getId()).isNotNull();
-		assertThat(response.getBody().getName()).isNotNull();
-		assertThat(response.getBody().getName().contentEquals("p1")).isNotNull();
-
+	private static boolean checkNumber(List<Object> list, Object object) {
+		if (list.contains((Integer)object* -1)) {
+			return true; 
+		}
+		return false;
 	}
-
-	@Test
-	public void testGetPlayer() {
-		ResponseEntity<PlayerDTO> response = controller.get(PLAYER_ID);
-		assertThat(response).isNotNull();
-		assertThat(response.getBody().getId()).isNotNull();
-		assertThat(response.getBody().getName()).isNotNull();
-		assertThat(response.getBody().getName().contentEquals("p1")).isNotNull();
-
-	}
-
+	
 }
