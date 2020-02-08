@@ -8,5 +8,5 @@
 
 <h1>To run it</h1>
 
-command mvn clean install
+command mvn clean install and </br>
 acess localhost:8080
