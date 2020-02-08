@@ -1,6 +1,6 @@
 <h3>Mancala Game</h3>
 
-<h1>REQUERIMENTS</h1>
+<h1>REQUIREMENTS</h1>
 <ul>
     <li>>Java 8</li>
     <li>>Maven 3.6</li>
@@ -8,5 +8,5 @@
 
 <h1>To run it</h1>
 
-command mvn clean install
+command mvn clean install and </br>
 acess localhost:8080
